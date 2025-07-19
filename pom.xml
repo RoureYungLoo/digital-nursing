@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.luruoyang</groupId>
     <artifactId>digital-nursing</artifactId>
     <version>3.9.0</version>
@@ -11,7 +11,7 @@
     <name>digital-nursing</name>
     <url>http://www.digital-nursing.com</url>
     <description>智慧数字养老统一平台</description>
-    
+
     <properties>
         <digital-nursing.version>3.9.0</digital-nursing.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -217,6 +217,11 @@
                 <artifactId>digital-nursing-common</artifactId>
                 <version>${digital-nursing.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.luruoyang</groupId>
+                <artifactId>digital-nursing-platform</artifactId>
+                <version>${digital-nursing.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -228,6 +233,7 @@
         <module>digital-nursing-quartz</module>
         <module>digital-nursing-generator</module>
         <module>digital-nursing-common</module>
+        <module>digital-nursing-platform</module>
     </modules>
     <packaging>pom</packaging>
 

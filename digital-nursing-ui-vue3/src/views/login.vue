@@ -169,7 +169,7 @@ getCookie()
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
+  background-image: url("https://images.xxapi.cn/images/4k/wallpaper/6f93489bf64546a1a80060d92d6c4fa9.jpg");
   background-size: cover;
 }
 .title {
