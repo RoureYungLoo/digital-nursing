@@ -1,7 +1,7 @@
-package com.luruoyang.mapper;
+package com.luruoyang.nursing.mapper;
 
 import java.util.List;
-import com.luruoyang.domain.NursingPlan;
+import com.luruoyang.nursing.domain.NursingPlan;
 
 /**
  * 护理计划Mapper接口

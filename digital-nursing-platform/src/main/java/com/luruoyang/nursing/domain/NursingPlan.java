@@ -1,4 +1,4 @@
-package com.luruoyang.domain;
+package com.luruoyang.nursing.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

@@ -1,12 +1,12 @@
-package com.luruoyang.service.impl;
+package com.luruoyang.nursing.service.impl;
 
 import java.util.List;
 import com.luruoyang.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.luruoyang.mapper.NursingPlanMapper;
-import com.luruoyang.domain.NursingPlan;
-import com.luruoyang.service.INursingPlanService;
+import com.luruoyang.nursing.mapper.NursingPlanMapper;
+import com.luruoyang.nursing.domain.NursingPlan;
+import com.luruoyang.nursing.service.INursingPlanService;
 
 /**
  * 护理计划Service业务层处理

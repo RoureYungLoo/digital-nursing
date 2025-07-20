@@ -1,7 +1,7 @@
-package com.luruoyang.service;
+package com.luruoyang.nursing.service;
 
 import java.util.List;
-import com.luruoyang.domain.NursingPlan;
+import com.luruoyang.nursing.domain.NursingPlan;
 
 /**
  * 护理计划Service接口

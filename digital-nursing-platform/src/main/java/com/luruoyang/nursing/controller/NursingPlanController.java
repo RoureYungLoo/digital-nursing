@@ -1,4 +1,4 @@
-package com.luruoyang.controller;
+package com.luruoyang.nursing.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,8 @@ import com.luruoyang.common.annotation.Log;
 import com.luruoyang.common.core.controller.BaseController;
 import com.luruoyang.common.core.domain.AjaxResult;
 import com.luruoyang.common.enums.BusinessType;
-import com.luruoyang.domain.NursingPlan;
-import com.luruoyang.service.INursingPlanService;
+import com.luruoyang.nursing.domain.NursingPlan;
+import com.luruoyang.nursing.service.INursingPlanService;
 import com.luruoyang.common.utils.poi.ExcelUtil;
 import com.luruoyang.common.core.page.TableDataInfo;
 
