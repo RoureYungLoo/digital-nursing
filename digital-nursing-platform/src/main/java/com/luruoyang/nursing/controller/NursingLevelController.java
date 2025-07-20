@@ -64,7 +64,7 @@ public class NursingLevelController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('nursing:level:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") String id)
+    public AjaxResult getInfo(@PathVariable("id") Integer id)
     {
         return success(nursingLevelService.selectNursingLevelById(id));
     }
@@ -97,7 +97,7 @@ public class NursingLevelController extends BaseController
     @PreAuthorize("@ss.hasPermi('nursing:level:remove')")
     @Log(title = "护理等级", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable String[] ids)
+    public AjaxResult remove(@PathVariable Integer[] ids)
     {
         return toAjax(nursingLevelService.deleteNursingLevelByIds(ids));
     }
