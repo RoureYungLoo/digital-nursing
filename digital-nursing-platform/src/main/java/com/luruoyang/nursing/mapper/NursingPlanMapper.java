@@ -7,7 +7,7 @@ import com.luruoyang.nursing.domain.NursingPlan;
  * 护理计划Mapper接口
  * 
  * @author luruoyang
- * @date 2025-07-19
+ * @date 2025-07-20
  */
 public interface NursingPlanMapper 
 {

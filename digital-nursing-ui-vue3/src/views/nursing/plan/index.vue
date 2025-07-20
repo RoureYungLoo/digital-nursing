@@ -131,6 +131,17 @@
             <el-radio :value="1">启用</el-radio>
           </el-radio-group>
         </el-form-item>
+<!--        <el-form-item label="护理项目">-->
+<!--          <el-table :data="form.nursingItemList" :header-cell-style="{textAlign:'center'}"-->
+<!--                    :cell-style="{textAlign:'center'}">-->
+<!--            <el-table-column prop="" label="护理项目名称"/>-->
+<!--            <el-table-column prop="" label="期望服务时间"/>-->
+<!--            <el-table-column prop="" label="执行周期"/>-->
+<!--            <el-table-column prop="" label="执行频次"/>-->
+<!--            <el-table-column prop="" label="操作">-->
+<!--            </el-table-column>-->
+<!--          </el-table>-->
+<!--        </el-form-item>-->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -160,7 +171,12 @@ const total = ref(0)
 const title = ref("")
 
 const data = reactive({
-  form: {},
+  form: {
+    planName: null,
+    sortNo: null,
+    status: null,
+    nursingItemList: []
+  },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -213,7 +229,7 @@ function reset() {
     createBy: null,
     updateBy: null,
     remark: null,
-    nursingItemList: null,
+    nursingItemList: [],
 
   }
   proxy.resetForm("planRef")

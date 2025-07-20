@@ -4,23 +4,29 @@ import java.util.HashMap;
 import java.util.Objects;
 import com.luruoyang.common.constant.HttpStatus;
 import com.luruoyang.common.utils.StringUtils;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 操作消息提醒
  * 
  * @author ruoyi
  */
+@ApiModel("响应结果")
 public class AjaxResult extends HashMap<String, Object>
 {
     private static final long serialVersionUID = 1L;
 
     /** 状态码 */
+    @ApiModelProperty("状态码")
     public static final String CODE_TAG = "code";
 
     /** 返回内容 */
+    @ApiModelProperty("返回内容")
     public static final String MSG_TAG = "msg";
 
     /** 数据对象 */
+    @ApiModelProperty("数据对象")
     public static final String DATA_TAG = "data";
 
     /**

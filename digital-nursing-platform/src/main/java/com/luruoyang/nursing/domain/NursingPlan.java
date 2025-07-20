@@ -9,7 +9,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
  * 护理计划对象 nursing_plan
  * 
  * @author luruoyang
- * @date 2025-07-19
+ * @date 2025-07-20
  */
 public class NursingPlan extends BaseEntity
 {

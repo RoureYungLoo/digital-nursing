@@ -1,148 +1,55 @@
 package com.luruoyang.nursing.domain;
 
 import java.math.BigDecimal;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.luruoyang.common.annotation.Excel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import com.luruoyang.common.core.domain.BaseEntity;
 
 /**
  * 护理项目对象 nursing_item
- * 
+ *
  * @author luruoyang
- * @date 2025-07-19
+ * @date 2025-07-20
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NursingItem extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
-
-    /** 编号 */
-    private Long id;
-
-    /** 名称 */
-    @Excel(name = "名称")
-    private String name;
-
-    /** 排序号 */
-    @Excel(name = "排序号")
-    private Integer orderNo;
-
-    /** 单位 */
-    @Excel(name = "单位")
-    private String unit;
-
-    /** 价格 */
-    @Excel(name = "价格")
-    private BigDecimal price;
-
-    /** 图片 */
-    @Excel(name = "图片")
-    private String image;
-
-    /** 护理要求 */
-    @Excel(name = "护理要求")
-    private String nursingRequirement;
-
-    /** 状态（0：禁用，1：启用） */
-    @Excel(name = "状态", readConverterExp = "0=：禁用，1：启用")
-    private Integer status;
-
-    public void setId(Long id) 
     {
-        this.id = id;
-    }
+private static final long serialVersionUID = 1L;
 
-    public Long getId() 
-    {
-        return id;
-    }
+        /** 编号 */
+        private Long id;
 
-    public void setName(String name) 
-    {
-        this.name = name;
-    }
+        /** 名称 */
+                @Excel(name = "名称")
+        private String name;
 
-    public String getName() 
-    {
-        return name;
-    }
+        /** 排序号 */
+                @Excel(name = "排序号")
+        private Integer orderNo;
 
-    public void setOrderNo(Integer orderNo) 
-    {
-        this.orderNo = orderNo;
-    }
+        /** 单位 */
+                @Excel(name = "单位")
+        private String unit;
 
-    public Integer getOrderNo() 
-    {
-        return orderNo;
-    }
+        /** 价格 */
+                @Excel(name = "价格")
+        private BigDecimal price;
 
-    public void setUnit(String unit) 
-    {
-        this.unit = unit;
-    }
+        /** 图片 */
+                @Excel(name = "图片")
+        private String image;
 
-    public String getUnit() 
-    {
-        return unit;
-    }
+        /** 护理要求 */
+                @Excel(name = "护理要求")
+        private String nursingRequirement;
 
-    public void setPrice(BigDecimal price) 
-    {
-        this.price = price;
-    }
+        /** 状态（0：禁用，1：启用） */
+                @Excel(name = "状态", readConverterExp = "0=：禁用，1：启用")
+        private Integer status;
 
-    public BigDecimal getPrice() 
-    {
-        return price;
-    }
-
-    public void setImage(String image) 
-    {
-        this.image = image;
-    }
-
-    public String getImage() 
-    {
-        return image;
-    }
-
-    public void setNursingRequirement(String nursingRequirement) 
-    {
-        this.nursingRequirement = nursingRequirement;
-    }
-
-    public String getNursingRequirement() 
-    {
-        return nursingRequirement;
-    }
-
-    public void setStatus(Integer status) 
-    {
-        this.status = status;
-    }
-
-    public Integer getStatus() 
-    {
-        return status;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("name", getName())
-            .append("orderNo", getOrderNo())
-            .append("unit", getUnit())
-            .append("price", getPrice())
-            .append("image", getImage())
-            .append("nursingRequirement", getNursingRequirement())
-            .append("status", getStatus())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .append("remark", getRemark())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .toString();
-    }
 }

@@ -58,7 +58,6 @@
             <groupId>com.luruoyang</groupId>
             <artifactId>digital-nursing-system</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

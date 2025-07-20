@@ -25,7 +25,7 @@ import com.luruoyang.common.core.page.TableDataInfo;
  * 护理计划Controller
  * 
  * @author luruoyang
- * @date 2025-07-19
+ * @date 2025-07-20
  */
 @RestController
 @RequestMapping("/nursing/plan")
