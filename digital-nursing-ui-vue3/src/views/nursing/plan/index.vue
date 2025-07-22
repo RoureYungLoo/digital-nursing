@@ -179,166 +179,55 @@
             <el-form-item label="护理项目：">
               <el-col :span="24">
                 <el-row :gutter="10">
-                  <el-col :span="5">护理项目名称</el-col>
-                  <el-col :span="5">期望服务时间</el-col>
-                  <el-col :span="5">执行间隔</el-col>
-                  <el-col :span="5">执行频次</el-col>
-                  <el-col :span="4">操作</el-col>
+                  <el-col :span="5" style="text-align: center">护理项目名称</el-col>
+                  <el-col :span="5" style="text-align: center">期望服务时间</el-col>
+                  <el-col :span="5" style="text-align: center">执行间隔</el-col>
+                  <el-col :span="5" style="text-align: center">执行频次</el-col>
+                  <el-col :span="4" style="text-align: center">操作</el-col>
                 </el-row>
-                <el-row>
-                  <template v-for="(nip,index) in formData.nursingItemPlanList">
+                <template v-for="(nip,index) in formData.nursingItemPlanList">
+                  <el-row :gutter="10" style="margin-bottom: 5px">
                     <el-col :span="5" style="text-align: center">
-                      <el-form-item style="width: 100px">
+                      <el-form-item>
                         <el-select v-model="nip.itemId">
-                          <el-option v-for="{label,value} in nursingItemOptions" :key="value" :label="label" :value="value
-">{{ label }}
-                          </el-option>
+                          <el-option v-for="{label,value} in nursingItemOptions" :key="value" :label="label"
+                                     :value="value"/>
                         </el-select>
                       </el-form-item>
                     </el-col>
                     <el-col :span="5" style="text-align: center">
-                      <el-form-item style="width: 100px">
-                        <el-time-picker v-model="nip.executeTime" placeholder="服务时间"/>
+                      <el-form-item>
+                        <el-time-picker v-model="nip.executeTime" value-format="HH:mm:ss" placeholder="服务时间"/>
                       </el-form-item>
                     </el-col>
                     <el-col :span="5" style="text-align: center">
-                      <el-form-item style="width: 100px">
+                      <el-form-item>
                         <el-select v-model="nip.executeCycle">
-                          <el-option v-for="{label,value} in executeCycleOptions" :key="value" :label="label" :value="value
-">{{ label }}
-                          </el-option>
+                          <el-option v-for="{label,value} in executeCycleOptions" :key="value" :label="label"
+                                     :value="value"/>
                         </el-select>
                       </el-form-item>
                     </el-col>
                     <el-col :span="5" style="text-align: center">
-                      <el-form-item style="width: 100px">
-                        <el-input-number v-model="nip.executeFrequency"/>
+                      <el-form-item>
+                        <el-input-number v-model="nip.executeFrequency" placeholder="请选择"/>
                       </el-form-item>
                     </el-col>
                     <el-col :span="4" style="text-align: center">
-                      <el-button link @click="handleRowDel(null,index)" v-if="formData.nursingItemPlanList.length>1">
+                      <el-button link @click="handleRowDel(index)" v-if="formData.nursingItemPlanList.length>1">
                         <Minus style="color:orange;width: 1em; height: 1em; margin-right: 5px"/>
                       </el-button>
-                      <el-button link @click="handleRowAdd()">
+                      <el-button link @click="handleRowAdd">
                         <Plus style="color:red;width: 1em; height: 1em; margin-right: 5px"/>
                       </el-button>
                     </el-col>
-                  </template>
-                </el-row>
+                  </el-row>
+                </template>
+
               </el-col>
             </el-form-item>
           </el-col>
         </el-row>
-
-        <!--            <el-table :width="200" :data="formData.nursingItemPlanList" :header-cell-style="{textAlign:'center'}"-->
-        <!--                      :cell-style="{textAlign:'center'}">-->
-        <!--              <el-table-column label="护理项目名称">-->
-        <!--                <template #default="{row}">-->
-        <!--                  <el-select v-model="row.itemId" placeholder="项目名称">-->
-        <!--                    <el-option v-for="{label,value} in nursingItemOptions" :label="label" :value="value">{{ label }}-->
-        <!--                    </el-option>-->
-        <!--                  </el-select>-->
-        <!--                </template>-->
-        <!--              </el-table-column>-->
-        <!--              <el-table-column label="期望服务时间">-->
-        <!--                <template #default="{row}">-->
-        <!--                  <el-time-picker v-model="row.executeTime" placeholder="服务时间" style="width: 120px"/>-->
-        <!--                </template>-->
-        <!--              </el-table-column>-->
-        <!--              <el-table-column label="执行间隔">-->
-        <!--                <el-input type="text"/>-->
-        <!--              </el-table-column>-->
-        <!--              <el-table-column label="执行频次">-->
-        <!--                <el-input type="text"/>-->
-        <!--              </el-table-column>-->
-        <!--              <el-table-column label="操作">-->
-        <!--                <el-button link @click="handleRowDel" v-if="formData.nursingItemPlanList.length>1">-->
-        <!--                  <Minus style="color:orange;width: 1em; height: 1em; margin-right: 5px"/>-->
-        <!--                </el-button>-->
-        <!--                <el-button link @click="handleRowAdd">-->
-        <!--                  <Plus style="color:red;width: 1em; height: 1em; margin-right: 5px"/>-->
-        <!--                </el-button>-->
-        <!--              </el-table-column>-->
-        <!--            </el-table>-->
-        <!--            <div class="info family">-->
-        <!--              <div class="tableHead">-->
-        <!--                <div>护理项目名称</div>-->
-        <!--                <div>期望服务时间</div>-->
-        <!--                <div>执行周期</div>-->
-        <!--                <div>执行频次(次)</div>-->
-        <!--                <div v-if="!isLook">操作</div>-->
-        <!--              </div>-->
-        <!--              <div class="tableBody">-->
-        <!--                <div-->
-        <!--                    class="tableColumn"-->
-        <!--                    v-for="(item, index) in nursingPalnList"-->
-        <!--                    :key="index"-->
-        <!--                >-->
-        <!--                  <div class="column">-->
-        <!--                    <el-select-->
-        <!--                        :disabled="isLook"-->
-        <!--                        v-model="item.projectId"-->
-        <!--                        placeholder="请选择"-->
-        <!--                    >-->
-        <!--                      <el-option-->
-        <!--                          v-for="item in nursingProjectOptions"-->
-        <!--                          :key="item.value"-->
-        <!--                          :label="item.label"-->
-        <!--                          :value="item.value"-->
-        <!--                      ></el-option>-->
-        <!--                    </el-select>-->
-        <!--                  </div>-->
-        <!--                  <div class="column">-->
-        <!--                    <el-time-picker-->
-        <!--                        v-model="item.executeTime"-->
-        <!--                        format="HH:mm:ss"-->
-        <!--                        value-format="HH:mm:ss"-->
-        <!--                        :style="{ width: '100%' }"-->
-        <!--                        placeholder="请选择时间选择"-->
-        <!--                        :disabled="isLook"-->
-        <!--                        clearable-->
-        <!--                    ></el-time-picker>-->
-        <!--                  </div>-->
-        <!--                  <div class="column">-->
-        <!--                    <el-select-->
-        <!--                        v-model="item.executeCycle"-->
-        <!--                        placeholder="请选择"-->
-        <!--                        :disabled="isLook"-->
-        <!--                    >-->
-        <!--                      <el-option-->
-        <!--                          v-for="item in executeCycleOptions"-->
-        <!--                          :key="item.value"-->
-        <!--                          :label="item.label"-->
-        <!--                          :value="item.value"-->
-        <!--                      ></el-option>-->
-        <!--                    </el-select>-->
-        <!--                  </div>-->
-        <!--                  <div class="column">-->
-        <!--                    <el-input-number-->
-        <!--                        v-model="item.executeFrequency"-->
-        <!--                        :controls="false"-->
-        <!--                        :max="7"-->
-        <!--                        :min="1"-->
-        <!--                        :disabled="isLook"-->
-        <!--                    />-->
-        <!--                  </div>-->
-        <!--                  <div class="column" v-if="!isLook">-->
-        <!--                    <el-icon-->
-        <!--                        v-if="nursingPalnList.length > 1"-->
-        <!--                        @click="handleRowDel(item, index)"-->
-        <!--                        class="delect"-->
-        <!--                    >-->
-        <!--                      <Minus-->
-        <!--                      />-->
-        <!--                    </el-icon>-->
-        <!--                    <el-icon @click="handleRowAdd" class="add">-->
-        <!--                      <Plus/>-->
-        <!--                    </el-icon>-->
-        <!--                  </div>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-
       </el-form>
       <div class="dialog-footer" v-if="!isLook">
         <el-button type="primary" @click="submitForm">确定</el-button>
@@ -379,9 +268,9 @@ const nursingItemOptions = ref([]);
 const isLook = ref(false);
 const formData = reactive({
   id: null,
-  planName: "测试项目",
-  status: 1,
-  sortNo: 1,
+  planName: null,
+  status: null,
+  sortNo: null,
   nursingItemPlanList: [
     {
       itemId: null,
@@ -425,9 +314,9 @@ const rules = ref({
 });
 
 const executeCycleOptions = ref([
-  {label: '每天', value: '0'},
-  {label: '每周', value: '1'},
-  {label: '每月', value: '2'},
+  {label: '每天', value: 0},
+  {label: '每周', value: 1},
+  {label: '每月', value: 2},
 ]);
 
 onMounted(() => {
@@ -449,7 +338,7 @@ const handleRowAdd = () => {
   })
 };
 //删除行数据
-const handleRowDel = (item, index) => {
+const handleRowDel = (index) => {
   if (formData.nursingItemPlanList.length === 1) return;
   formData.nursingItemPlanList.splice(index, 1);
 };
@@ -473,6 +362,7 @@ function cancel() {
 
 // 表单重置
 function reset() {
+  formData.id = null
   formData.planName = null
   formData.status = null
   formData.sortNo = null
