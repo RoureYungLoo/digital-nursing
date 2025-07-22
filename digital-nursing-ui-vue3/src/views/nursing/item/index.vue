@@ -17,7 +17,8 @@
             @keyup.enter="handleQuery" style="width: 200px">
           <!--<el-option label="禁用" :value="0"/>-->
           <!--<el-option label="启用" :value="1"/>-->
-          <el-option v-for="{label,value} in options" :label="label" :value="value"/>
+          <!--<el-option v-for="{label,value} in options" :label="label" :value="value"/>-->
+          <el-option v-for="{label,value} in nursing_status" :label="label" :value="value"/>
 
         </el-select>
       </el-form-item>
@@ -129,25 +130,28 @@
           <el-input v-model="form.name" placeholder="请输入名称"/>
         </el-form-item>
         <el-form-item label="排序号" prop="orderNo">
-          <el-input v-model="form.orderNo" placeholder="请输入排序号"/>
+          <!--<el-input v-model="form.orderNo" placeholder="请输入排序号"/>-->
+          <el-input-number v-model="form.orderNo" :min="0" :step="1" placeholder="排序号"/>
         </el-form-item>
         <el-form-item label="单位" prop="unit">
           <el-input v-model="form.unit" placeholder="请输入单位"/>
         </el-form-item>
         <el-form-item label="价格" prop="price">
-          <el-input v-model="form.price" placeholder="请输入价格"/>
+          <!--<el-input v-model="form.price" placeholder="请输入价格"/>-->
+          <el-input-number v-model="form.price" :min="0" :step="0.01" :precision="2" placeholder="价格"/>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="0">禁用</el-radio>
-            <el-radio :value="1">启用</el-radio>
+            <!--<el-radio :value="0">禁用</el-radio>-->
+            <!--<el-radio :value="1">启用</el-radio>-->
+            <el-radio v-for="{label,value} in nursing_status" :key="value" :value="value">{{ label }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="图片" prop="image">
           <image-upload v-model="form.image"/>
         </el-form-item>
         <el-form-item label="护理要求" prop="nursingRequirement">
-          <el-input v-model="form.nursingRequirement" placeholder="请输入护理要求"/>
+          <el-input type="textarea" v-model="form.nursingRequirement" placeholder="请输入护理要求"/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -165,6 +169,7 @@ import {listItem, getItem, delItem, addItem, updateItem} from "@/api/nursing/ite
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const {proxy} = getCurrentInstance()
+const {nursing_status} = proxy.useDict("nursing_status")
 
 const itemList = ref([])
 const open = ref(false)
@@ -199,9 +204,6 @@ const data = reactive({
     ],
     image: [
       {required: true, message: "图片不能为空", trigger: "blur"}
-    ],
-    createTime: [
-      {required: true, message: "创建时间不能为空", trigger: "blur"}
     ],
   },
   options: [
@@ -270,7 +272,7 @@ function handleSelectionChange(selection) {
 /** 新增按钮操作 */
 function handleAdd() {
   reset()
-  form.value.status = 0
+  form.value.status = "0"
   open.value = true
   title.value = "添加护理项目"
 }
@@ -281,6 +283,7 @@ function handleUpdate(row) {
   const _id = row.id || ids.value
   getItem(_id).then(response => {
     form.value = response.data
+    form.value.status = String(form.value.status)
     open.value = true
     title.value = "修改护理项目"
   })
