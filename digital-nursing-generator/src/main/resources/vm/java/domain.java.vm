@@ -4,6 +4,7 @@ package ${packageName}.domain;
 import ${import};
 #end
 import com.luruoyang.common.annotation.Excel;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,7 @@ import com.luruoyang.common.core.domain.TreeEntity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("${functionName}实体")
 public class ${ClassName} extends ${Entity}{
 private static final long serialVersionUID = 1L;
   #foreach ($column in $columns)
@@ -48,6 +50,11 @@ private static final long serialVersionUID = 1L;
         #else
         @Excel(name = "${comment}")
         #end
+      #end
+      #if($column.javaField == 'id')
+      @ApiModelProperty(value = "主键ID")
+      #else
+      @ApiModelProperty(value = "${comment}")
       #end
     private $column.javaType $column.javaField;
     #end

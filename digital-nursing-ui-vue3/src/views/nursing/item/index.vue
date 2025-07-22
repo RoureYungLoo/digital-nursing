@@ -15,8 +15,10 @@
             placeholder="请选择状态"
             clearable
             @keyup.enter="handleQuery" style="width: 200px">
-          <el-option label="禁用" :value="0"/>
-          <el-option label="启用" :value="1"/>
+          <!--<el-option label="禁用" :value="0"/>-->
+          <!--<el-option label="启用" :value="1"/>-->
+          <el-option v-for="{label,value} in options" :label="label" :value="value"/>
+
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -73,7 +75,8 @@
 
     <el-table v-loading="loading" :data="itemList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="编号" align="center" prop="id"/>
+      <!--<el-table-column label="编号" align="center" prop="id"/>-->
+      <el-table-column label="序号" width="55" align="center" type="index"/>
       <el-table-column label="名称" align="center" prop="name"/>
       <el-table-column label="排序号" align="center" prop="orderNo"/>
       <el-table-column label="单位" align="center" prop="unit"/>
@@ -86,25 +89,23 @@
       <el-table-column label="护理要求" align="center" prop="nursingRequirement"/>
       <el-table-column label="状态" align="center" prop="status">
         <template #default="scope">
-          <el-text v-if="scope.row.status===0">已禁用</el-text>
-          <el-text v-if="scope.row.status===1">已启用</el-text>
+          <el-tag :type="'danger'" v-if="scope.row.status===0">已禁用</el-tag>
+          <el-tag :type="'success'" v-if="scope.row.status===1">已启用</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}-{i}-{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
+      <el-table-column label="操作" fixed="right" align="center" class-name="small-padding fixed-width" width="200">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
                      v-hasPermi="['nursing:item:edit']">修改
           </el-button>
-          <el-button link type="primary" icon="Open" @click="handleUpdateStatus(scope.row)" v-if="scope.row.status===0">
-            启用
-          </el-button>
-          <el-button link type="primary" icon="Hide" @click="handleUpdateStatus(scope.row)" v-if="scope.row.status===1">
-            禁用
+          <el-button link type="primary" :icon="scope.row.status===0?'Open':'Hide'"
+                     @click="handleUpdateStatus(scope.row)">
+            {{ scope.row.status === 0 ? '启用' : '禁用' }}
           </el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
                      v-hasPermi="['nursing:item:remove']">删除
@@ -202,10 +203,14 @@ const data = reactive({
     createTime: [
       {required: true, message: "创建时间不能为空", trigger: "blur"}
     ],
-  }
+  },
+  options: [
+    {label: "禁用", value: 0},
+    {label: "启用", value: 1},
+  ]
 })
 
-const {queryParams, form, rules} = toRefs(data)
+const {queryParams, form, rules, options} = toRefs(data)
 
 /** 查询护理项目列表 */
 function getList() {
@@ -328,16 +333,14 @@ const handleUpdateStatus = (row) => {
 
   getItem(_id).then(response => {
     form.value = response.data
-    ElMessageBox.confirm(`确实要 \[ ${row.status === 0 ? '启用' : '禁用'} \] 护理项目 \"${row.name}\" ?`, "提示", {
-      type: "info",
-    }).then(() => {
-      row.status = row.status === 0 ? 1 : 0
-      updateItem(row).then(response => {
-        proxy.$modal.msgSuccess("修改成功")
-        getList()
-      })
-    }).catch((err) => {
-      ElMessage.info("用户取消")
+    proxy.$modal.confirm(`确实要 \[ ${row.status === 0 ? '启用' : '禁用'} \] 护理项目 \"${row.name}\" ?`)
+        .then(() => {
+          row.status = row.status === 0 ? 1 : 0
+          updateItem(row).then(response => {
+            proxy.$modal.msgSuccess("修改成功")
+            getList()
+          })
+        }).catch((err) => {
     })
   })
 }
