@@ -27,13 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="planId != null "> and plan_id = #{planId}</if>
             <if test="itemId != null "> and item_id = #{itemId}</if>
-            <if test="executeTime != null  and executeTime != ''"> and execute_time = #{executeTime}</if>
-            <if test="executeCycle != null "> and execute_cycle = #{executeCycle}</if>
-            <if test="executeFrequency != null "> and execute_frequency = #{executeFrequency}</if>
         </where>
     </select>
     
-    <select id="selectNursingItemPlanById" parameterType="Long" resultMap="NursingItemPlanResult">
+    <select id="selectNursingItemPlanById" parameterType="Integer" resultMap="NursingItemPlanResult">
         <include refid="selectNursingItemPlanVo"/>
         where id = #{id}
     </select>
@@ -83,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteNursingItemPlanById" parameterType="Long">
+    <delete id="deleteNursingItemPlanById" parameterType="Integer">
         delete from nursing_item_plan where id = #{id}
     </delete>
 

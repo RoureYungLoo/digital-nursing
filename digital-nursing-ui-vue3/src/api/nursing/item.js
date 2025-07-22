@@ -42,3 +42,11 @@ export function delItem(id) {
     method: 'delete'
   })
 }
+
+// 获取所有护理项目
+export function getAllItems(id) {
+  return request({
+    url: '/nursing/item/all',
+    method: 'GET'
+  })
+}

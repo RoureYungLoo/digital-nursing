@@ -9,7 +9,7 @@ import com.luruoyang.nursing.domain.NursingLevel;
  * 护理等级Service接口
  *
  * @author luruoyang
- * @date 2025-07-20
+ * @date 2025-07-22
  */
 public interface INursingLevelService extends IService<NursingLevel> {
   /**

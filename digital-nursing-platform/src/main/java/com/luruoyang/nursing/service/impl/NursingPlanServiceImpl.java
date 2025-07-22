@@ -2,7 +2,14 @@ package com.luruoyang.nursing.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
-    import com.luruoyang.common.utils.DateUtils;
+
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.luruoyang.common.utils.DateUtils;
+import com.luruoyang.nursing.domain.NursingItemPlan;
+import com.luruoyang.nursing.dto.NursingPlanDto;
+import com.luruoyang.nursing.service.INursingItemPlanService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,9 +24,13 @@ import com.luruoyang.nursing.service.INursingPlanService;
  * @date 2025-07-20
  */
 @Service
+@Slf4j
 public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, NursingPlan> implements INursingPlanService {
   @Autowired
   private NursingPlanMapper nursingPlanMapper;
+
+  @Autowired
+  private INursingItemPlanService nursingItemPlanService;
 
   /**
    * 查询护理计划
@@ -29,7 +40,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
    */
   @Override
   public NursingPlan selectNursingPlanById(Integer id) {
-        return this.getById(id);
+    return this.getById(id);
   }
 
   /**
@@ -46,12 +57,22 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
   /**
    * 新增护理计划
    *
-   * @param nursingPlan 护理计划
+   * @param nursingPlanDto 护理计划 dto
    * @return 结果
    */
   @Override
-  public int insertNursingPlan(NursingPlan nursingPlan) {
-                            return this.save(nursingPlan) ? 1 : 0;
+  public int insertNursingPlan(NursingPlanDto nursingPlanDto) {
+    // 护理计划表
+    NursingPlan nursingPlan = new NursingPlan();
+    BeanUtils.copyProperties(nursingPlanDto, nursingPlan);
+    if (!this.save(nursingPlan)) {
+      log.error("insertNursingPlan fail!");
+    }
+
+    // 护理计划 护理项目关联表
+    List<NursingItemPlan> itemPlans = nursingPlanDto.getItemPlans();
+    boolean savedBatch = nursingItemPlanService.saveBatch(itemPlans);
+    return savedBatch ? 1 : 0;
   }
 
   /**
@@ -62,7 +83,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
    */
   @Override
   public int updateNursingPlan(NursingPlan nursingPlan) {
-                        return this.updateById(nursingPlan) ? 1 : 0;
+    return this.updateById(nursingPlan) ? 1 : 0;
   }
 
   /**
@@ -73,7 +94,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
    */
   @Override
   public int deleteNursingPlanByIds(Integer[] ids) {
-        return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
+    return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
 
   }
 
@@ -85,6 +106,6 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
    */
   @Override
   public int deleteNursingPlanById(Integer id) {
-        return this.removeById(id) ? 1 : 0;
+    return this.removeById(id) ? 1 : 0;
   }
 }

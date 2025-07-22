@@ -3,6 +3,7 @@ package com.luruoyang.nursing.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.luruoyang.nursing.vo.NursingItemVo;
 import com.luruoyang.nursing.domain.NursingItem;
 
 /**
@@ -59,4 +60,6 @@ public interface INursingItemService extends IService<NursingItem> {
    * @return 结果
    */
   public int deleteNursingItemById(Long id);
+
+  List<NursingItemVo> findAll();
 }

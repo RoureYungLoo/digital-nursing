@@ -3,6 +3,10 @@ package com.luruoyang.nursing.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.luruoyang.common.core.domain.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,20 +30,22 @@ import com.luruoyang.common.core.page.TableDataInfo;
  * 护理计划和项目关联Controller
  *
  * @author luruoyang
- * @date 2025-07-19
+ * @date 2025-07-22
  */
 @RestController
 @RequestMapping("/nursing/itemplan")
+@Api(tags = "护理计划和项目关联相关接口")
 public class NursingItemPlanController extends BaseController {
   @Autowired
   private INursingItemPlanService nursingItemPlanService;
 
-  /**
-   * 查询护理计划和项目关联列表
-   */
-  @PreAuthorize("@ss.hasPermi('nursing:itemplan:list')")
-  @GetMapping("/list")
-  public TableDataInfo list(NursingItemPlan nursingItemPlan) {
+/**
+ * 查询护理计划和项目关联列表
+ */
+@PreAuthorize("@ss.hasPermi('nursing:itemplan:list')")
+@GetMapping("/list")
+@ApiOperation("查询护理计划和项目关联列表")
+  public TableDataInfo<List<NursingItemPlan>> list(NursingItemPlan nursingItemPlan) {
     startPage();
     List<NursingItemPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
     return getDataTable(list);
@@ -51,9 +57,10 @@ public class NursingItemPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:export')")
   @Log(title = "护理计划和项目关联", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
+  @ApiOperation("导出护理计划和项目关联列表")
   public void export(HttpServletResponse response, NursingItemPlan nursingItemPlan) {
     List<NursingItemPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
-    ExcelUtil<NursingItemPlan> util = new ExcelUtil<NursingItemPlan>(NursingItemPlan.class);
+    ExcelUtil<NursingItemPlan> util = new ExcelUtil<NursingItemPlan>(NursingItemPlan. class);
     util.exportExcel(response, list, "护理计划和项目关联数据");
   }
 
@@ -62,8 +69,9 @@ public class NursingItemPlanController extends BaseController {
    */
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:query')")
   @GetMapping(value = "/{id}")
-  public AjaxResult getInfo(@PathVariable("id") Long id) {
-    return success(nursingItemPlanService.selectNursingItemPlanById(id));
+  @ApiOperation("获取护理计划和项目关联详细信息")
+      public R<NursingItemPlan> getInfo(@ApiParam(value = "护理计划和项目关联ID", required = true) @PathVariable("id") Integer id) {
+        return R.ok(nursingItemPlanService.selectNursingItemPlanById(id));
   }
 
   /**
@@ -72,7 +80,8 @@ public class NursingItemPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:add')")
   @Log(title = "护理计划和项目关联", businessType = BusinessType.INSERT)
   @PostMapping
-  public AjaxResult add(@RequestBody NursingItemPlan nursingItemPlan) {
+  @ApiOperation("新增护理计划和项目关联")
+  public AjaxResult add(@ApiParam(value = "护理计划和项目关联实体", required = true) @RequestBody NursingItemPlan nursingItemPlan) {
     return toAjax(nursingItemPlanService.insertNursingItemPlan(nursingItemPlan));
   }
 
@@ -82,7 +91,8 @@ public class NursingItemPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:edit')")
   @Log(title = "护理计划和项目关联", businessType = BusinessType.UPDATE)
   @PutMapping
-  public AjaxResult edit(@RequestBody NursingItemPlan nursingItemPlan) {
+  @ApiOperation("修改护理计划和项目关联")
+  public AjaxResult edit(@ApiParam(required = true, value = "护理计划和项目关联实体") @RequestBody NursingItemPlan nursingItemPlan) {
     return toAjax(nursingItemPlanService.updateNursingItemPlan(nursingItemPlan));
   }
 
@@ -92,7 +102,8 @@ public class NursingItemPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:remove')")
   @Log(title = "护理计划和项目关联", businessType = BusinessType.DELETE)
   @DeleteMapping("/{ids}")
-  public AjaxResult remove(@PathVariable Long[] ids) {
+  @ApiOperation("删除护理计划和项目关联")
+  public AjaxResult remove(@PathVariable Integer[] ids) {
     return toAjax(nursingItemPlanService.deleteNursingItemPlanByIds(ids));
   }
 }

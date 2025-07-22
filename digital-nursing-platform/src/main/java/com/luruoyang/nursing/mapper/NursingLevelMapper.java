@@ -11,7 +11,7 @@ import com.luruoyang.nursing.domain.NursingLevel;
  * 护理等级Mapper接口
  *
  * @author luruoyang
- * @date 2025-07-20
+ * @date 2025-07-22
  */
 @Mapper
 public interface NursingLevelMapper extends BaseMapper<NursingLevel> {

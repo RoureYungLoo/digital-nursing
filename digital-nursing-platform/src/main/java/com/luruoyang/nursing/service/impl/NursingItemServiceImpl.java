@@ -2,7 +2,11 @@ package com.luruoyang.nursing.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
-    import com.luruoyang.common.utils.DateUtils;
+import java.util.stream.Collectors;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.luruoyang.nursing.vo.NursingItemVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,7 +33,7 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    */
   @Override
   public NursingItem selectNursingItemById(Long id) {
-        return this.getById(id);
+    return this.getById(id);
   }
 
   /**
@@ -51,7 +55,7 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    */
   @Override
   public int insertNursingItem(NursingItem nursingItem) {
-                            return this.save(nursingItem) ? 1 : 0;
+    return this.save(nursingItem) ? 1 : 0;
   }
 
   /**
@@ -62,7 +66,7 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    */
   @Override
   public int updateNursingItem(NursingItem nursingItem) {
-                        return this.updateById(nursingItem) ? 1 : 0;
+    return this.updateById(nursingItem) ? 1 : 0;
   }
 
   /**
@@ -73,7 +77,7 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    */
   @Override
   public int deleteNursingItemByIds(Long[] ids) {
-        return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
+    return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
 
   }
 
@@ -85,6 +89,17 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    */
   @Override
   public int deleteNursingItemById(Long id) {
-        return this.removeById(id) ? 1 : 0;
+    return this.removeById(id) ? 1 : 0;
+  }
+
+  @Override
+  public List<NursingItemVo> findAll() {
+    LambdaQueryWrapper<NursingItem> wrapper = Wrappers.lambdaQuery();
+    wrapper
+        .select(NursingItem::getId, NursingItem::getName)
+        .eq(NursingItem::getStatus, 1);
+    List<NursingItem> itemList = this.list(wrapper);
+    List<NursingItemVo> itemVoList = itemList.stream().map(nursingItem -> new NursingItemVo(nursingItem.getName(), nursingItem.getId())).collect(Collectors.toList());
+    return itemVoList;
   }
 }

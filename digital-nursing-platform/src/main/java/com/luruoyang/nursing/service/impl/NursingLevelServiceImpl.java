@@ -14,7 +14,7 @@ import com.luruoyang.nursing.service.INursingLevelService;
  * 护理等级Service业务层处理
  *
  * @author luruoyang
- * @date 2025-07-20
+ * @date 2025-07-22
  */
 @Service
 public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, NursingLevel> implements INursingLevelService {
