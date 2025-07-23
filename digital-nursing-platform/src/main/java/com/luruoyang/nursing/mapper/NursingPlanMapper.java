@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.luruoyang.nursing.domain.NursingPlan;
+import com.luruoyang.nursing.entity.domain.NursingPlan;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.luruoyang.nursing.vo;
+package com.luruoyang.nursing.entity.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

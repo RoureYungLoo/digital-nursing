@@ -1,4 +1,4 @@
-package com.luruoyang.nursing.domain;
+package com.luruoyang.nursing.entity.domain;
 
 import java.math.BigDecimal;
 import com.luruoyang.common.annotation.Excel;

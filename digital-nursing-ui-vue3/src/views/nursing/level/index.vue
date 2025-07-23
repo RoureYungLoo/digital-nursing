@@ -1,13 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="等级名称" prop="name">
+      <el-form-item label="等级名称">
         <el-input
             v-model="queryParams.name"
-            placeholder="请输入等级名称"
+            placeholder="请输入护理等级名称"
             clearable
-            @keyup.enter="handleQuery"
-        />
+            @keyup.enter="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="等级状态">
+        <el-input
+            v-model="queryParams.status"
+            placeholder="请选择护理等级状态"
+            clearable
+            @keyup.enter="handleQuery"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>

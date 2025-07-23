@@ -3,8 +3,8 @@ package com.luruoyang.nursing.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.luruoyang.nursing.vo.NursingItemVo;
-import com.luruoyang.nursing.domain.NursingItem;
+import com.luruoyang.nursing.entity.vo.NursingItemVo;
+import com.luruoyang.nursing.entity.domain.NursingItem;
 
 /**
  * 护理项目Service接口

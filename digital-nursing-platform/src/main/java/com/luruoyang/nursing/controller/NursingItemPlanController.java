@@ -21,7 +21,7 @@ import com.luruoyang.common.annotation.Log;
 import com.luruoyang.common.core.controller.BaseController;
 import com.luruoyang.common.core.domain.AjaxResult;
 import com.luruoyang.common.enums.BusinessType;
-import com.luruoyang.nursing.domain.NursingItemPlan;
+import com.luruoyang.nursing.entity.domain.NursingItemPlan;
 import com.luruoyang.nursing.service.INursingItemPlanService;
 import com.luruoyang.common.utils.poi.ExcelUtil;
 import com.luruoyang.common.core.page.TableDataInfo;

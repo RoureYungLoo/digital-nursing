@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.luruoyang.nursing.vo.NursingItemVo;
+import com.luruoyang.nursing.entity.vo.NursingItemVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luruoyang.nursing.mapper.NursingItemMapper;
-import com.luruoyang.nursing.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingItem;
 import com.luruoyang.nursing.service.INursingItemService;
 
 /**

@@ -3,7 +3,8 @@ package com.luruoyang.nursing.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import com.luruoyang.nursing.dto.NursingPlanDto;
+import com.luruoyang.nursing.entity.dto.NursingPlanDto;
+import com.luruoyang.nursing.entity.vo.NursingPlanVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ import com.luruoyang.common.annotation.Log;
 import com.luruoyang.common.core.controller.BaseController;
 import com.luruoyang.common.core.domain.AjaxResult;
 import com.luruoyang.common.enums.BusinessType;
-import com.luruoyang.nursing.domain.NursingPlan;
+import com.luruoyang.nursing.entity.domain.NursingPlan;
 import com.luruoyang.nursing.service.INursingPlanService;
 import com.luruoyang.common.utils.poi.ExcelUtil;
 import com.luruoyang.common.core.page.TableDataInfo;
@@ -62,7 +63,7 @@ public class NursingPlanController extends BaseController {
    * 获取护理计划详细信息
    */
   @PreAuthorize("@ss.hasPermi('nursing:plan:query')")
-  @GetMapping(value = "/{id}")
+  @GetMapping(value = "/{id:\\d+}")
   public AjaxResult getInfo(@PathVariable("id") Integer id) {
     return success(nursingPlanService.selectNursingPlanById(id));
   }
@@ -83,8 +84,8 @@ public class NursingPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:plan:edit')")
   @Log(title = "护理计划", businessType = BusinessType.UPDATE)
   @PutMapping
-  public AjaxResult edit(@RequestBody NursingPlan nursingPlan) {
-    return toAjax(nursingPlanService.updateNursingPlan(nursingPlan));
+  public AjaxResult edit(@RequestBody NursingPlanVo vo) {
+    return toAjax(nursingPlanService.updateNursingPlan(vo));
   }
 
   /**

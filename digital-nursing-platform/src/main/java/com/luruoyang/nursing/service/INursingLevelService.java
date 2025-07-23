@@ -3,7 +3,7 @@ package com.luruoyang.nursing.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.luruoyang.nursing.domain.NursingLevel;
+import com.luruoyang.nursing.entity.domain.NursingLevel;
 
 /**
  * 护理等级Service接口
