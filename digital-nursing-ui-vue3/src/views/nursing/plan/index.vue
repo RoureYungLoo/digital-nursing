@@ -106,7 +106,7 @@
           <el-button
               link
               type="primary"
-              icon="Delete"
+              icon="View"
               @click="handleLook(scope.row)"
           >查看
           </el-button
