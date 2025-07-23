@@ -3,7 +3,9 @@ package com.luruoyang.nursing.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.luruoyang.common.core.domain.R;
 import com.luruoyang.nursing.entity.dto.NursingPlanDto;
+import com.luruoyang.nursing.entity.vo.NursingItemVo;
 import com.luruoyang.nursing.entity.vo.NursingPlanVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ import com.luruoyang.common.core.page.TableDataInfo;
  * @date 2025-07-20
  */
 @RestController
-@RequestMapping("/nursing/plan")
+@RequestMapping("/serve/plan")
 public class NursingPlanController extends BaseController {
   @Autowired
   private INursingPlanService nursingPlanService;
@@ -39,7 +41,17 @@ public class NursingPlanController extends BaseController {
   /**
    * 查询护理计划列表
    */
-  @PreAuthorize("@ss.hasPermi('nursing:plan:list')")
+  @PreAuthorize("@ss.hasPermi('serve:plan:list')")
+  @GetMapping("/all")
+  public R<List<NursingPlanVo>> list() {
+    List<NursingPlanVo> list = nursingPlanService.findAll();
+    return R.ok(list);
+  }
+
+  /**
+   * 查询护理计划列表
+   */
+  @PreAuthorize("@ss.hasPermi('serve:plan:list')")
   @GetMapping("/list")
   public TableDataInfo list(NursingPlan nursingPlan) {
     startPage();
@@ -50,7 +62,7 @@ public class NursingPlanController extends BaseController {
   /**
    * 导出护理计划列表
    */
-  @PreAuthorize("@ss.hasPermi('nursing:plan:export')")
+  @PreAuthorize("@ss.hasPermi('serve:plan:export')")
   @Log(title = "护理计划", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
   public void export(HttpServletResponse response, NursingPlan nursingPlan) {
@@ -62,7 +74,7 @@ public class NursingPlanController extends BaseController {
   /**
    * 获取护理计划详细信息
    */
-  @PreAuthorize("@ss.hasPermi('nursing:plan:query')")
+  @PreAuthorize("@ss.hasPermi('serve:plan:query')")
   @GetMapping(value = "/{id:\\d+}")
   public AjaxResult getInfo(@PathVariable("id") Integer id) {
     return success(nursingPlanService.selectNursingPlanById(id));
@@ -71,7 +83,7 @@ public class NursingPlanController extends BaseController {
   /**
    * 新增护理计划
    */
-  @PreAuthorize("@ss.hasPermi('nursing:plan:add')")
+  @PreAuthorize("@ss.hasPermi('serve:plan:add')")
   @Log(title = "护理计划", businessType = BusinessType.INSERT)
   @PostMapping
   public AjaxResult add(@RequestBody NursingPlanDto nursingPlanDto) {
@@ -81,7 +93,7 @@ public class NursingPlanController extends BaseController {
   /**
    * 修改护理计划
    */
-  @PreAuthorize("@ss.hasPermi('nursing:plan:edit')")
+  @PreAuthorize("@ss.hasPermi('serve:plan:edit')")
   @Log(title = "护理计划", businessType = BusinessType.UPDATE)
   @PutMapping
   public AjaxResult edit(@RequestBody NursingPlanVo vo) {
@@ -91,7 +103,7 @@ public class NursingPlanController extends BaseController {
   /**
    * 删除护理计划
    */
-  @PreAuthorize("@ss.hasPermi('nursing:plan:remove')")
+  @PreAuthorize("@ss.hasPermi('serve:plan:remove')")
   @Log(title = "护理计划", businessType = BusinessType.DELETE)
   @DeleteMapping("/{ids}")
   public AjaxResult remove(@PathVariable Integer[] ids) {

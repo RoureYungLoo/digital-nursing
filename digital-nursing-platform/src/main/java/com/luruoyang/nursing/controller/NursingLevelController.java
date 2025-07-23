@@ -33,7 +33,7 @@ import com.luruoyang.common.core.page.TableDataInfo;
  * @date 2025-07-22
  */
 @RestController
-@RequestMapping("/nursing/level")
+@RequestMapping("/serve/level")
 @Api(tags = "护理等级相关接口")
 public class NursingLevelController extends BaseController {
   @Autowired
@@ -42,7 +42,7 @@ public class NursingLevelController extends BaseController {
 /**
  * 查询护理等级列表
  */
-@PreAuthorize("@ss.hasPermi('nursing:level:list')")
+@PreAuthorize("@ss.hasPermi('serve:level:list')")
 @GetMapping("/list")
 @ApiOperation("查询护理等级列表")
   public TableDataInfo<List<NursingLevel>> list(NursingLevel nursingLevel) {
@@ -54,7 +54,7 @@ public class NursingLevelController extends BaseController {
   /**
    * 导出护理等级列表
    */
-  @PreAuthorize("@ss.hasPermi('nursing:level:export')")
+  @PreAuthorize("@ss.hasPermi('serve:level:export')")
   @Log(title = "护理等级", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
   @ApiOperation("导出护理等级列表")
@@ -67,7 +67,7 @@ public class NursingLevelController extends BaseController {
   /**
    * 获取护理等级详细信息
    */
-  @PreAuthorize("@ss.hasPermi('nursing:level:query')")
+  @PreAuthorize("@ss.hasPermi('serve:level:query')")
   @GetMapping(value = "/{id}")
   @ApiOperation("获取护理等级详细信息")
       public R<NursingLevel> getInfo(@ApiParam(value = "护理等级ID", required = true) @PathVariable("id") Integer id) {
@@ -77,7 +77,7 @@ public class NursingLevelController extends BaseController {
   /**
    * 新增护理等级
    */
-  @PreAuthorize("@ss.hasPermi('nursing:level:add')")
+  @PreAuthorize("@ss.hasPermi('serve:level:add')")
   @Log(title = "护理等级", businessType = BusinessType.INSERT)
   @PostMapping
   @ApiOperation("新增护理等级")
@@ -88,7 +88,7 @@ public class NursingLevelController extends BaseController {
   /**
    * 修改护理等级
    */
-  @PreAuthorize("@ss.hasPermi('nursing:level:edit')")
+  @PreAuthorize("@ss.hasPermi('serve:level:edit')")
   @Log(title = "护理等级", businessType = BusinessType.UPDATE)
   @PutMapping
   @ApiOperation("修改护理等级")
@@ -99,7 +99,7 @@ public class NursingLevelController extends BaseController {
   /**
    * 删除护理等级
    */
-  @PreAuthorize("@ss.hasPermi('nursing:level:remove')")
+  @PreAuthorize("@ss.hasPermi('serve:level:remove')")
   @Log(title = "护理等级", businessType = BusinessType.DELETE)
   @DeleteMapping("/{ids}")
   @ApiOperation("删除护理等级")

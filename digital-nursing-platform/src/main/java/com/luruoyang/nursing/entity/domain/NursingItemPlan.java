@@ -31,7 +31,7 @@ public class NursingItemPlan extends BaseEntity {
 
   @Excel(name = "项目id")
   @ApiModelProperty(value = "项目id")
-  protected Integer itemId;
+  protected Integer projectId;
 
   @Excel(name = "计划执行时间")
   @ApiModelProperty(value = "计划执行时间")

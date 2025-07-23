@@ -64,4 +64,12 @@ public interface INursingPlanService extends IService<NursingPlan> {
    * @return 结果
    */
   public int deleteNursingPlanById(Integer id);
+
+
+  /**
+   * 查询护理计划列表
+   */
+
+  List<NursingPlanVo> findAll();
+
 }

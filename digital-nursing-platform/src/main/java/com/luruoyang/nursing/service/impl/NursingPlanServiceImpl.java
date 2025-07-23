@@ -66,7 +66,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
         return nursingItemPlanVo;
       }
     }).collect(Collectors.toList());
-    nursingPlanVo.setItemPlanVoList(nursingItemPlanVoList);
+    nursingPlanVo.setNursingPlanList(nursingItemPlanVoList);
 
     return nursingPlanVo;
   }
@@ -123,7 +123,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
       log.error("updateById(nursingPlan) failed");
     }
 
-    List<NursingItemPlanVo> itemPlanVoList = nursingPlanVo.getItemPlanVoList();
+    List<NursingItemPlanVo> itemPlanVoList = nursingPlanVo.getNursingPlanList();
     if (CollectionUtils.isNotEmpty(itemPlanVoList)) {
       boolean savedBatch;
       // 护理项目-护理计划 关联表:  删除旧的
@@ -180,5 +180,22 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
   @Override
   public int deleteNursingPlanById(Integer id) {
     return this.removeById(id) ? 1 : 0;
+  }
+
+  /**
+   * 查询护理计划列表
+   */
+  @Override
+  public List<NursingPlanVo> findAll() {
+    LambdaQueryWrapper<NursingPlan> wrapper = Wrappers.lambdaQuery();
+    wrapper.eq(NursingPlan::getStatus, 1);
+    List<NursingPlan> list = this.list(wrapper);
+    List<NursingPlanVo> planVoList = list.stream().map(i -> {
+      NursingPlanVo vo = new NursingPlanVo();
+      BeanUtils.copyProperties(i, vo);
+      return vo;
+    }).collect(Collectors.toList());
+
+    return planVoList;
   }
 }

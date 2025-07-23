@@ -14,5 +14,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class NursingPlanVo extends NursingPlan {
 
-  List<NursingItemPlanVo> itemPlanVoList;
+  List<NursingItemPlanVo> nursingPlanList;
 }

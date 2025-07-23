@@ -31,7 +31,7 @@ import com.luruoyang.common.core.page.TableDataInfo;
  * @date 2025-07-20
  */
 @RestController
-@RequestMapping("/nursing/item")
+@RequestMapping("/serve/project")
 public class NursingItemController extends BaseController {
   @Autowired
   private INursingItemService nursingItemService;
@@ -39,7 +39,7 @@ public class NursingItemController extends BaseController {
   /**
    * 查询护理项目列表
    */
-  @PreAuthorize("@ss.hasPermi('nursing:item:list')")
+  @PreAuthorize("@ss.hasPermi('serve:project:list')")
   @GetMapping("/list")
   public TableDataInfo list(NursingItem nursingItem) {
     startPage();
@@ -50,7 +50,7 @@ public class NursingItemController extends BaseController {
   /**
    * 查询护理项目列表
    */
-  @PreAuthorize("@ss.hasPermi('nursing:item:list')")
+  @PreAuthorize("@ss.hasPermi('serve:project:list')")
   @GetMapping("/all")
   public R<List<NursingItemVo>> list() {
     List<NursingItemVo> list = nursingItemService.findAll();
@@ -60,7 +60,7 @@ public class NursingItemController extends BaseController {
   /**
    * 导出护理项目列表
    */
-  @PreAuthorize("@ss.hasPermi('nursing:item:export')")
+  @PreAuthorize("@ss.hasPermi('serve:project:export')")
   @Log(title = "护理项目", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
   public void export(HttpServletResponse response, NursingItem nursingItem) {
@@ -72,7 +72,7 @@ public class NursingItemController extends BaseController {
   /**
    * 获取护理项目详细信息
    */
-  @PreAuthorize("@ss.hasPermi('nursing:item:query')")
+  @PreAuthorize("@ss.hasPermi('serve:project:query')")
   @GetMapping(value = "/{id:\\d+}")
   public AjaxResult getInfo(@PathVariable("id") Long id) {
     return success(nursingItemService.selectNursingItemById(id));
@@ -81,7 +81,7 @@ public class NursingItemController extends BaseController {
   /**
    * 新增护理项目
    */
-  @PreAuthorize("@ss.hasPermi('nursing:item:add')")
+  @PreAuthorize("@ss.hasPermi('serve:project:add')")
   @Log(title = "护理项目", businessType = BusinessType.INSERT)
   @PostMapping
   public AjaxResult add(@RequestBody NursingItem nursingItem) {
@@ -91,7 +91,7 @@ public class NursingItemController extends BaseController {
   /**
    * 修改护理项目
    */
-  @PreAuthorize("@ss.hasPermi('nursing:item:edit')")
+  @PreAuthorize("@ss.hasPermi('serve:project:edit')")
   @Log(title = "护理项目", businessType = BusinessType.UPDATE)
   @PutMapping
   public AjaxResult edit(@RequestBody NursingItem nursingItem) {
@@ -101,7 +101,7 @@ public class NursingItemController extends BaseController {
   /**
    * 删除护理项目
    */
-  @PreAuthorize("@ss.hasPermi('nursing:item:remove')")
+  @PreAuthorize("@ss.hasPermi('serve:project:remove')")
   @Log(title = "护理项目", businessType = BusinessType.DELETE)
   @DeleteMapping("/{ids:\\d+}")
   public AjaxResult remove(@PathVariable Long[] ids) {
