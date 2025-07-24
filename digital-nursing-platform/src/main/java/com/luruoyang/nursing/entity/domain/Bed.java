@@ -2,44 +2,45 @@ package com.luruoyang.nursing.entity.domain;
 
 import com.luruoyang.common.annotation.Excel;
 import com.luruoyang.common.core.domain.BaseEntity;
+import com.luruoyang.common.utils.SecurityUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.io.Serial;
 
 /**
  * 床位对象 bed
- * 
+ *
  * @author ruoyi
  * @date 2024-04-26
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @ApiModel("床位实体对象")
-public class Bed extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class Bed extends BaseEntity {
+  @Serial
+  private static final long serialVersionUID = 1L;
 
-    /** 床位ID */
-    @ApiModelProperty(value = "床位ID")
-    private Long id;
+  @ApiModelProperty(value = "床位ID")
+  private Long id;
 
-    /** 床位编号 */
-    @Excel(name = "床位编号")
-    @ApiModelProperty(value = "床位编号")
-    private String bedNumber;
+  @Excel(name = "床位编号")
+  @ApiModelProperty(value = "床位编号")
+  private String bedNumber;
 
-    /** 床位状态: 未入住0, 已入住1 入住申请中2 */
-    @Excel(name = "床位状态: 未入住0, 已入住1 入住申请中2")
-    @ApiModelProperty(value = "床位状态: 未入住0, 已入住1 入住申请中2")
-    private Integer bedStatus;
+  @Excel(name = "床位状态: 未入住0, 已入住1 入住申请中2")
+  @ApiModelProperty(value = "床位状态: 未入住0, 已入住1 入住申请中2")
+  private Integer bedStatus;
 
-    /** 床位号 */
-    @Excel(name = "床位号")
-    @ApiModelProperty(value = "床位号")
-    private Long sort;
+  @Excel(name = "床位号")
+  @ApiModelProperty(value = "床位号")
+  private Integer sort;
 
-    /** 房间ID */
-    @Excel(name = "房间ID")
-    @ApiModelProperty(value = "房间ID")
-    private Long roomId;
+
+  @Excel(name = "房间ID")
+  @ApiModelProperty(value = "房间ID")
+  private Long roomId;
 
 }

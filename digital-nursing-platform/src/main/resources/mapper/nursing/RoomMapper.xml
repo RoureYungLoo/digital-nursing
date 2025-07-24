@@ -176,4 +176,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="getRoomFloorPriceById" resultType="com.luruoyang.nursing.entity.vo.RoomVo"
+            parameterType="java.lang.Long">
+        select f.name floorName, f.id floorId, r.id roomId, r.code, rt.price
+        from room r
+                 left join room_type rt on r.type_name = rt.name
+                 left join floor f on r.floor_id = f.id
+        where r.id = #{roomId}
+    </select>
 </mapper>

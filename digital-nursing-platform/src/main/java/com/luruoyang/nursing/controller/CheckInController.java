@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.luruoyang.common.core.domain.R;
+import com.luruoyang.nursing.entity.dto.CheckInApplyDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,7 +22,7 @@ import com.luruoyang.common.annotation.Log;
 import com.luruoyang.common.core.controller.BaseController;
 import com.luruoyang.common.core.domain.AjaxResult;
 import com.luruoyang.common.enums.BusinessType;
-import com.luruoyang.nursing.domain.CheckIn;
+import com.luruoyang.nursing.entity.domain.CheckIn;
 import com.luruoyang.nursing.service.ICheckInService;
 import com.luruoyang.common.utils.poi.ExcelUtil;
 import com.luruoyang.common.core.page.TableDataInfo;
@@ -33,18 +34,18 @@ import com.luruoyang.common.core.page.TableDataInfo;
  * @date 2025-07-23
  */
 @RestController
-@RequestMapping("/nursing/CheckIn")
+@RequestMapping("/nursing/checkIn")
 @Api(tags = "入住相关接口")
 public class CheckInController extends BaseController {
   @Autowired
   private ICheckInService checkInService;
 
-/**
- * 查询入住列表
- */
-@PreAuthorize("@ss.hasPermi('nursing:CheckIn:list')")
-@GetMapping("/list")
-@ApiOperation("查询入住列表")
+  /**
+   * 查询入住列表
+   */
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:list')")
+  @GetMapping("/list")
+  @ApiOperation("查询入住列表")
   public TableDataInfo<List<CheckIn>> list(CheckIn checkIn) {
     startPage();
     List<CheckIn> list = checkInService.selectCheckInList(checkIn);
@@ -54,30 +55,30 @@ public class CheckInController extends BaseController {
   /**
    * 导出入住列表
    */
-  @PreAuthorize("@ss.hasPermi('nursing:CheckIn:export')")
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:export')")
   @Log(title = "入住", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
   @ApiOperation("导出入住列表")
   public void export(HttpServletResponse response, CheckIn checkIn) {
     List<CheckIn> list = checkInService.selectCheckInList(checkIn);
-    ExcelUtil<CheckIn> util = new ExcelUtil<CheckIn>(CheckIn. class);
+    ExcelUtil<CheckIn> util = new ExcelUtil<CheckIn>(CheckIn.class);
     util.exportExcel(response, list, "入住数据");
   }
 
   /**
    * 获取入住详细信息
    */
-  @PreAuthorize("@ss.hasPermi('nursing:CheckIn:query')")
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:query')")
   @GetMapping(value = "/{id}")
   @ApiOperation("获取入住详细信息")
-      public R<CheckIn> getInfo(@ApiParam(value = "入住ID", required = true) @PathVariable("id") Long id) {
-        return R.ok(checkInService.selectCheckInById(id));
+  public R<CheckIn> getInfo(@ApiParam(value = "入住ID", required = true) @PathVariable("id") Long id) {
+    return R.ok(checkInService.selectCheckInById(id));
   }
 
   /**
    * 新增入住
    */
-  @PreAuthorize("@ss.hasPermi('nursing:CheckIn:add')")
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:add')")
   @Log(title = "入住", businessType = BusinessType.INSERT)
   @PostMapping
   @ApiOperation("新增入住")
@@ -88,7 +89,7 @@ public class CheckInController extends BaseController {
   /**
    * 修改入住
    */
-  @PreAuthorize("@ss.hasPermi('nursing:CheckIn:edit')")
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:edit')")
   @Log(title = "入住", businessType = BusinessType.UPDATE)
   @PutMapping
   @ApiOperation("修改入住")
@@ -99,11 +100,22 @@ public class CheckInController extends BaseController {
   /**
    * 删除入住
    */
-  @PreAuthorize("@ss.hasPermi('nursing:CheckIn:remove')")
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:remove')")
   @Log(title = "入住", businessType = BusinessType.DELETE)
   @DeleteMapping("/{ids}")
   @ApiOperation("删除入住")
   public AjaxResult remove(@PathVariable Long[] ids) {
     return toAjax(checkInService.deleteCheckInByIds(ids));
+  }
+
+  /**
+   * 入住申请
+   */
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:remove')")
+  @Log(title = "入住", businessType = BusinessType.DELETE)
+  @DeleteMapping("/apply")
+  @ApiOperation("删除入住")
+  public AjaxResult checkInApply(@RequestBody CheckInApplyDto dto) {
+    return toAjax(checkInService.checkInApply(dto));
   }
 }

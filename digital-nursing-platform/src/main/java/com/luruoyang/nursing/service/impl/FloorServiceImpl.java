@@ -2,12 +2,14 @@ package com.luruoyang.nursing.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luruoyang.nursing.entity.domain.Floor;
+import com.luruoyang.nursing.entity.vo.TreeVo;
 import com.luruoyang.nursing.mapper.FloorMapper;
 import com.luruoyang.nursing.service.IFloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 楼层Service业务层处理
@@ -79,6 +81,16 @@ public class FloorServiceImpl extends ServiceImpl<FloorMapper, Floor> implements
     public int deleteFloorById(Long id)
     {
         return removeById(id) ? 1 : 0;
+    }
+
+    /**
+     *
+     * @param status 床位状态
+     * @return 菜单列表
+     */
+    @Override
+    public List<TreeVo> getAllRoomByStatus(int status) {
+        return floorMapper.getAllRoomByStatus(status);
     }
 
 }

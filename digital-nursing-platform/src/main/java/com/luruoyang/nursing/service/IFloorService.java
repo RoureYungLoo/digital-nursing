@@ -2,6 +2,7 @@ package com.luruoyang.nursing.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luruoyang.nursing.entity.domain.Floor;
+import com.luruoyang.nursing.entity.vo.TreeVo;
 
 import java.util.List;
 
@@ -53,4 +54,5 @@ public interface IFloorService extends IService<Floor>
      */
     public int deleteFloorById(Long id);
 
+  List<TreeVo> getAllRoomByStatus(int status);
 }

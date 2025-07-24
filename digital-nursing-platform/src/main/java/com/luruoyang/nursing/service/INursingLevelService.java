@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luruoyang.nursing.entity.domain.NursingLevel;
+import com.luruoyang.nursing.entity.vo.NursingLevelVo;
 
 /**
  * 护理等级Service接口
@@ -26,7 +27,7 @@ public interface INursingLevelService extends IService<NursingLevel> {
    * @param nursingLevel 护理等级
    * @return 护理等级集合
    */
-  public List<NursingLevel> selectNursingLevelList(NursingLevel nursingLevel);
+  public List<NursingLevelVo> selectNursingLevelList(NursingLevel nursingLevel);
 
   /**
    * 新增护理等级
@@ -59,4 +60,6 @@ public interface INursingLevelService extends IService<NursingLevel> {
    * @return 结果
    */
   public int deleteNursingLevelById(Integer id);
+
+  List<NursingLevel> findAll();
 }

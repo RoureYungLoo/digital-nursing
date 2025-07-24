@@ -3,7 +3,7 @@ package com.luruoyang.nursing.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.luruoyang.nursing.domain.CheckInConfig;
+import com.luruoyang.nursing.entity.domain.CheckInConfig;
 
 /**
  * 入住配置Service接口

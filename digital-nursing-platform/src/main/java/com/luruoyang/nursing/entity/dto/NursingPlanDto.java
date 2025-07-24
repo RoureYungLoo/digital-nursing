@@ -17,5 +17,5 @@ public class NursingPlanDto extends NursingPlan {
   /**
    * 护理项目关联护理计划
    */
-  List<NursingItemPlan> nursingItemPlanList;
+  List<NursingItemPlan> nursingPlanList;
 }

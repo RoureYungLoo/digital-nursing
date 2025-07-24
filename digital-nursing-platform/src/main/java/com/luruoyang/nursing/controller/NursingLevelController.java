@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.luruoyang.common.core.domain.R;
+import com.luruoyang.nursing.entity.vo.NursingLevelVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -39,16 +40,27 @@ public class NursingLevelController extends BaseController {
   @Autowired
   private INursingLevelService nursingLevelService;
 
-/**
- * 查询护理等级列表
- */
-@PreAuthorize("@ss.hasPermi('serve:level:list')")
-@GetMapping("/list")
-@ApiOperation("查询护理等级列表")
-  public TableDataInfo<List<NursingLevel>> list(NursingLevel nursingLevel) {
+  /**
+   * 查询护理等级列表
+   */
+  @PreAuthorize("@ss.hasPermi('serve:level:list')")
+  @GetMapping({"/list"})
+  @ApiOperation("查询护理等级列表")
+  public TableDataInfo<List<NursingLevelVo>> list(NursingLevel nursingLevel) {
     startPage();
-    List<NursingLevel> list = nursingLevelService.selectNursingLevelList(nursingLevel);
+    List<NursingLevelVo> list = nursingLevelService.selectNursingLevelList(nursingLevel);
     return getDataTable(list);
+  }
+
+  /**
+   * 查询所有护理等级
+   */
+  @PreAuthorize("@ss.hasPermi('serve:level:list')")
+  @GetMapping({"all"})
+  @ApiOperation("查询护理等级列表")
+  public R<List<NursingLevel>> findAll() {
+    List<NursingLevel> list = nursingLevelService.findAll();
+    return R.ok(list);
   }
 
   /**
@@ -59,8 +71,8 @@ public class NursingLevelController extends BaseController {
   @PostMapping("/export")
   @ApiOperation("导出护理等级列表")
   public void export(HttpServletResponse response, NursingLevel nursingLevel) {
-    List<NursingLevel> list = nursingLevelService.selectNursingLevelList(nursingLevel);
-    ExcelUtil<NursingLevel> util = new ExcelUtil<NursingLevel>(NursingLevel. class);
+    List<NursingLevelVo> list = nursingLevelService.selectNursingLevelList(nursingLevel);
+    ExcelUtil<NursingLevelVo> util = new ExcelUtil<>(NursingLevelVo.class);
     util.exportExcel(response, list, "护理等级数据");
   }
 
@@ -68,10 +80,10 @@ public class NursingLevelController extends BaseController {
    * 获取护理等级详细信息
    */
   @PreAuthorize("@ss.hasPermi('serve:level:query')")
-  @GetMapping(value = "/{id}")
+  @GetMapping(value = "/{id:\\d+}")
   @ApiOperation("获取护理等级详细信息")
-      public R<NursingLevel> getInfo(@ApiParam(value = "护理等级ID", required = true) @PathVariable("id") Integer id) {
-        return R.ok(nursingLevelService.selectNursingLevelById(id));
+  public R<NursingLevel> getInfo(@ApiParam(value = "护理等级ID", required = true) @PathVariable("id") Integer id) {
+    return R.ok(nursingLevelService.selectNursingLevelById(id));
   }
 
   /**
@@ -101,7 +113,7 @@ public class NursingLevelController extends BaseController {
    */
   @PreAuthorize("@ss.hasPermi('serve:level:remove')")
   @Log(title = "护理等级", businessType = BusinessType.DELETE)
-  @DeleteMapping("/{ids}")
+  @DeleteMapping("/{ids:\\d+}")
   @ApiOperation("删除护理等级")
   public AjaxResult remove(@PathVariable Integer[] ids) {
     return toAjax(nursingLevelService.deleteNursingLevelByIds(ids));

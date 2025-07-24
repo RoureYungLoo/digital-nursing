@@ -99,7 +99,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
 
     // 护理计划 护理项目关联表
     boolean savedBatch = false;
-    List<NursingItemPlan> itemPlanList = nursingPlanDto.getNursingItemPlanList();
+    List<NursingItemPlan> itemPlanList = nursingPlanDto.getNursingPlanList();
     if (CollectionUtils.isNotEmpty(itemPlanList)) {
       itemPlanList.forEach(i -> i.setPlanId(nursingPlan.getId()));
       savedBatch = nursingItemPlanService.saveBatch(itemPlanList);
@@ -166,9 +166,9 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
     // 护理计划 - 护理项目 关联表
     LambdaUpdateWrapper<NursingItemPlan> wrapper = Wrappers.lambdaUpdate();
     wrapper.in(NursingItemPlan::getPlanId, planIds);
-    boolean removed = nursingItemPlanService.remove(wrapper);
+    nursingItemPlanService.remove(wrapper);
 
-    return removed ? 1 : 0;
+    return 1;
   }
 
   /**
