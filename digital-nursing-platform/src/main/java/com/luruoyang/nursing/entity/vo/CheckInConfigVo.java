@@ -1,4 +1,4 @@
-package com.luruoyang.nursing.entity.dto;
+package com.luruoyang.nursing.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.luruoyang.nursing.entity.domain.CheckInConfig;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CheckInConfigDto extends CheckInConfig {
+public class CheckInConfigVo extends CheckInConfig {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime startDate;
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

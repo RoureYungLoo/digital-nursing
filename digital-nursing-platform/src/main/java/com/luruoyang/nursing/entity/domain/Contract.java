@@ -59,12 +59,12 @@ public class Contract extends BaseEntity {
   @ApiModelProperty(value = "老人姓名")
   private String elderName;
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "开始时间")
   private LocalDate startDate;
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "结束时间")
   private LocalDate endDate;
@@ -73,7 +73,7 @@ public class Contract extends BaseEntity {
   @ApiModelProperty(value = "状态 (0: 未生效, 1: 已生效, 2: 已过期, 3: 已失效)")
   private Integer status;
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   @Excel(name = "签约日期", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "签约日期")
   private LocalDate signDate;
@@ -82,7 +82,7 @@ public class Contract extends BaseEntity {
   @ApiModelProperty(value = "解除提交人")
   private String terminationSubmitter;
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   @Excel(name = "解除日期", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "解除日期")
   private LocalDate terminationDate;

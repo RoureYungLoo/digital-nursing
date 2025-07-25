@@ -15,10 +15,9 @@ import java.util.Objects;
 @Configuration
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
-
   @Override
   public void insertFill(MetaObject metaObject) {
-    strictInsertFill(metaObject, "createTime", Date.class, new Date());
+    strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
     strictInsertFill(metaObject, "createBy", String.class, String.valueOf(getLoginUserId()));
   }
 
@@ -26,7 +25,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
   public void updateFill(MetaObject metaObject) {
     // strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
     // strictUpdateFill(metaObject, "updateBy", String.class, String.valueOf(getLoginUserId()));
-    this.setFieldValByName("updateTime", new Date(), metaObject);
+    this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
     this.setFieldValByName("updateBy", String.valueOf(getLoginUserId()), metaObject);
   }
 

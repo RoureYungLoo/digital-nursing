@@ -2,6 +2,7 @@ package com.luruoyang.common.core.domain;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class BaseEntity implements Serializable {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @ApiModelProperty("创建时间")
   @TableField(fill = FieldFill.INSERT)
-  private Date createTime;
+  private LocalDateTime createTime;
 
   /**
    * 更新者
@@ -61,7 +62,7 @@ public class BaseEntity implements Serializable {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @ApiModelProperty("更新时间")
   @TableField(fill = FieldFill.UPDATE)
-  private Date updateTime;
+  private LocalDateTime updateTime;
 
   /**
    * 备注

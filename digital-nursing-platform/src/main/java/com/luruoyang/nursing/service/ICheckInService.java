@@ -5,6 +5,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luruoyang.nursing.entity.domain.CheckIn;
 import com.luruoyang.nursing.entity.dto.CheckInApplyDto;
+import com.luruoyang.nursing.entity.vo.CheckInApplyVo;
 
 /**
  * 入住Service接口
@@ -63,8 +64,10 @@ public interface ICheckInService extends IService<CheckIn> {
 
   /**
    * 申请入住
-   * @param dto
-   * @return
+   * @param dto 入住信息
+   * @return 结果
    */
   int checkInApply(CheckInApplyDto dto);
+
+  CheckInApplyVo getCheckInDetailById(Long checkInId);
 }

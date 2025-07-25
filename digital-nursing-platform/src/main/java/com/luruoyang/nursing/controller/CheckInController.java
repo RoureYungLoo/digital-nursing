@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.luruoyang.common.core.domain.R;
 import com.luruoyang.nursing.entity.dto.CheckInApplyDto;
+import com.luruoyang.nursing.entity.vo.CheckInApplyVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -111,11 +112,24 @@ public class CheckInController extends BaseController {
   /**
    * 入住申请
    */
-  @PreAuthorize("@ss.hasPermi('nursing:checkIn:remove')")
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:add')")
   @Log(title = "入住", businessType = BusinessType.DELETE)
-  @DeleteMapping("/apply")
-  @ApiOperation("删除入住")
+  @PostMapping("/apply")
+  @ApiOperation("申请入住")
   public AjaxResult checkInApply(@RequestBody CheckInApplyDto dto) {
     return toAjax(checkInService.checkInApply(dto));
   }
+
+  /**
+   * 查询入住详情
+   */
+  @PreAuthorize("@ss.hasPermi('nursing:checkIn:add')")
+  @Log(title = "入住", businessType = BusinessType.DELETE)
+  @GetMapping("/detail/{checkInId}")
+  @ApiOperation("申请入住")
+  public R<CheckInApplyVo> getCheckInDetailById(@PathVariable Long checkInId) {
+    CheckInApplyVo vo = checkInService.getCheckInDetailById(checkInId);
+    return R.ok(vo);
+  }
+
 }

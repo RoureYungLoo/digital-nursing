@@ -41,12 +41,12 @@ public class CheckIn extends BaseEntity {
   @ApiModelProperty(value = "身份证号")
   private String idCardNo;
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   @Excel(name = "入住开始时间", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "入住开始时间")
   private LocalDate startDate;
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   @Excel(name = "入住结束时间", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "入住结束时间")
   private LocalDate endDate;

@@ -2,6 +2,7 @@ package com.luruoyang.nursing.entity.domain;
 
 import java.io.Serial;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -44,12 +45,12 @@ public class CheckInConfig extends BaseEntity {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @Excel(name = "费用开始时间", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "费用开始时间")
-  protected Date feeStartDate;
+  protected LocalDateTime feeStartDate;
 
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @Excel(name = "费用结束时间", width = 30, dateFormat = "yyyy-MM-dd")
   @ApiModelProperty(value = "费用结束时间")
-  protected Date feeEndDate;
+  protected LocalDateTime feeEndDate;
 
   @Excel(name = "押金", readConverterExp = "元=")
   @ApiModelProperty(value = "押金")
