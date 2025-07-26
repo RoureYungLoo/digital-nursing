@@ -45,6 +45,10 @@
         <activation.version>1.1.1</activation.version>
         <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
         <hutool-all.version>5.8.10</hutool-all.version>
+        <openai-java.version>2.19.1</openai-java.version>
+        <jackson-bom.version>2.18.1</jackson-bom.version>
+
+
     </properties>
 
     <!-- 依赖声明 -->
@@ -74,6 +78,20 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson</groupId>
+                        <artifactId>jackson-bom</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -270,6 +288,12 @@
                 <version>${digital-nursing.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.luruoyang</groupId>
+                <artifactId>digital-nursing-qianfan</artifactId>
+                <version>${digital-nursing.version}</version>
+            </dependency>
+
             <!-- Lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -317,6 +341,13 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool-all.version}</version>
             </dependency>
+            <!-- OpenAI -->
+            <dependency>
+                <groupId>com.openai</groupId>
+                <artifactId>openai-java-spring-boot-starter</artifactId>
+                <version>${openai-java.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -329,6 +360,7 @@
         <module>digital-nursing-common</module>
         <module>digital-nursing-platform</module>
         <module>digital-nursing-aliyun</module>
+        <module>digital-nursing-qianfan</module>
     </modules>
     <packaging>pom</packaging>
 
