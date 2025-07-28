@@ -13,15 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+/**
+ * @author luruoyang
+ */
 @Component
 @Slf4j
 public class OssUtils {
@@ -80,11 +82,10 @@ public class OssUtils {
       ossClient.deleteObject(aliOssProperties.getBucketName(), objectName);
     } catch (OSSException oe) {
       log.error("{}", oe.getMessage());
-      log.error("{}", oe);
       throw oe;
     } finally {
       res = true;
-      log.info("删除成功 bucket: {} {}");
+      log.info("删除成功 bucket: {} {}", aliOssProperties.getBucketName(), filename);
       ossClient.shutdown();
     }
     return res;
@@ -92,23 +93,16 @@ public class OssUtils {
 
   public void download(String filename, HttpServletResponse response) {
     String fname = null;
-    try {
-      fname = URLEncoder.encode(filename, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    fname = URLEncoder.encode(filename, StandardCharsets.UTF_8);
     response.setContentType("application/octet-stream");
-
     response.setHeader("Content-Disposition", "attachment;filename=" + fname);
 
     try {
       // 获取OSS文件对象
-
       String objectName = getDirsByFileName(filename) + filename;
-
       OSS ossClient = getOssClient();
       OSSObject object = ossClient.getObject(aliOssProperties.getBucketName(), objectName);
+
       try (InputStream inputStream = object.getObjectContent();
            OutputStream outputStream = response.getOutputStream()) {
         byte[] buffer = new byte[1024];

@@ -1,8 +1,7 @@
-package com.luruoyang.nursing.util;
+package com.luruoyang.nursing.utils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**

@@ -144,3 +144,9 @@ aliyun:
     region: ${OSS_REGION}
     access-key-id: ${OSS_ACCESS_KEY_ID}
     access-key-secret: ${OSS_ACCESS_KEY_SECRET}
+
+baidu:
+  qianfan:
+    api-key: ${BAIDU_QIANFAN_API_KEY}
+    base-url: https://qianfan.baidubce.com/v2/
+    model: ernie-4.5-turbo-128k

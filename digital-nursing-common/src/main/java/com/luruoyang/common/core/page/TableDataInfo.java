@@ -61,7 +61,7 @@ public class TableDataInfo<T> implements Serializable
         this.total = total;
     }
 
-    public List<?> getRows()
+    public List<T> getRows()
     {
         return rows;
     }

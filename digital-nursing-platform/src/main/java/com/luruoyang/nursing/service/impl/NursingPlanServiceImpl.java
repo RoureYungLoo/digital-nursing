@@ -2,23 +2,25 @@ package com.luruoyang.nursing.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.luruoyang.nursing.constants.RedisKey;
 import com.luruoyang.nursing.entity.domain.NursingItemPlan;
 import com.luruoyang.nursing.entity.dto.NursingPlanDto;
 import com.luruoyang.nursing.entity.vo.NursingItemPlanVo;
-import com.luruoyang.nursing.entity.vo.NursingItemVo;
 import com.luruoyang.nursing.entity.vo.NursingPlanVo;
 import com.luruoyang.nursing.service.INursingItemPlanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luruoyang.nursing.mapper.NursingPlanMapper;
@@ -40,6 +42,9 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
   @Autowired
   private INursingItemPlanService nursingItemPlanService;
 
+  @Autowired
+  private RedisTemplate<Object, Object> redisTemplate;
+
   /**
    * 查询护理计划
    *
@@ -48,9 +53,18 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
    */
   @Override
   public NursingPlanVo selectNursingPlanById(Integer id) {
+    ValueOperations<Object, Object> cache = redisTemplate.opsForValue();
+    NursingPlanVo nursingPlanVo = (NursingPlanVo) cache.get(RedisKey.NURSING_PLAN_ + id);
+    if (Objects.nonNull(nursingPlanVo)) {
+      log.info("查询护理计划 命中缓存 {}", RedisKey.NURSING_PLAN_ + id);
+      return nursingPlanVo;
+    }
+
+    log.info("查询护理计划 未命中缓存 {}", RedisKey.NURSING_PLAN_ + id);
+
     // 护理计划
     NursingPlan nursingPlan = this.getById(id);
-    NursingPlanVo nursingPlanVo = new NursingPlanVo();
+    nursingPlanVo = new NursingPlanVo();
     BeanUtils.copyProperties(nursingPlan, nursingPlanVo);
 
     // 护理项目-护理计划关联表
@@ -67,6 +81,9 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
       }
     }).collect(Collectors.toList());
     nursingPlanVo.setNursingPlanList(nursingItemPlanVoList);
+
+    cache.set(RedisKey.NURSING_PLAN_ + id, nursingPlanVo);
+    log.info("查询护理计划 添加缓存 {}", RedisKey.NURSING_PLAN_ + id);
 
     return nursingPlanVo;
   }
@@ -97,6 +114,10 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
       log.error("insertNursingPlan fail!");
     }
 
+    redisTemplate.delete(RedisKey.NURSING_PLAN_ALL);
+    log.info("新增护理计划 删除缓存 {}", RedisKey.NURSING_PLAN_ALL);
+
+
     // 护理计划 护理项目关联表
     boolean savedBatch = false;
     List<NursingItemPlan> itemPlanList = nursingPlanDto.getNursingPlanList();
@@ -119,8 +140,12 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
     NursingPlan nursingPlan = new NursingPlan();
     BeanUtils.copyProperties(nursingPlanVo, nursingPlan);
     boolean updateById = this.updateById(nursingPlan);
-    if (!updateById) {
-      log.error("updateById(nursingPlan) failed");
+    if (updateById) {
+      redisTemplate.delete(RedisKey.NURSING_PLAN_ALL);
+      redisTemplate.delete(RedisKey.NURSING_PLAN_ + planId);
+      log.error("updateById(nursingPlan) success");
+      log.info("修改护理计划 删除缓存 {}", RedisKey.NURSING_PLAN_ALL);
+      log.info("修改护理计划 删除缓存 {}", RedisKey.NURSING_PLAN_ + planId);
     }
 
     List<NursingItemPlanVo> itemPlanVoList = nursingPlanVo.getNursingPlanList();
@@ -161,7 +186,14 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
   public int deleteNursingPlanByIds(Integer[] ids) {
     // 护理计划表
     List<Integer> planIds = Arrays.asList(ids);
-    this.removeBatchByIds(planIds);
+    if (this.removeBatchByIds(planIds)) {
+      redisTemplate.delete(RedisKey.NURSING_PLAN_ALL);
+      log.info("批量删除护理计划 删除缓存 {}", RedisKey.NURSING_PLAN_ALL);
+      for (Integer id : ids) {
+        redisTemplate.delete(RedisKey.NURSING_PLAN_ + id);
+        log.info("批量删除护理计划 删除缓存 {}", RedisKey.NURSING_PLAN_ + id);
+      }
+    }
 
     // 护理计划 - 护理项目 关联表
     LambdaUpdateWrapper<NursingItemPlan> wrapper = Wrappers.lambdaUpdate();
@@ -179,7 +211,14 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
    */
   @Override
   public int deleteNursingPlanById(Integer id) {
-    return this.removeById(id) ? 1 : 0;
+    if (this.removeById(id)) {
+      redisTemplate.delete(RedisKey.NURSING_PLAN_ALL);
+      redisTemplate.delete(RedisKey.NURSING_PLAN_ + id);
+      log.info("删除护理计划信息 删除缓存 {}", RedisKey.NURSING_PLAN_ALL);
+      log.info("删除护理计划信息 删除缓存 {}", RedisKey.NURSING_PLAN_ + id);
+      return 1;
+    }
+    return 0;
   }
 
   /**
@@ -187,14 +226,27 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
    */
   @Override
   public List<NursingPlanVo> findAll() {
+    ValueOperations<Object, Object> cache = redisTemplate.opsForValue();
+
+    List<NursingPlanVo> planVoList = (List<NursingPlanVo>) cache.get(RedisKey.NURSING_PLAN_ALL);
+    if (CollectionUtils.isNotEmpty(planVoList)) {
+      log.info("查询护理计划ALL 命中缓存 {}", RedisKey.NURSING_PLAN_ALL);
+      return planVoList;
+    }
+
+    log.info("查询护理计划ALL 未命中缓存 {}", RedisKey.NURSING_PLAN_ALL);
+
     LambdaQueryWrapper<NursingPlan> wrapper = Wrappers.lambdaQuery();
     wrapper.eq(NursingPlan::getStatus, 1);
     List<NursingPlan> list = this.list(wrapper);
-    List<NursingPlanVo> planVoList = list.stream().map(i -> {
+    planVoList = list.stream().map(i -> {
       NursingPlanVo vo = new NursingPlanVo();
       BeanUtils.copyProperties(i, vo);
       return vo;
     }).collect(Collectors.toList());
+
+    cache.set(RedisKey.NURSING_PLAN_ALL, planVoList);
+    log.info("查询护理计划ALL 添加缓存 {}", RedisKey.NURSING_PLAN_ALL);
 
     return planVoList;
   }

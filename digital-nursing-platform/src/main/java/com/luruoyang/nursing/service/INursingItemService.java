@@ -61,5 +61,5 @@ public interface INursingItemService extends IService<NursingItem> {
    */
   public int deleteNursingItemById(Long id);
 
-  List<NursingItemVo> findAll();
+  public List<NursingItemVo> findAll();
 }

@@ -18,11 +18,12 @@
     <dependencies>
 
         <!-- spring-boot-devtools -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional> &lt;!&ndash; 表示依赖不会传递 &ndash;&gt;
-        </dependency>-->
+            <optional>true</optional> <!-- 表示依赖不会传递 -->
+        </dependency>
+
 
         <!-- swagger3-->
         <dependency>
@@ -42,7 +43,7 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
 
-         <!-- Mysql驱动包 -->
+        <!-- Mysql驱动包 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -74,6 +75,11 @@
             <groupId>com.luruoyang</groupId>
             <artifactId>digital-nursing-aliyun</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.luruoyang</groupId>
+            <artifactId>digital-nursing-qianfan</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -93,15 +99,15 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>   
-                <groupId>org.apache.maven.plugins</groupId>   
-                <artifactId>maven-war-plugin</artifactId>   
-                <version>3.1.0</version>   
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>${project.artifactId}</warName>
-                </configuration>   
-           </plugin>   
+                </configuration>
+            </plugin>
         </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>

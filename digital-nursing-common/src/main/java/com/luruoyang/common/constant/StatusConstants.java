@@ -41,13 +41,13 @@ public class StatusConstants {
    * 3 已失效
    */
   @ApiModelProperty("未生效")
-  public static final Integer PENDING = 0;
+  public static final Integer CONTRACT_PENDING = 0;
   @ApiModelProperty("已生效")
-  public static final Integer ACTIVE = 1;
+  public static final Integer CONTRACT_ACTIVE = 1;
   @ApiModelProperty("已过期")
-  public static final Integer EXPIRED = 2;
+  public static final Integer CONTRACT_EXPIRED = 2;
   @ApiModelProperty("已失效")
-  public static final Integer INVALID = 3;
+  public static final Integer CONTRACT_INVALID = 3;
 
   /**
    * 老人状态
@@ -67,4 +67,20 @@ public class StatusConstants {
   public static final Integer ELDER_CHECKING_IN = 4;
   public static final Integer ELDER_CHECKED_OUT = 5;
   public static final Integer ELDER_CHECKED_IN = 6;
+
+  /**
+   * 入住建议
+   * 0 建议入住
+   * 1 不建议入住
+   */
+  public static final Integer ADMISSION_PASS = 0;
+  public static final Integer ADMISSION_NOT_PASS = 1;
+
+  /**
+   * 入住情况
+   * 0 已入住
+   * 1 未入住
+   */
+  public static final Integer ADMISSION_CHECKED_IN = 0;
+  public static final Integer ADMISSION_NOT_CHECKED_IN = 1;
 }

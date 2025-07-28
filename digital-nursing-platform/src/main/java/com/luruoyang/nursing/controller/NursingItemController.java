@@ -41,7 +41,7 @@ public class NursingItemController extends BaseController {
    */
   @PreAuthorize("@ss.hasPermi('serve:project:list')")
   @GetMapping("/list")
-  public TableDataInfo list(NursingItem nursingItem) {
+  public TableDataInfo<NursingItem> list(NursingItem nursingItem) {
     startPage();
     List<NursingItem> list = nursingItemService.selectNursingItemList(nursingItem);
     return getDataTable(list);

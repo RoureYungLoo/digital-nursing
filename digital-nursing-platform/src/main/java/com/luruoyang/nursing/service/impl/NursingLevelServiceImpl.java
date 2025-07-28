@@ -1,7 +1,6 @@
 package com.luruoyang.nursing.service.impl;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +9,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.luruoyang.common.constant.StatusConstants;
 import com.luruoyang.nursing.entity.vo.NursingLevelVo;
-import com.luruoyang.nursing.entity.RedisKey;
+import com.luruoyang.nursing.constants.RedisKey;
 import com.luruoyang.nursing.service.INursingPlanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -52,13 +51,15 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
     ValueOperations<Object, Object> cache = redisTemplate.opsForValue();
     NursingLevel nursingLevel = (NursingLevel) cache.get(RedisKey.NURSING_LEVEL_ + id);
     if (Objects.nonNull(nursingLevel)) {
-      log.info("---------> cache hit");
+      log.info("Hit {} Cache", RedisKey.NURSING_LEVEL_ + id);
       return nursingLevel;
     }
 
-    log.info("---------> cache not hit");
+    log.info("Not Hit {} Cache", RedisKey.NURSING_LEVEL_ + id);
     nursingLevel = this.getById(id);
     cache.set(RedisKey.NURSING_LEVEL_ + id, nursingLevel);
+    log.info("Set Hit {} Cache", RedisKey.NURSING_LEVEL_ + id);
+
     return nursingLevel;
   }
 
@@ -73,7 +74,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
 //    ValueOperations<Object, Object> cache = redisTemplate.opsForValue();
 //    List<NursingLevelVo> voList = null;
 //    try {
-//      voList = (List<NursingLevelVo>) cache.get(RedisKey.NURSING_LEVEL_LIST);
+//      voList = (List<NursingLevelVo>) cache.get(RedisKey.NURSING_LEVEL_ALL);
 //    } catch (Exception e) {
 //      throw new RuntimeException(e);
 //    }
@@ -90,7 +91,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
       vo.setPlanName(nursingPlanService.getById(i.getLplanId()).getPlanName());
       return vo;
     }).toList();
-//    cache.set(RedisKey.NURSING_LEVEL_LIST, voList);
+//    cache.set(RedisKey.NURSING_LEVEL_ALL, voList);
 
     return voList;
   }
@@ -104,11 +105,12 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
   @Override
   public int insertNursingLevel(NursingLevel nursingLevel) {
     if (this.save(nursingLevel)) {
-      redisTemplate.delete(RedisKey.NURSING_LEVEL_LIST);
+      redisTemplate.delete(RedisKey.NURSING_LEVEL_ALL);
+      log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ALL);
+      redisTemplate.opsForValue().set(RedisKey.NURSING_LEVEL_ + nursingLevel.getId(), nursingLevel);
+      log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ALL);
       return 1;
     }
-    log.warn("----------> insertNursingLevel failed");
-
     return 0;
   }
 
@@ -121,11 +123,12 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
   @Override
   public int updateNursingLevel(NursingLevel nursingLevel) {
     if (this.updateById(nursingLevel)) {
-      redisTemplate.delete(RedisKey.NURSING_LEVEL_LIST);
+      redisTemplate.delete(RedisKey.NURSING_LEVEL_ALL);
+      log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ALL);
+      redisTemplate.delete(RedisKey.NURSING_LEVEL_ + nursingLevel.getId());
+      log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ + nursingLevel.getId());
       return 1;
     }
-    log.warn("----------> updateNursingLevel failed");
-
     return 0;
   }
 
@@ -138,12 +141,14 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
   @Override
   public int deleteNursingLevelByIds(Integer[] ids) {
     if (this.removeByIds(Arrays.asList(ids))) {
-      redisTemplate.delete(RedisKey.NURSING_LEVEL_LIST);
+      redisTemplate.delete(RedisKey.NURSING_LEVEL_ALL);
+      log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ALL);
+      for (Integer id : ids) {
+        redisTemplate.delete(RedisKey.NURSING_LEVEL_ + id);
+        log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ + id);
+      }
       return 1;
     }
-
-    log.warn("----------> deleteNursingLevelByIds failed");
-
     return 0;
 
   }
@@ -157,12 +162,12 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
   @Override
   public int deleteNursingLevelById(Integer id) {
     if (this.removeById(id)) {
-      redisTemplate.delete(RedisKey.NURSING_LEVEL_LIST);
+      redisTemplate.delete(RedisKey.NURSING_LEVEL_ALL);
+      log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ALL);
+      redisTemplate.delete(RedisKey.NURSING_LEVEL_ + id);
+      log.info("Evict {} Cache", RedisKey.NURSING_LEVEL_ + id);
       return 1;
     }
-
-    log.warn("----------> deleteNursingLevelById failed");
-
     return 0;
   }
 
@@ -176,15 +181,17 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
     ValueOperations<Object, Object> cache = redisTemplate.opsForValue();
     List<NursingLevel> list = (List<NursingLevel>) cache.get(RedisKey.NURSING_LEVEL_ALL);
     if (CollectionUtils.isNotEmpty(list)) {
-      log.warn("----------> findAll cache hit ");
+      log.info("Hit {} Cache", RedisKey.NURSING_LEVEL_ALL);
       return list;
     }
 
-    log.warn("----------> findAll cache not hit ");
+    log.info("Not Hit {} Cache", RedisKey.NURSING_LEVEL_ALL);
     LambdaQueryWrapper<NursingLevel> wrapper = Wrappers.lambdaQuery();
     wrapper.eq(NursingLevel::getStatus, StatusConstants.ENABLE);
     list = this.list(wrapper);
     cache.set(RedisKey.NURSING_LEVEL_ALL, list);
+    log.info("Set {} Cache", RedisKey.NURSING_LEVEL_ALL);
+
     return list;
   }
 }

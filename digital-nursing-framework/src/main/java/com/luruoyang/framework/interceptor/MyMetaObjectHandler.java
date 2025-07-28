@@ -30,7 +30,14 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
   }
 
   private Long getLoginUserId() {
-    LoginUser user = SecurityUtils.getLoginUser();
+    LoginUser user = null;
+    try {
+      user = SecurityUtils.getLoginUser();
+    } catch (Exception e) {
+      user = new LoginUser();
+      user.setUserId(1L);
+      log.warn("获取登录用户失败");
+    }
     if (Objects.nonNull(user)) {
       Long userId = user.getUserId();
       log.warn("已登录用户的ID:{}", userId);

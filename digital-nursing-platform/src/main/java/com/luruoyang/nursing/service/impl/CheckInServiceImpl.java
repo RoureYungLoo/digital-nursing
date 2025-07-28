@@ -1,6 +1,5 @@
 package com.luruoyang.nursing.service.impl;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -20,11 +18,10 @@ import com.luruoyang.nursing.entity.domain.*;
 import com.luruoyang.nursing.entity.dto.*;
 import com.luruoyang.nursing.entity.vo.*;
 import com.luruoyang.nursing.service.*;
-import com.luruoyang.nursing.util.CodeGenerator;
+import com.luruoyang.nursing.utils.CodeGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luruoyang.nursing.mapper.CheckInMapper;
@@ -214,7 +211,7 @@ public class CheckInServiceImpl extends ServiceImpl<CheckInMapper, CheckIn> impl
     contract.setContractNumber(CodeGenerator.generateContractNumber());
     contract.setStartDate(checkIn.getStartDate());
     contract.setEndDate(checkIn.getEndDate());
-    contract.setStatus(StatusConstants.PENDING);
+    contract.setStatus(StatusConstants.CONTRACT_PENDING);
     if (!contractService.save(contract)) {
       log.warn("error =======> 入住合同 保存失败");
     }

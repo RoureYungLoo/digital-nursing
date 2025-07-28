@@ -1,0 +1,28 @@
+
+CREATE TABLE "health_assessment" (
+                                     "id" bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                     "elder_name" varchar(255) DEFAULT NULL COMMENT '老人姓名',
+                                     "id_card" varchar(255) DEFAULT NULL COMMENT '身份证号',
+                                     "birth_date" datetime DEFAULT NULL COMMENT '出生日期',
+                                     "age" int DEFAULT NULL COMMENT '年龄',
+                                     "gender" int DEFAULT NULL COMMENT '性别(0:男，1:女)',
+                                     "health_score" varchar(255) DEFAULT NULL COMMENT '健康评分',
+                                     "risk_level" varchar(255) DEFAULT NULL COMMENT '危险等级(健康, 提示, 风险, 危险, 严重危险)',
+                                     "suggestion_for_admission" int DEFAULT NULL COMMENT '是否建议入住(0:建议，1:不建议)',
+                                     "nursing_level_name" varchar(255) DEFAULT NULL COMMENT '推荐护理等级',
+                                     "admission_status" int DEFAULT NULL COMMENT '入住情况(0:已入住，1:未入住)',
+                                     "total_check_date" varchar(64) DEFAULT NULL COMMENT '总检日期',
+                                     "physical_exam_institution" varchar(255) DEFAULT NULL COMMENT '体检机构',
+                                     "physical_report_url" varchar(255) DEFAULT NULL COMMENT '体检报告URL链接',
+                                     "assessment_time" datetime DEFAULT NULL COMMENT '评估时间',
+                                     "report_summary" text COMMENT '报告总结',
+                                     "disease_risk" text COMMENT '疾病风险',
+                                     "abnormal_analysis" text COMMENT '异常分析',
+                                     "system_score" varchar(255) DEFAULT NULL COMMENT '健康系统分值',
+                                     "create_by" varchar(255) DEFAULT NULL COMMENT '创建者',
+                                     "create_time" datetime DEFAULT NULL COMMENT '创建时间',
+                                     "update_by" varchar(255) DEFAULT NULL COMMENT '更新者',
+                                     "update_time" datetime DEFAULT NULL COMMENT '更新时间',
+                                     "remark" text COMMENT '备注',
+                                     PRIMARY KEY ("id")
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='健康评估表';
