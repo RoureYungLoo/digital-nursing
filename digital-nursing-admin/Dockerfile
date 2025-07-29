@@ -13,7 +13,7 @@ COPY digital-nursing-admin.jar /app.jar
 # 创建启动脚本
 RUN echo '#!/bin/bash\n\
 if [ -f /etc/profile.d/env.sh ]; then\n\
-  source /etc/profile.d/env.sh\n\
+  bash /etc/profile.d/env.sh\n\
 fi\n\
 exec java -jar /app.jar\n' > /entrypoint.sh && chmod +x /entrypoint.sh
 
