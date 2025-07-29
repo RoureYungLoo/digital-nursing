@@ -5,7 +5,7 @@ pipeline {
     }
     tools {
         maven 'maven'
-        jdk 'jdk17'
+        jdk 'jdk11'
     }
     stages {
         stage('清除工作空间') {

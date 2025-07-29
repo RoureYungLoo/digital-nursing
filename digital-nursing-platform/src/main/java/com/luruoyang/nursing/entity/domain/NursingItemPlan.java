@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import com.luruoyang.common.core.domain.BaseEntity;
 
-import java.io.Serial;
+//import java.io.Serial;
 
 /**
  * 护理计划和项目关联对象 nursing_item_plan
@@ -20,7 +20,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel("护理计划和项目关联实体")
 public class NursingItemPlan extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
   @ApiModelProperty(value = "主键ID")
   protected Integer id;

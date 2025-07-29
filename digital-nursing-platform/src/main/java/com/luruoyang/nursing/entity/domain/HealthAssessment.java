@@ -1,6 +1,6 @@
 package com.luruoyang.nursing.entity.domain;
 
-import java.io.Serial;
+//import java.io.Serial;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -24,7 +24,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
 @ApiModel("健康评估实体")
 @Builder
 public class HealthAssessment extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
   /**
    * 主键

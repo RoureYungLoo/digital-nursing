@@ -3,7 +3,7 @@ package com.luruoyang.nursing.entity.dto;
 import com.luruoyang.nursing.entity.domain.CheckInConfig;
 import lombok.Data;
 
-import java.io.Serial;
+//import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 public class CheckInApplyDto implements Serializable {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
 
   private ElderDto checkInElderDto;

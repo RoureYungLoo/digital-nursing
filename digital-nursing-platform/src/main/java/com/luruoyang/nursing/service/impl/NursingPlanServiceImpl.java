@@ -165,7 +165,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
         BeanUtils.copyProperties(i, nursingItemPlan);
         nursingItemPlan.setPlanId(planId);
         return nursingItemPlan;
-      }).toList();
+      }).collect(Collectors.toList());
       savedBatch = nursingItemPlanService.saveBatch(nursingItemPlanList);
       // 修改护理计划
       return savedBatch ? 1 : 0;

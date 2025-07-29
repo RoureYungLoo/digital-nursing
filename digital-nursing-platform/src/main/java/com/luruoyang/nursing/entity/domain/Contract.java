@@ -1,6 +1,6 @@
 package com.luruoyang.nursing.entity.domain;
 
-import java.io.Serial;
+//import java.io.Serial;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -25,7 +25,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
 @Builder
 @ApiModel("合同实体")
 public class Contract extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
 
   @ApiModelProperty(value = "主键ID")

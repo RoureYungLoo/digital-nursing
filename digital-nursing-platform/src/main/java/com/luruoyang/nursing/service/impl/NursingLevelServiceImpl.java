@@ -3,6 +3,7 @@ package com.luruoyang.nursing.service.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -90,7 +91,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
       BeanUtils.copyProperties(i, vo);
       vo.setPlanName(nursingPlanService.getById(i.getLplanId()).getPlanName());
       return vo;
-    }).toList();
+    }).collect(Collectors.toList());
 //    cache.set(RedisKey.NURSING_LEVEL_ALL, voList);
 
     return voList;

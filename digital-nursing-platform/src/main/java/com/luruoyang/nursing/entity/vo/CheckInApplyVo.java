@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
+//import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 @Builder
 public class CheckInApplyVo implements Serializable {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
 
   private ElderVO checkInElderVo;

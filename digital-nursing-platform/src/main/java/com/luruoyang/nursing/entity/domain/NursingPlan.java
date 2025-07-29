@@ -4,7 +4,7 @@ import com.luruoyang.common.annotation.Excel;
 import lombok.*;
 import com.luruoyang.common.core.domain.BaseEntity;
 
-import java.io.Serial;
+//import java.io.Serial;
 
 /**
  * 护理计划对象 nursing_plan
@@ -17,7 +17,7 @@ import java.io.Serial;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NursingPlan extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
   /**
    * 编号
