@@ -4,17 +4,18 @@ FROM openjdk:11.0-jre-buster
 # 设定时区
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-#
-ENV OSS_BUCKET_NAME $OSS_BUCKET_NAME
-ENV OSS_ENDPOINT $OSS_ENDPOINT
-ENV OSS_REGION $OSS_REGION
-ENV OSS_ACCESS_KEY_ID $OSS_ACCESS_KEY_ID
-ENV OSS_ACCESS_KEY_SECRET $OSS_ACCESS_KEY_SECRET
-ENV BAIDU_KEY $BAIDU_KEY
-ENV GAODE_KEY $GAODE_KEY
-ENV BAIDU_QIANFAN_API_KEY $BAIDU_QIANFAN_API_KEY
 
 # 拷贝jar包
 COPY digital-nursing-admin.jar /app.jar
 # 入口
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+# 创建启动脚本
+RUN echo '#!/bin/bash\n\
+if [ -f /etc/profile.d/env.sh ]; then\n\
+  source /etc/profile.d/env.sh\n\
+fi\n\
+exec java -jar /app.jar\n' > /entrypoint.sh && chmod +x /entrypoint.sh
+
+# 入口点
+ENTRYPOINT ["/entrypoint.sh"]
