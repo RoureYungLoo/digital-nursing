@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import com.luruoyang.common.core.domain.BaseEntity;
 
-import java.io.Serial;
+//import java.io.Serial;
 
 /**
  * 老人对象 elder
@@ -20,7 +20,7 @@ import java.io.Serial;
 @AllArgsConstructor
 @ApiModel("老人实体")
 public class Elder extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
 
   @ApiModelProperty(value = "主键ID")

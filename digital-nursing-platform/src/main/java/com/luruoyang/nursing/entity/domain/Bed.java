@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
+//import java.io.Serial;
 
 /**
  * 床位对象 bed
@@ -20,7 +20,7 @@ import java.io.Serial;
 @Data
 @ApiModel("床位实体对象")
 public class Bed extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
 
   @ApiModelProperty(value = "床位ID")

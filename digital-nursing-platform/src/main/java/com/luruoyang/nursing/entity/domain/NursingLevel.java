@@ -1,6 +1,6 @@
 package com.luruoyang.nursing.entity.domain;
 
-import java.io.Serial;
+//import java.io.Serial;
 import java.math.BigDecimal;
 
 import com.luruoyang.common.annotation.Excel;
@@ -21,7 +21,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
 @AllArgsConstructor
 @ApiModel("护理等级实体")
 public class NursingLevel extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
   /**
    * 主键ID

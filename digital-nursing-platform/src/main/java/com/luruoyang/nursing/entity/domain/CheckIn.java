@@ -1,6 +1,6 @@
 package com.luruoyang.nursing.entity.domain;
 
-import java.io.Serial;
+//import java.io.Serial;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +23,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
 @ApiModel("入住实体")
 @Builder
 public class CheckIn extends BaseEntity {
-  @Serial
+//  @Serial
   private static final long serialVersionUID = 1L;
 
   @ApiModelProperty(value = "主键ID")
