@@ -3,7 +3,7 @@ FROM openjdk:11.0-jre-buster
 # FROM openjdk:17-jdk-alpine
 # 设定时区
 ENV TZ=Asia/Shanghai
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && echo "192.168.100.168 www.digital-nursing.com" >> /etc/hosts
 #
 ENV OSS_BUCKET_NAME $OSS_BUCKET_NAME
 ENV OSS_ENDPOINT $OSS_ENDPOINT
