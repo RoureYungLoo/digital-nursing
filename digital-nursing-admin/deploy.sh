@@ -25,5 +25,5 @@ fi
 # 启动容器
 echo "启动容器 $container_name"
 if [ $container_name = "digital-nursing-admin" ]; then
-    docker run -d --restart=always --name $container_name -v /usr/local/digital-nursing-admin/logs:/home/ruoyi/logs -p 9000:9000 $image_name:$image_tag
+    docker run -d --restart=always --name $container_name -v /usr/local/digital-nursing-admin/logs:/home/ruoyi/logs -v /usr/local/digital-nursing-admin/profile.d/env.sh:/etc/profile.d/env.sh -p 9000:9000 $image_name:$image_tag
 fi
