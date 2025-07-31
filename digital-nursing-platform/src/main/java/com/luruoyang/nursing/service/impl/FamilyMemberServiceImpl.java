@@ -1,10 +1,13 @@
 package com.luruoyang.nursing.service.impl;
 
-import java.util.Arrays;
-import java.util.List;
-    import com.luruoyang.common.utils.DateUtils;
+import java.util.*;
+
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.luruoyang.common.utils.DateUtils;
+import com.luruoyang.framework.web.service.TokenService;
 import com.luruoyang.nursing.entity.dto.WxLoginDto;
 import com.luruoyang.nursing.entity.vo.WxLoginVo;
+import com.luruoyang.nursing.wx.properties.WxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,6 +26,12 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
   @Autowired
   private FamilyMemberMapper familyMemberMapper;
 
+  @Autowired
+  private WxService wxService;
+
+  @Autowired
+  private TokenService tokenService;
+
   /**
    * 查询老人家属
    *
@@ -31,7 +40,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
    */
   @Override
   public FamilyMember selectFamilyMemberById(Long id) {
-        return this.getById(id);
+    return this.getById(id);
   }
 
   /**
@@ -53,7 +62,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
    */
   @Override
   public int insertFamilyMember(FamilyMember familyMember) {
-                            return this.save(familyMember) ? 1 : 0;
+    return this.save(familyMember) ? 1 : 0;
   }
 
   /**
@@ -64,7 +73,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
    */
   @Override
   public int updateFamilyMember(FamilyMember familyMember) {
-                        return this.updateById(familyMember) ? 1 : 0;
+    return this.updateById(familyMember) ? 1 : 0;
   }
 
   /**
@@ -75,7 +84,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
    */
   @Override
   public int deleteFamilyMemberByIds(Long[] ids) {
-        return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
+    return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
 
   }
 
@@ -87,11 +96,51 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
    */
   @Override
   public int deleteFamilyMemberById(Long id) {
-        return this.removeById(id) ? 1 : 0;
+    return this.removeById(id) ? 1 : 0;
   }
 
+  /**
+   * 小程序用户登录
+   *
+   * @param loginDto dto
+   * @return loginvo
+   */
   @Override
   public WxLoginVo login(WxLoginDto loginDto) {
-    return null;
+    //1. 获取openId
+    String openId = wxService.fetchOpenId(loginDto);
+
+    //2. 获取手机号
+    String phoneNumber = wxService.fetchPhoneNumber(loginDto);
+
+    String name = "家属" + phoneNumber.substring(7, 11);
+
+    //3. 查询家属用户信息
+    FamilyMember member = this.getOne(Wrappers.<FamilyMember>lambdaQuery().eq(FamilyMember::getOpenId, loginDto.getCode()));
+
+    //4. 更新
+    if (Objects.nonNull(member)) {
+      member.setPhone(phoneNumber);
+      this.updateById(member);
+    } else {
+      // 新增
+      member = FamilyMember.builder()
+          .openId(openId)
+          .phone(phoneNumber)
+          .name(name)
+          .build();
+      this.save(member);
+    }
+
+    //5. 返回登录结果
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("id", member.getId());
+    claims.put("nickName", name);
+    WxLoginVo wxLoginVo = WxLoginVo.builder()
+        .nickName(name)
+        .token(tokenService.createToken(claims))
+        .build();
+
+    return wxLoginVo;
   }
 }

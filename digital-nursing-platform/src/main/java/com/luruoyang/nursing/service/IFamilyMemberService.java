@@ -62,5 +62,10 @@ public interface IFamilyMemberService extends IService<FamilyMember> {
    */
   public int deleteFamilyMemberById(Long id);
 
+  /**
+   * 小程序用户登录
+   * @param loginDto dto
+   * @return 返回值
+   */
   public WxLoginVo login(WxLoginDto loginDto);
 }
