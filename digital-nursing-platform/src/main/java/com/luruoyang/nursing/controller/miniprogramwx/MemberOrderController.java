@@ -31,7 +31,9 @@ public class MemberOrderController extends BaseController {
     startPage();
     List<NursingItem> itemList = memberOrderService.wxGetProjectPage(dto);
     return getDataTable(itemList);
-  }  @GetMapping("/project/{projectId:\\d+}")
+  }
+
+  @GetMapping("/project/{projectId:\\d+}")
   public R<NursingItem> wxGetProjectById(@PathVariable("projectId") Long projectId) {
     NursingItem nursingItem = memberOrderService.wxGetProjectById(projectId);
     return R.ok(nursingItem);

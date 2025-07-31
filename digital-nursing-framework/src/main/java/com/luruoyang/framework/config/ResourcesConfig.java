@@ -30,6 +30,11 @@ public class ResourcesConfig implements WebMvcConfigurer {
   @Autowired
   private WxUserInterceptor wxUserInterceptor;
 
+  private static final String[] EXCLUDE_PATH_PATTERNS = new String[]{
+      "/member/user/login",
+      "/member/roomTypes"
+  };
+
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     /** 本地文件上传路径 */
@@ -48,10 +53,9 @@ public class ResourcesConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
-    registry.addInterceptor(wxUserInterceptor).excludePathPatterns(
-        "/member/user/login",
-        "/member/roomTypes"
-    ).addPathPatterns("/member/**");
+    registry.addInterceptor(wxUserInterceptor)
+        .addPathPatterns("/member/**")
+        .excludePathPatterns(EXCLUDE_PATH_PATTERNS).addPathPatterns("/member/**");
   }
 
   /**

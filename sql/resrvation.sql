@@ -15,3 +15,9 @@ CREATE TABLE `reservation`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `name_mobile_time_visitor` (`mobile`,`time`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='预约信息表';
+
+
+select `time`, 6 - COUNT(*) as count
+from reservation
+where status != 2
+group by `time`;

@@ -5,6 +5,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luruoyang.nursing.entity.domain.Reservation;
 import com.luruoyang.nursing.entity.dto.ReservationDto;
+import com.luruoyang.nursing.entity.vo.ReserveVo;
 
 /**
  * 预约信息Service接口
@@ -65,6 +66,7 @@ public interface IReservationService extends IService<Reservation> {
 
   int cancel(Long id);
 
-  int getCancelTimes();
+  Long getCancelTimes();
 
+  List<ReserveVo> countByTime(Long time);
 }

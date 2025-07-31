@@ -1,5 +1,10 @@
 package com.luruoyang.nursing.service.impl;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -8,7 +13,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.luruoyang.common.constant.StatusConstants;
 import com.luruoyang.common.exception.base.BaseException;
 import com.luruoyang.common.utils.DateUtils;
+import com.luruoyang.common.utils.UserThreadLocal;
 import com.luruoyang.nursing.entity.dto.ReservationDto;
+import com.luruoyang.nursing.entity.vo.ReserveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -124,11 +131,28 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
   }
 
   @Override
-  public int getCancelTimes() {
-//    long count = this.count(Wrappers.<Reservation>lambdaQuery()
-//        .eq()
-//    );
+  public Long getCancelTimes() {
+    Long userId = UserThreadLocal.getUserId();
+    LocalDateTime now = LocalDateTime.now();
+    LocalDate localDate = now.toLocalDate();
+    LocalDate nextDay = localDate.plusDays(1);
 
-    return 0;
+    long count = this.count(Wrappers.<Reservation>lambdaQuery()
+        .eq(Reservation::getStatus, StatusConstants.RESERVE_CANCELLED)
+        .eq(Reservation::getUpdateBy, userId)
+        .between(Reservation::getUpdateTime, localDate, nextDay)
+    );
+
+    return count;
+  }
+
+  @Override
+  public List<ReserveVo> countByTime(Long time) {
+    Instant instant = Instant.ofEpochMilli(time);
+    LocalDateTime start = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    LocalDateTime end = start.plusMinutes(30L);
+
+    List<ReserveVo> reserveVo = reservationMapper.countByTime();
+    return reserveVo;
   }
 }

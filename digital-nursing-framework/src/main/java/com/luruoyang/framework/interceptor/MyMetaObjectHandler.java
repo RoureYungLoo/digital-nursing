@@ -3,10 +3,13 @@ package com.luruoyang.framework.interceptor;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.luruoyang.common.core.domain.model.LoginUser;
 import com.luruoyang.common.utils.SecurityUtils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
@@ -15,10 +18,25 @@ import java.util.Objects;
 @Configuration
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
+
+  @Autowired
+  private HttpServletRequest request;
+
+  @SneakyThrows
+  public boolean isExclude() {
+    String requestUri = request.getRequestURI();
+    if (requestUri.startsWith("/member")) {
+      return true;
+    }
+    return false;
+  }
+
   @Override
   public void insertFill(MetaObject metaObject) {
     strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
-    strictInsertFill(metaObject, "createBy", String.class, String.valueOf(getLoginUserId()));
+    if (!isExclude()) {
+      this.strictInsertFill(metaObject, "createBy", String.class, getLoginUserId() + "");
+    }
   }
 
   @Override
@@ -26,7 +44,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     // strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
     // strictUpdateFill(metaObject, "updateBy", String.class, String.valueOf(getLoginUserId()));
     this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
-    this.setFieldValByName("updateBy", String.valueOf(getLoginUserId()), metaObject);
+    if (!isExclude()) {
+      this.setFieldValByName("updateBy", getLoginUserId() + "", metaObject);
+    }
   }
 
   private Long getLoginUserId() {

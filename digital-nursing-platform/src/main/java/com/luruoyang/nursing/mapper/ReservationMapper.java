@@ -1,10 +1,13 @@
 package com.luruoyang.nursing.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.luruoyang.nursing.entity.vo.ReserveVo;
 import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.luruoyang.nursing.entity.domain.Reservation;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -62,4 +65,7 @@ public interface ReservationMapper extends BaseMapper<Reservation> {
    * @return 结果
    */
   public int deleteReservationByIds(Long[] ids);
+
+//  ReserveVo countByTime(@Param("time") Long time, @Param("start")LocalDateTime start, @Param("end")LocalDateTime end, @Param("status")Long status);
+List<ReserveVo> countByTime();
 }

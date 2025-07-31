@@ -1,5 +1,6 @@
 package com.luruoyang.nursing.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.luruoyang.nursing.entity.domain.NursingItem;
 import com.luruoyang.nursing.entity.dto.NursingItemDto;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author luruoyang
@@ -20,7 +22,12 @@ public class MemberOrderServiceImpl implements MemberOrderService {
 
   @Override
   public List<NursingItem> wxGetProjectPage(NursingItemDto dto) {
-    List<NursingItem> list = itemService.list(Wrappers.<NursingItem>lambdaQuery().eq(NursingItem::getStatus, dto.getStatus()));
+
+    String name = dto.getName();
+    Integer status = dto.getStatus();
+    List<NursingItem> list = itemService.list(Wrappers.<NursingItem>lambdaQuery()
+        .eq(StringUtils.isNotBlank(name), NursingItem::getStatus, name)
+        .like(Objects.nonNull(status), NursingItem::getName, status));
     return list;
   }
 

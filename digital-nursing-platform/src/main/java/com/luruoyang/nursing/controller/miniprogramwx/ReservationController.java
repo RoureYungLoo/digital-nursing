@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.luruoyang.common.core.domain.R;
+import com.luruoyang.common.utils.UserThreadLocal;
 import com.luruoyang.nursing.entity.dto.ReservationDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -120,18 +121,25 @@ public class ReservationController extends BaseController {
   }
 
   @Log(title = "取消预约", businessType = BusinessType.UPDATE)
-  @DeleteMapping("/{id:\\d+}/cancel")
+  @GetMapping("/{id:\\d+}/cancel")
   @ApiOperation("取消预约")
   public AjaxResult cancel(@PathVariable Long id) {
     return toAjax(reservationService.cancel(id));
   }
 
   @Log(title = "查询当天取消预约数量", businessType = BusinessType.SELECT)
-  @DeleteMapping("/cancelled-count")
+  @GetMapping("/cancelled-count")
   @ApiOperation("查询当天取消预约数量")
   public AjaxResult getCancelTimes() {
-    return toAjax(reservationService.getCancelTimes());
+    Long userId = UserThreadLocal.getUserId();
+    System.out.println("------" + userId);
+    return success(reservationService.getCancelTimes());
   }
 
-
+  @Log(title = "查询每个时间段剩余预约次数", businessType = BusinessType.SELECT)
+  @GetMapping("/countByTime")
+  @ApiOperation("查询每个时间段剩余预约次数")
+  public AjaxResult countByTime(Long time) {
+    return success(reservationService.countByTime(time));
+  }
 }
