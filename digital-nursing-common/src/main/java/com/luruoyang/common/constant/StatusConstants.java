@@ -83,4 +83,12 @@ public class StatusConstants {
    */
   public static final Integer ADMISSION_CHECKED_IN = 0;
   public static final Integer ADMISSION_NOT_CHECKED_IN = 1;
+
+  /**
+   * 预约状态 0：待报道，1：已完成，2：取消，3：过期
+   */
+  public static final Integer RESERVE_PENDING_CHECK_IN = 0;
+  public static final Integer RESERVE_COMPLETED = 1;
+  public static final Integer RESERVE_CANCELLED = 2;
+  public static final Integer RESERVE_EXPIRED = 3;
 }

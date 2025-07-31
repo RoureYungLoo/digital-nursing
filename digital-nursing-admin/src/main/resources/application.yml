@@ -151,3 +151,12 @@ baidu:
     api-key: ${BAIDU_QIANFAN_API_KEY}
     base-url: https://qianfan.baidubce.com/v2/
     model: ernie-4.5-turbo-128k
+
+tencent:
+  wx:
+    mini-program:
+      appId: wx718e2a5c0a79ad8a
+      appSecret: 9e62707b606171dde26079f7444ce4d8
+      code2-session-url: https://api.weixin.qq.com/sns/jscode2session
+      phone-number-url: https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=%s
+      access-token-url: https://api.weixin.qq.com/cgi-bin/token

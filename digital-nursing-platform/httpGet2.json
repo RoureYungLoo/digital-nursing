@@ -1,0 +1,82 @@
+{
+  "total": 9,
+  "rows": [
+    {
+      "createBy": "1",
+      "createTime": "2025-07-19 20:10:14",
+      "updateBy": "1",
+      "updateTime": "2025-07-28 13:31:00",
+      "remark": null,
+      "id": 85,
+      "name": "洗脚",
+      "orderNo": 1,
+      "unit": "次",
+      "price": 195.00,
+      "image": "/profile/upload/2025/07/19/avatar_11_20250719201004A001.jpg",
+      "nursingRequirement": "洗干净点1",
+      "status": 1
+    },
+    {
+      "createBy": "1",
+      "createTime": "2025-07-19 20:10:53",
+      "updateBy": "1",
+      "updateTime": "2025-07-29 20:19:04",
+      "remark": null,
+      "id": 86,
+      "name": "按摩",
+      "orderNo": 2,
+      "unit": "次",
+      "price": 103.00,
+      "image": "https://luruoyang.oss-cn-hangzhou.aliyuncs.com/2/4/0/6/6/8/10/13/avatar_5.jpg",
+      "nursingRequirement": "力度适中, 不要太轻, 也不要太重",
+      "status": 1
+    },
+    {
+      "createBy": "1",
+      "createTime": "2025-07-19 21:48:53",
+      "updateBy": "1",
+      "updateTime": "2025-07-28 12:00:50",
+      "remark": null,
+      "id": 87,
+      "name": "喂饭",
+      "orderNo": 3,
+      "unit": "次",
+      "price": 15.00,
+      "image": "/profile/upload/2025/07/19/avatar_14_20250719214827A001.jpg",
+      "nursingRequirement": "让老人吃好,不要浪费粮食,不要吃太饱",
+      "status": 0
+    },
+    {
+      "createBy": "1",
+      "createTime": "1999-07-20 20:13:36",
+      "updateBy": "1",
+      "updateTime": "2025-07-28 12:00:59",
+      "remark": null,
+      "id": 89,
+      "name": "洗头",
+      "orderNo": 4,
+      "unit": "次",
+      "price": 88.00,
+      "image": "/profile/upload/2025/07/20/avatar_26_20250720201315A001.jpg",
+      "nursingRequirement": "耐心一点,要用躺椅",
+      "status": 1
+    },
+    {
+      "createBy": "1",
+      "createTime": "2025-07-20 20:29:43",
+      "updateBy": "1",
+      "updateTime": "2025-07-28 10:42:08",
+      "remark": null,
+      "id": 90,
+      "name": "打扫卫生",
+      "orderNo": 5,
+      "unit": "次",
+      "price": 29.00,
+      "image": "/profile/upload/2025/07/20/avatar_17_20250720202915A001.jpg",
+      "nursingRequirement": "把老人的被褥晒一晒,地面扫一扫",
+      "status": 0
+    }
+  ],
+  "code": 200,
+  "msg": "查询成功"
+}

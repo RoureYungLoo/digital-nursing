@@ -39,5 +39,15 @@
             <groupId>com.luruoyang</groupId>
             <artifactId>digital-nursing-qianfan</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.luruoyang</groupId>
+            <artifactId>digital-nursing-framework</artifactId>
+        </dependency>
     </dependencies>
 </project>

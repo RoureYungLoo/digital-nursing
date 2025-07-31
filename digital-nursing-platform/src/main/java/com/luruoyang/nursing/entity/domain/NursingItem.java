@@ -3,10 +3,7 @@ package com.luruoyang.nursing.entity.domain;
 import java.math.BigDecimal;
 
 import com.luruoyang.common.annotation.Excel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.luruoyang.common.core.domain.BaseEntity;
 
 /**
@@ -15,9 +12,11 @@ import com.luruoyang.common.core.domain.BaseEntity;
  * @author luruoyang
  * @date 2025-07-20
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class NursingItem extends BaseEntity {
   private static final long serialVersionUID = 1L;
   /**
