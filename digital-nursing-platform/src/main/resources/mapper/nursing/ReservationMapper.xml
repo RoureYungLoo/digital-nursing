@@ -40,11 +40,13 @@
         <include refid="selectReservationVo"/>
         where id = #{id}
     </select>
+
     <!-- 查询每个时间段剩余预约次数-->
     <select id="countByTime" resultType="com.luruoyang.nursing.entity.vo.ReserveVo">
         select `time`, 6 - COUNT(*) as count
         from reservation
         where status != 2
+          and time between #{start} and #{end}
         group by `time`;
     </select>
 

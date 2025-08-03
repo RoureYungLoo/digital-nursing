@@ -66,6 +66,12 @@ public interface ReservationMapper extends BaseMapper<Reservation> {
    */
   public int deleteReservationByIds(Long[] ids);
 
-//  ReserveVo countByTime(@Param("time") Long time, @Param("start")LocalDateTime start, @Param("end")LocalDateTime end, @Param("status")Long status);
-List<ReserveVo> countByTime();
+  /**
+   * 查询每个时间段可预约数量
+   *
+   * @param start 开始时间
+   * @param end   结束时间
+   * @return 可预约数量
+   */
+  List<ReserveVo> countByTime(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

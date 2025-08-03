@@ -47,7 +47,7 @@ public class FamilyMemberController extends BaseController {
   @PreAuthorize("@ss.hasPermi('member:user:list')")
   @GetMapping("/list")
   @ApiOperation("查询老人家属列表")
-  public TableDataInfo<List<FamilyMember>> list(FamilyMember familyMember) {
+  public TableDataInfo<FamilyMember> list(FamilyMember familyMember) {
     startPage();
     List<FamilyMember> list = familyMemberService.selectFamilyMemberList(familyMember);
     return getDataTable(list);

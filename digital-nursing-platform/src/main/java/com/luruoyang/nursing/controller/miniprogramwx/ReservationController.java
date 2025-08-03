@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.luruoyang.common.core.domain.R;
 import com.luruoyang.common.utils.UserThreadLocal;
 import com.luruoyang.nursing.entity.dto.ReservationDto;
+import com.luruoyang.nursing.entity.vo.ReservationVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -44,10 +45,9 @@ public class ReservationController extends BaseController {
   /**
    * 查询预约信息列表
    */
-  @PreAuthorize("@ss.hasPermi('member:reservation:list')")
   @GetMapping("/list")
   @ApiOperation("查询预约信息列表")
-  public TableDataInfo<List<Reservation>> list(Reservation reservation) {
+  public TableDataInfo<Reservation> list(Reservation reservation) {
     startPage();
     List<Reservation> list = reservationService.selectReservationList(reservation);
     return getDataTable(list);
@@ -58,17 +58,14 @@ public class ReservationController extends BaseController {
    */
   @GetMapping("/page")
   @ApiOperation("查询预约信息列表")
-  public TableDataInfo<List<Reservation>> page(ReservationDto dto) {
-    startPage();
-    List<Reservation> list = reservationService.selectReservationPage(dto);
-    return getDataTable(list);
+  public R<TableDataInfo<ReservationVo>> page(ReservationDto dto) {
+    TableDataInfo<ReservationVo> tdi = reservationService.selectReservationPage(dto);
+    return R.ok(tdi);
   }
 
   /**
    * 导出预约信息列表
    */
-  @PreAuthorize("@ss.hasPermi('member:reservation:export')")
-  @Log(title = "预约信息", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
   @ApiOperation("导出预约信息列表")
   public void export(HttpServletResponse response, Reservation reservation) {
@@ -80,7 +77,6 @@ public class ReservationController extends BaseController {
   /**
    * 获取预约信息详细信息
    */
-  @PreAuthorize("@ss.hasPermi('member:reservation:query')")
   @GetMapping(value = "/{id}")
   @ApiOperation("获取预约信息详细信息")
   public R<Reservation> getInfo(@ApiParam(value = "预约信息ID", required = true) @PathVariable("id") Long id) {
@@ -90,19 +86,15 @@ public class ReservationController extends BaseController {
   /**
    * 新增预约信息
    */
-  @PreAuthorize("@ss.hasPermi('member:reservation:add')")
-  @Log(title = "预约信息", businessType = BusinessType.INSERT)
   @PostMapping
   @ApiOperation("新增预约信息")
-  public AjaxResult add(@ApiParam(value = "预约信息实体", required = true) @RequestBody Reservation reservation) {
-    return toAjax(reservationService.insertReservation(reservation));
+  public AjaxResult add(@ApiParam(value = "预约信息实体", required = true) @RequestBody ReservationDto dto) {
+    return toAjax(reservationService.insertReservation(dto));
   }
 
   /**
    * 修改预约信息
    */
-  @PreAuthorize("@ss.hasPermi('member:reservation:edit')")
-  @Log(title = "预约信息", businessType = BusinessType.UPDATE)
   @PutMapping
   @ApiOperation("修改预约信息")
   public AjaxResult edit(@ApiParam(required = true, value = "预约信息实体") @RequestBody Reservation reservation) {
@@ -112,31 +104,26 @@ public class ReservationController extends BaseController {
   /**
    * 删除预约信息
    */
-  @PreAuthorize("@ss.hasPermi('member:reservation:remove')")
-  @Log(title = "预约信息", businessType = BusinessType.DELETE)
   @DeleteMapping("/{ids}")
   @ApiOperation("删除预约信息")
   public AjaxResult remove(@PathVariable Long[] ids) {
     return toAjax(reservationService.deleteReservationByIds(ids));
   }
 
-  @Log(title = "取消预约", businessType = BusinessType.UPDATE)
   @GetMapping("/{id:\\d+}/cancel")
   @ApiOperation("取消预约")
   public AjaxResult cancel(@PathVariable Long id) {
     return toAjax(reservationService.cancel(id));
   }
 
-  @Log(title = "查询当天取消预约数量", businessType = BusinessType.SELECT)
   @GetMapping("/cancelled-count")
   @ApiOperation("查询当天取消预约数量")
   public AjaxResult getCancelTimes() {
     Long userId = UserThreadLocal.getUserId();
     System.out.println("------" + userId);
-    return success(reservationService.getCancelTimes());
+    return success(reservationService.getCancelTimes(userId));
   }
 
-  @Log(title = "查询每个时间段剩余预约次数", businessType = BusinessType.SELECT)
   @GetMapping("/countByTime")
   @ApiOperation("查询每个时间段剩余预约次数")
   public AjaxResult countByTime(Long time) {

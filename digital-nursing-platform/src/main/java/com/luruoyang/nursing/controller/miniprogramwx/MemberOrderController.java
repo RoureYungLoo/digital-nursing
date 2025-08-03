@@ -27,7 +27,7 @@ public class MemberOrderController extends BaseController {
   private MemberOrderService memberOrderService;
 
   @GetMapping("/project/page")
-  public TableDataInfo<List<NursingItem>> wxGetProjectPage(NursingItemDto dto) {
+  public TableDataInfo<NursingItem> wxGetProjectPage(NursingItemDto dto) {
     startPage();
     List<NursingItem> itemList = memberOrderService.wxGetProjectPage(dto);
     return getDataTable(itemList);

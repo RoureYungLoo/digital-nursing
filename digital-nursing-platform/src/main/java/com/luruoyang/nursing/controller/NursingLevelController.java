@@ -46,7 +46,7 @@ public class NursingLevelController extends BaseController {
   @PreAuthorize("@ss.hasPermi('serve:level:list')")
   @GetMapping({"/list"})
   @ApiOperation("查询护理等级列表")
-  public TableDataInfo<List<NursingLevelVo>> list(NursingLevel nursingLevel) {
+  public TableDataInfo<NursingLevelVo> list(NursingLevel nursingLevel) {
     startPage();
     List<NursingLevelVo> list = nursingLevelService.selectNursingLevelList(nursingLevel);
     return getDataTable(list);

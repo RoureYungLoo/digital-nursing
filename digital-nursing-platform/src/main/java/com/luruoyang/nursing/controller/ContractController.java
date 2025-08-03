@@ -39,13 +39,13 @@ public class ContractController extends BaseController {
   @Autowired
   private IContractService contractService;
 
-/**
- * 查询合同列表
- */
-@PreAuthorize("@ss.hasPermi('nursing:contract:list')")
-@GetMapping("/list")
-@ApiOperation("查询合同列表")
-  public TableDataInfo<List<Contract>> list(Contract contract) {
+  /**
+   * 查询合同列表
+   */
+  @PreAuthorize("@ss.hasPermi('nursing:contract:list')")
+  @GetMapping("/list")
+  @ApiOperation("查询合同列表")
+  public TableDataInfo<Contract> list(Contract contract) {
     startPage();
     List<Contract> list = contractService.selectContractList(contract);
     return getDataTable(list);
@@ -60,7 +60,7 @@ public class ContractController extends BaseController {
   @ApiOperation("导出合同列表")
   public void export(HttpServletResponse response, Contract contract) {
     List<Contract> list = contractService.selectContractList(contract);
-    ExcelUtil<Contract> util = new ExcelUtil<Contract>(Contract. class);
+    ExcelUtil<Contract> util = new ExcelUtil<Contract>(Contract.class);
     util.exportExcel(response, list, "合同数据");
   }
 
@@ -70,8 +70,8 @@ public class ContractController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:contract:query')")
   @GetMapping(value = "/{id}")
   @ApiOperation("获取合同详细信息")
-      public R<Contract> getInfo(@ApiParam(value = "合同ID", required = true) @PathVariable("id") Long id) {
-        return R.ok(contractService.selectContractById(id));
+  public R<Contract> getInfo(@ApiParam(value = "合同ID", required = true) @PathVariable("id") Long id) {
+    return R.ok(contractService.selectContractById(id));
   }
 
   /**

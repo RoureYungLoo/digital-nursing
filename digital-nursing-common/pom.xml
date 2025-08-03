@@ -282,6 +282,18 @@
             <groupId>com.luruoyang</groupId>
             <artifactId>digital-nursing-aliyun</artifactId>
         </dependency>
+
+        <!-- 华为 SDK -->
+        <dependency>
+            <groupId>com.huaweicloud.sdk</groupId>
+            <artifactId>huaweicloud-sdk-core</artifactId>
+        </dependency>
+
+        <!-- 华为 SDK IoTDA -->
+        <dependency>
+            <groupId>com.huaweicloud.sdk</groupId>
+            <artifactId>huaweicloud-sdk-iotda</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

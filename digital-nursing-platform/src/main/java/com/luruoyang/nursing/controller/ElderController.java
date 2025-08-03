@@ -3,7 +3,9 @@ package com.luruoyang.nursing.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luruoyang.common.core.domain.R;
+import com.luruoyang.nursing.entity.dto.ElderDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -39,16 +41,31 @@ public class ElderController extends BaseController {
   @Autowired
   private IElderService elderService;
 
-/**
- * 查询老人列表
- */
-@PreAuthorize("@ss.hasPermi('nursing:elder:list')")
-@GetMapping("/list")
-@ApiOperation("查询老人列表")
-  public TableDataInfo<List<Elder>> list(Elder elder) {
+  /**
+   * 查询老人列表
+   */
+  @PreAuthorize("@ss.hasPermi('nursing:elder:list')")
+  @GetMapping("/list")
+  @ApiOperation("查询老人列表")
+  public TableDataInfo<Elder> list(Elder elder) {
     startPage();
     List<Elder> list = elderService.selectElderList(elder);
     return getDataTable(list);
+  }
+
+  /**
+   * 查询老人列表
+   */
+  @GetMapping("/pageQuery")
+  @ApiOperation("查询老人列表")
+  public TableDataInfo<Elder> page(ElderDto dto) {
+    // startPage();
+    Page<Elder> p = elderService.selectElderPage(dto);
+    TableDataInfo<Elder> tdi = new TableDataInfo<>();
+    tdi.setRows(p.getRecords());
+    tdi.setTotal(p.getTotal());
+    // getDataTable();
+    return tdi;
   }
 
   /**
@@ -60,7 +77,7 @@ public class ElderController extends BaseController {
   @ApiOperation("导出老人列表")
   public void export(HttpServletResponse response, Elder elder) {
     List<Elder> list = elderService.selectElderList(elder);
-    ExcelUtil<Elder> util = new ExcelUtil<Elder>(Elder. class);
+    ExcelUtil<Elder> util = new ExcelUtil<Elder>(Elder.class);
     util.exportExcel(response, list, "老人数据");
   }
 
@@ -70,8 +87,8 @@ public class ElderController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:elder:query')")
   @GetMapping(value = "/{id}")
   @ApiOperation("获取老人详细信息")
-      public R<Elder> getInfo(@ApiParam(value = "老人ID", required = true) @PathVariable("id") Long id) {
-        return R.ok(elderService.selectElderById(id));
+  public R<Elder> getInfo(@ApiParam(value = "老人ID", required = true) @PathVariable("id") Long id) {
+    return R.ok(elderService.selectElderById(id));
   }
 
   /**

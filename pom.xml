@@ -53,6 +53,7 @@
         <jackson.version>2.16.1</jackson.version>
         <okhttp.version>4.12.0</okhttp.version>
         <junit.version>4.13.2</junit.version>
+        <huawei-sdk.version>3.1.76</huawei-sdk.version>
 
 
     </properties>
@@ -431,6 +432,20 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- 华为 SDK -->
+            <dependency>
+                <groupId>com.huaweicloud.sdk</groupId>
+                <artifactId>huaweicloud-sdk-core</artifactId>
+                <version>${huawei-sdk.version}</version>
+            </dependency>
+
+            <!-- 华为 SDK IoTDA -->
+            <dependency>
+                <groupId>com.huaweicloud.sdk</groupId>
+                <artifactId>huaweicloud-sdk-iotda</artifactId>
+                <version>${huawei-sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

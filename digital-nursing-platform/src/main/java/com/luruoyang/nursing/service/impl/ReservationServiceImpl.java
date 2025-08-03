@@ -8,13 +8,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
+import com.luruoyang.common.constant.HttpStatus;
 import com.luruoyang.common.constant.StatusConstants;
+import com.luruoyang.common.core.page.TableDataInfo;
 import com.luruoyang.common.exception.base.BaseException;
 import com.luruoyang.common.utils.DateUtils;
 import com.luruoyang.common.utils.UserThreadLocal;
 import com.luruoyang.nursing.entity.dto.ReservationDto;
+import com.luruoyang.nursing.entity.vo.ReservationVo;
 import com.luruoyang.nursing.entity.vo.ReserveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,12 +70,14 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
   /**
    * 新增预约信息
    *
-   * @param reservation 预约信息
+   * @param reservationDto 预约信息
    * @return 结果
    */
   @Override
-  public int insertReservation(Reservation reservation) {
-    return this.save(reservation) ? 1 : 0;
+  public int insertReservation(ReservationDto reservationDto) {
+    Reservation r = BeanUtil.toBean(reservationDto, Reservation.class);
+    r.setStatus(StatusConstants.RESERVE_PENDING_CHECK_IN);
+    return this.save(r) ? 1 : 0;
   }
 
   /**
@@ -108,8 +121,16 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
    * @return 结果
    */
   @Override
-  public List<Reservation> selectReservationPage(ReservationDto dto) {
-    return this.list(Wrappers.<Reservation>lambdaQuery().eq(Reservation::getStatus, dto.getStatus()));
+  public TableDataInfo<ReservationVo> selectReservationPage(ReservationDto dto) {
+    Page<Reservation> page = new Page<>(dto.getPageNum(), dto.getPageSize());
+    page = this.page(page);
+    List<Reservation> records = page.getRecords();
+    TableDataInfo<ReservationVo> rspData = new TableDataInfo<>();
+    rspData.setCode(HttpStatus.SUCCESS);
+    rspData.setMsg("查询成功");
+    rspData.setRows(records.stream().map(r -> BeanUtil.toBean(r, ReservationVo.class)).collect(Collectors.toList()));
+    rspData.setTotal(page.getTotal());
+    return rspData;
   }
 
   /**
@@ -130,9 +151,14 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
     return 1;
   }
 
+  /**
+   * 查询 取消预约数量
+   *
+   * @param userId userId
+   * @return 取消预约数量
+   */
   @Override
-  public Long getCancelTimes() {
-    Long userId = UserThreadLocal.getUserId();
+  public Long getCancelTimes(Long userId) {
     LocalDateTime now = LocalDateTime.now();
     LocalDate localDate = now.toLocalDate();
     LocalDate nextDay = localDate.plusDays(1);
@@ -146,13 +172,28 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
     return count;
   }
 
+  /**
+   * 查询 分段可预约数量
+   *
+   * @param time 时间戳毫秒数
+   * @return 分段可预约数量
+   */
   @Override
   public List<ReserveVo> countByTime(Long time) {
     Instant instant = Instant.ofEpochMilli(time);
     LocalDateTime start = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-    LocalDateTime end = start.plusMinutes(30L);
+    LocalDateTime end = start.plusDays(1L);
 
-    List<ReserveVo> reserveVo = reservationMapper.countByTime();
-    return reserveVo;
+    List<ReserveVo> vos = reservationMapper.countByTime(start, end);
+    return vos;
+  }
+
+  @Override
+  public void updateReservationStatus() {
+    LocalDateTime now = LocalDateTime.now();
+    LambdaUpdateWrapper<Reservation> wrapper = Wrappers.lambdaUpdate();
+    wrapper.lt(Reservation::getTime, now)
+        .set(Reservation::getStatus, StatusConstants.RESERVE_EXPIRED);
+    this.update(wrapper);
   }
 }

@@ -3,8 +3,10 @@ package com.luruoyang.nursing.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.luruoyang.common.core.page.TableDataInfo;
 import com.luruoyang.nursing.entity.domain.Reservation;
 import com.luruoyang.nursing.entity.dto.ReservationDto;
+import com.luruoyang.nursing.entity.vo.ReservationVo;
 import com.luruoyang.nursing.entity.vo.ReserveVo;
 
 /**
@@ -33,10 +35,10 @@ public interface IReservationService extends IService<Reservation> {
   /**
    * 新增预约信息
    *
-   * @param reservation 预约信息
+   * @param reservationDto 预约信息
    * @return 结果
    */
-  public int insertReservation(Reservation reservation);
+  public int insertReservation(ReservationDto reservationDto);
 
   /**
    * 修改预约信息
@@ -62,11 +64,13 @@ public interface IReservationService extends IService<Reservation> {
    */
   public int deleteReservationById(Long id);
 
-  List<Reservation> selectReservationPage(ReservationDto dto);
+  TableDataInfo<ReservationVo> selectReservationPage(ReservationDto dto);
 
   int cancel(Long id);
 
-  Long getCancelTimes();
+  Long getCancelTimes(Long userId);
 
   List<ReserveVo> countByTime(Long time);
+
+  void updateReservationStatus();
 }

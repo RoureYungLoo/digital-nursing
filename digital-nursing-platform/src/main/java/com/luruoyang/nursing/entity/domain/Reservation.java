@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.luruoyang.common.annotation.Excel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.luruoyang.common.core.domain.BaseEntity;
 
 /**
@@ -18,6 +15,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
  * @author luruoyang
  * @date 2025-07-31
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

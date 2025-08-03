@@ -1,0 +1,22 @@
+huawei:
+  account:
+    user-name: ruoyang
+    access-key-id: ${HUAWEI_ACCESS_KEY_ID}
+    secret-access-key: ${HUAWEI_SECRET_ACCESS_KEY}
+    project-id: ${PROJECT_ID}
+    region-id: cn-east-3
+  iotda:
+    access:
+      # 应用接入
+      application:
+        endpoint: 4bbbeb0e66.st1.iotda-app.cn-east-3.myhuaweicloud.com
+        amqps:
+          access-key: ${HUAWEI_ACCESS_KEY}
+          access-code: ${ACCESS_CODE}
+          queueName: DefaultQueue
+
+      # 设备接入
+      device:
+        endpoint: 4bbbeb0e66.st1.iotda-device.cn-east-3.myhuaweicloud.com
+
+

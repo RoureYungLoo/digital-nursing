@@ -2,8 +2,10 @@ package com.luruoyang.nursing.service;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luruoyang.nursing.entity.domain.Elder;
+import com.luruoyang.nursing.entity.dto.ElderDto;
 
 /**
  * 老人Service接口
@@ -59,4 +61,7 @@ public interface IElderService extends IService<Elder> {
    * @return 结果
    */
   public int deleteElderById(Long id);
+
+
+  Page<Elder> selectElderPage(ElderDto dto);
 }

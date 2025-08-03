@@ -24,6 +24,11 @@ public class WxUtil {
   @Autowired
   private WxProperties properties;
 
+  /**
+   * 获取手机号
+   * @param loginDto dto
+   * @return 手机号
+   */
   public String getPhoneNumber(WxLoginDto loginDto) {
     String phoneNumberUrl = String.format(properties.getPhoneNumberUrl(), getAccessToken());
     Map<String, Object> params = new HashMap<>();
@@ -39,6 +44,12 @@ public class WxUtil {
     return null;
   }
 
+
+  /**
+   * 获取 openId
+   * @param loginDto dto
+   * @return openId
+   */
   public String getOpenId(WxLoginDto loginDto) {
     Map<String, Object> params = new HashMap<>();
     params.put("appid", properties.getAppId());
@@ -50,6 +61,10 @@ public class WxUtil {
     return obj.getStr("openid");
   }
 
+  /**
+   * 获取微信 AccessToken
+   * @return AccessToken
+   */
   public String getAccessToken() {
     Map<String, Object> params = new HashMap<>();
     params.put("appid", properties.getAppId());

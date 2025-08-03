@@ -1,0 +1,20 @@
+{
+  "deviceId": "688c164c7d33413cbad53573_SN-20250801-ZJR2",
+  "shadow": [
+    {
+      "serviceId": "watch_services",
+      "desired": {},
+      "reported": {
+        "properties": {
+          "BodyTemp": 34,
+          "HeartRate": 80,
+          "Battery": 36.656837,
+          "BloodOxygen": 28
+        },
+        "eventTime": "20250802T015847Z"
+      },
+      "version": 7
+    }
+  ],
+  "httpStatusCode": 200
+}

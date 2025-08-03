@@ -47,7 +47,7 @@ public class CheckInController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:checkIn:list')")
   @GetMapping("/list")
   @ApiOperation("查询入住列表")
-  public TableDataInfo<List<CheckIn>> list(CheckIn checkIn) {
+  public TableDataInfo<CheckIn> list(CheckIn checkIn) {
     startPage();
     List<CheckIn> list = checkInService.selectCheckInList(checkIn);
     return getDataTable(list);

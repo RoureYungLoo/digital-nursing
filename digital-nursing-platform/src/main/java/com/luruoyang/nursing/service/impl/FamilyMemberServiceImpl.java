@@ -3,6 +3,7 @@ package com.luruoyang.nursing.service.impl;
 import java.util.*;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.luruoyang.common.exception.base.BaseException;
 import com.luruoyang.common.utils.DateUtils;
 import com.luruoyang.framework.web.service.TokenService;
 import com.luruoyang.nursing.entity.dto.WxLoginDto;
@@ -116,10 +117,15 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
     String name = "家属" + phoneNumber.substring(7, 11);
 
     //3. 查询家属用户信息
-    FamilyMember member = this.getOne(Wrappers.<FamilyMember>lambdaQuery().eq(FamilyMember::getOpenId, loginDto.getCode()));
+    FamilyMember member;
+    List<FamilyMember> memberList = this.list(Wrappers.<FamilyMember>lambdaQuery().eq(FamilyMember::getOpenId, openId));
+    if (memberList.size() > 1) {
+      throw new BaseException("系统异常 - openId 错误");
+    }
 
     //4. 更新
-    if (Objects.nonNull(member)) {
+    if (memberList.size() == 1) {
+      member = memberList.get(0);
       member.setPhone(phoneNumber);
       this.updateById(member);
     } else {
@@ -134,7 +140,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
 
     //5. 返回登录结果
     Map<String, Object> claims = new HashMap<>();
-    claims.put("id", member.getId());
+    claims.put("userId", member.getId());
     claims.put("nickName", name);
     WxLoginVo wxLoginVo = WxLoginVo.builder()
         .nickName(name)

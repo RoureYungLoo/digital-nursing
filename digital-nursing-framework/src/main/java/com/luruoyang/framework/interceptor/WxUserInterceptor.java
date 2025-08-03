@@ -31,7 +31,7 @@ public class WxUserInterceptor implements HandlerInterceptor {
     String token = request.getHeader("authorization");
     if (StringUtils.isEmpty(token)) {
       response.setStatus(HttpStatus.UNAUTHORIZED);
-      throw new BaseException("认证失败");
+      throw new BaseException("认证失败 - token is empty");
     }
 
     Claims claims = null;
@@ -39,13 +39,18 @@ public class WxUserInterceptor implements HandlerInterceptor {
       claims = tokenService.parseToken(token);
     } catch (Exception e) {
       response.setStatus(HttpStatus.UNAUTHORIZED);
-      throw new BaseException("认证失败");
+      throw new BaseException("认证失败 - token parse fail");
     }
 
-    Long userId = MapUtil.get(claims, "id", Long.class);
-    if (Objects.isNull(userId)) {
+    if (MapUtil.isEmpty(claims)) {
       response.setStatus(HttpStatus.UNAUTHORIZED);
-      throw new BaseException("认证失败");
+      throw new BaseException("认证失败 - claims is empty");
+    }
+
+    Long userId = MapUtil.get(claims, "userId", Long.class);
+    if (ObjectUtil.isEmpty(userId)) {
+      response.setStatus(HttpStatus.UNAUTHORIZED);
+      throw new BaseException("认证失败 - no userId ");
     }
 
     UserThreadLocal.set(userId);

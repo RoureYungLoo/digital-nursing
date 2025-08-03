@@ -1,0 +1,38 @@
+[
+  {
+    "@type": "com.huaweicloud.sdk.iotda.v5.model.ProductSummary",
+    "app_id": "07fc3f46a93043548cd9fac35a7139be",
+    "app_name": "DefaultApp_688bxuit",
+    "create_time": "20250801T035317Z",
+    "data_format": "json",
+    "device_type": "智能体征监测器",
+    "industry": "智能生活-个护健康",
+    "name": "睡眠监测带",
+    "product_id": "688c3a2c7d33413cbad54143",
+    "protocol_type": "MQTT"
+  },
+  {
+    "@type": "com.huaweicloud.sdk.iotda.v5.model.ProductSummary",
+    "app_id": "07fc3f46a93043548cd9fac35a7139be",
+    "app_name": "DefaultApp_688bxuit",
+    "create_time": "20250801T034451Z",
+    "data_format": "json",
+    "device_type": "工业用烟雾报警器",
+    "industry": "智慧城市-消防安全",
+    "name": "烟雾报警器",
+    "product_id": "688c383394a9a05c33799235",
+    "protocol_type": "MQTT"
+  },
+  {
+    "@type": "com.huaweicloud.sdk.iotda.v5.model.ProductSummary",
+    "app_id": "07fc3f46a93043548cd9fac35a7139be",
+    "app_name": "DefaultApp_688bxuit",
+    "create_time": "20250801T012012Z",
+    "data_format": "json",
+    "device_type": "智能手表",
+    "industry": "智能生活-个护健康",
+    "name": "智能定位手表",
+    "product_id": "688c164c7d33413cbad53573",
+    "protocol_type": "MQTT"
+  }
+]

@@ -39,13 +39,13 @@ public class NursingItemPlanController extends BaseController {
   @Autowired
   private INursingItemPlanService nursingItemPlanService;
 
-/**
- * 查询护理计划和项目关联列表
- */
-@PreAuthorize("@ss.hasPermi('nursing:itemplan:list')")
-@GetMapping("/list")
-@ApiOperation("查询护理计划和项目关联列表")
-  public TableDataInfo<List<NursingItemPlan>> list(NursingItemPlan nursingItemPlan) {
+  /**
+   * 查询护理计划和项目关联列表
+   */
+  @PreAuthorize("@ss.hasPermi('nursing:itemplan:list')")
+  @GetMapping("/list")
+  @ApiOperation("查询护理计划和项目关联列表")
+  public TableDataInfo<NursingItemPlan> list(NursingItemPlan nursingItemPlan) {
     startPage();
     List<NursingItemPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
     return getDataTable(list);
@@ -60,7 +60,7 @@ public class NursingItemPlanController extends BaseController {
   @ApiOperation("导出护理计划和项目关联列表")
   public void export(HttpServletResponse response, NursingItemPlan nursingItemPlan) {
     List<NursingItemPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
-    ExcelUtil<NursingItemPlan> util = new ExcelUtil<NursingItemPlan>(NursingItemPlan. class);
+    ExcelUtil<NursingItemPlan> util = new ExcelUtil<NursingItemPlan>(NursingItemPlan.class);
     util.exportExcel(response, list, "护理计划和项目关联数据");
   }
 
@@ -70,8 +70,8 @@ public class NursingItemPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:query')")
   @GetMapping(value = "/{id}")
   @ApiOperation("获取护理计划和项目关联详细信息")
-      public R<NursingItemPlan> getInfo(@ApiParam(value = "护理计划和项目关联ID", required = true) @PathVariable("id") Integer id) {
-        return R.ok(nursingItemPlanService.selectNursingItemPlanById(id));
+  public R<NursingItemPlan> getInfo(@ApiParam(value = "护理计划和项目关联ID", required = true) @PathVariable("id") Integer id) {
+    return R.ok(nursingItemPlanService.selectNursingItemPlanById(id));
   }
 
   /**

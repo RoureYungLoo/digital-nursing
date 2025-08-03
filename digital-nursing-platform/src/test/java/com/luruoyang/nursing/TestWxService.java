@@ -3,6 +3,7 @@ package com.luruoyang.nursing;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.luruoyang.nursing.entity.vo.ElderVO;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -50,5 +51,6 @@ public class TestWxService {
     String res = HttpUtil.post(phoneNumberURL, jsonStr, 500);
     File file = FileUtil.newFile("json/phoneNumber.json");
     FileUtil.writeUtf8String(res, file);
+
   }
 }

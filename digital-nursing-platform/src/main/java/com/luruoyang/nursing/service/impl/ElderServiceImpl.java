@@ -3,6 +3,11 @@ package com.luruoyang.nursing.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luruoyang.nursing.entity.dto.ElderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,7 +34,7 @@ public class ElderServiceImpl extends ServiceImpl<ElderMapper, Elder> implements
    */
   @Override
   public Elder selectElderById(Long id) {
-        return this.getById(id);
+    return this.getById(id);
   }
 
   /**
@@ -51,7 +56,7 @@ public class ElderServiceImpl extends ServiceImpl<ElderMapper, Elder> implements
    */
   @Override
   public int insertElder(Elder elder) {
-                            return this.save(elder) ? 1 : 0;
+    return this.save(elder) ? 1 : 0;
   }
 
   /**
@@ -62,7 +67,7 @@ public class ElderServiceImpl extends ServiceImpl<ElderMapper, Elder> implements
    */
   @Override
   public int updateElder(Elder elder) {
-                        return this.updateById(elder) ? 1 : 0;
+    return this.updateById(elder) ? 1 : 0;
   }
 
   /**
@@ -73,7 +78,7 @@ public class ElderServiceImpl extends ServiceImpl<ElderMapper, Elder> implements
    */
   @Override
   public int deleteElderByIds(Long[] ids) {
-        return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
+    return this.removeByIds(Arrays.asList(ids)) ? 1 : 0;
 
   }
 
@@ -85,6 +90,23 @@ public class ElderServiceImpl extends ServiceImpl<ElderMapper, Elder> implements
    */
   @Override
   public int deleteElderById(Long id) {
-        return this.removeById(id) ? 1 : 0;
+    return this.removeById(id) ? 1 : 0;
+  }
+
+  @Override
+  public Page<Elder> selectElderPage(ElderDto dto) {
+    dto.setStatus(1);
+    String name = dto.getName();
+    String idCardNo = dto.getIdCardNo();
+
+    Page<Elder> page = new Page<>(dto.getPageNum(), dto.getPageSize());
+
+    LambdaQueryWrapper<Elder> wrapper = Wrappers.lambdaQuery();
+    wrapper.eq(Elder::getStatus, dto.getStatus())
+        .like(StringUtils.isNotBlank(name), Elder::getName, name)
+        .eq(StringUtils.isNotBlank(idCardNo), Elder::getIdCardNo, idCardNo)
+        .select(Elder::getId, Elder::getName, Elder::getIdCardNo, Elder::getBedNumber);
+    page = this.page(page, wrapper);
+    return page;
   }
 }

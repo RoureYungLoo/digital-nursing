@@ -11,4 +11,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ElderDto extends Elder {
   private String age;
+  //页码
+  private Integer pageNum = 10;
+
+  //页大小
+  private Integer pageSize;
 }
