@@ -1,0 +1,37 @@
+package com.luruoyang.nursing.entity.vo;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+/**
+ * @author luruoyang
+ */
+@ApiModel("楼层房间设备VO")
+@Data
+public class FloorRoomDeviceInfo {
+  @ApiModelProperty(value = "房间ID", required = true)
+  private Long id;
+
+  @ApiModelProperty(value = "楼层名称", required = true)
+  private String floorName;
+
+  @ApiModelProperty(value = "楼层ID", required = true)
+  private String floorId;
+
+  @ApiModelProperty(value = "房间ID", required = true)
+  private String roomId;
+
+  @ApiModelProperty(value = "房间编号", required = true)
+  private String code;
+
+  @ApiModelProperty(value = "房间价格", required = true)
+  private String price;
+
+  @ApiModelProperty(value = "床位列表", required = true)
+  private List<BedVo> bedVoList;
+  private List<DeviceVo> deviceVos;
+}

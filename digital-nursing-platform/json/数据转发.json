@@ -1,0 +1,30 @@
+{
+  "resource": "device.property",
+  "event": "report",
+  "event_time": "20250803T071547Z",
+  "event_time_ms": "2025-08-03T07:15:47.614Z",
+  "request_id": "a01c75fc-f06d-45db-8ddc-d0cda9674eb7",
+  "notify_data": {
+    "header": {
+      "app_id": "07fc3f46a93043548cd9fac35a7139be",
+      "device_id": "688c164c7d33413cbad53573_huaweiwatch001",
+      "node_id": "huaweiwatch001",
+      "product_id": "688c164c7d33413cbad53573",
+      "gateway_id": "688c164c7d33413cbad53573_huaweiwatch001"
+    },
+    "body": {
+      "services": [
+        {
+          "service_id": "watch_services",
+          "properties": {
+            "BodyTemp": 33,
+            "HeartRate": 197,
+            "Battery": 71.857216,
+            "BloodOxygen": 38.0
+          },
+          "event_time": "20250803T071547Z"
+        }
+      ]
+    }
+  }
+}

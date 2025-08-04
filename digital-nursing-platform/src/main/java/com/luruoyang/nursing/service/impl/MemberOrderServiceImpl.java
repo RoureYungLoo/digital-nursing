@@ -2,7 +2,7 @@ package com.luruoyang.nursing.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.luruoyang.nursing.entity.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingProject;
 import com.luruoyang.nursing.entity.dto.NursingItemDto;
 import com.luruoyang.nursing.service.INursingItemService;
 import com.luruoyang.nursing.service.MemberOrderService;
@@ -21,19 +21,19 @@ public class MemberOrderServiceImpl implements MemberOrderService {
   private INursingItemService itemService;
 
   @Override
-  public List<NursingItem> wxGetProjectPage(NursingItemDto dto) {
+  public List<NursingProject> wxGetProjectPage(NursingItemDto dto) {
 
     String name = dto.getName();
     Integer status = dto.getStatus();
-    List<NursingItem> list = itemService.list(Wrappers.<NursingItem>lambdaQuery()
-        .eq(StringUtils.isNotBlank(name), NursingItem::getStatus, name)
-        .like(Objects.nonNull(status), NursingItem::getName, status));
+    List<NursingProject> list = itemService.list(Wrappers.<NursingProject>lambdaQuery()
+        .eq(StringUtils.isNotBlank(name), NursingProject::getStatus, name)
+        .like(Objects.nonNull(status), NursingProject::getName, status));
     return list;
   }
 
   @Override
-  public NursingItem wxGetProjectById(Long projectId) {
-    NursingItem nursingItem = itemService.getById(projectId);
+  public NursingProject wxGetProjectById(Long projectId) {
+    NursingProject nursingItem = itemService.getById(projectId);
     return nursingItem;
   }
 }

@@ -19,7 +19,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ApiModel("护理计划和项目关联实体")
-public class NursingItemPlan extends BaseEntity {
+public class NursingProjectPlan extends BaseEntity {
 //  @Serial
   private static final long serialVersionUID = 1L;
   @ApiModelProperty(value = "主键ID")

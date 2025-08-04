@@ -1,6 +1,6 @@
 package com.luruoyang.nursing.entity.dto;
 
-import com.luruoyang.nursing.entity.domain.NursingItemPlan;
+import com.luruoyang.nursing.entity.domain.NursingProjectPlan;
 import com.luruoyang.nursing.entity.domain.NursingPlan;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,5 +17,5 @@ public class NursingPlanDto extends NursingPlan {
   /**
    * 护理项目关联护理计划
    */
-  List<NursingItemPlan> nursingPlanList;
+  List<NursingProjectPlan> nursingPlanList;
 }

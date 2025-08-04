@@ -17,7 +17,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luruoyang.nursing.mapper.NursingItemMapper;
-import com.luruoyang.nursing.entity.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingProject;
 import com.luruoyang.nursing.service.INursingItemService;
 
 /**
@@ -28,7 +28,7 @@ import com.luruoyang.nursing.service.INursingItemService;
  */
 @Service
 @Slf4j
-public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, NursingItem> implements INursingItemService {
+public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, NursingProject> implements INursingItemService {
   @Autowired
   private NursingItemMapper nursingItemMapper;
 
@@ -42,9 +42,9 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    * @return 护理项目
    */
   @Override
-  public NursingItem selectNursingItemById(Long id) {
+  public NursingProject selectNursingItemById(Long id) {
     ValueOperations<Object, Object> cache = redisTemplate.opsForValue();
-    NursingItem nursingItem = (NursingItem) cache.get(RedisKey.NURSING_ITEM_ + id);
+    NursingProject nursingItem = (NursingProject) cache.get(RedisKey.NURSING_ITEM_ + id);
     if (Objects.nonNull(nursingItem)) {
       log.info("Hit Cache {} ", RedisKey.NURSING_ITEM_ + id);
       return nursingItem;
@@ -64,8 +64,8 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    * @return 护理项目
    */
   @Override
-  public List<NursingItem> selectNursingItemList(NursingItem nursingItem) {
-    List<NursingItem> nursingItemList = nursingItemMapper.selectNursingItemList(nursingItem);
+  public List<NursingProject> selectNursingItemList(NursingProject nursingItem) {
+    List<NursingProject> nursingItemList = nursingItemMapper.selectNursingItemList(nursingItem);
     return nursingItemList;
   }
 
@@ -76,7 +76,7 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    * @return 结果
    */
   @Override
-  public int insertNursingItem(NursingItem nursingItem) {
+  public int insertNursingItem(NursingProject nursingItem) {
     if (this.save(nursingItem)) {
       redisTemplate.delete(RedisKey.NURSING_ITEM_ALL);
       log.info("Evict Cache {}", RedisKey.NURSING_ITEM_ALL);
@@ -92,7 +92,7 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
    * @return 结果
    */
   @Override
-  public int updateNursingItem(NursingItem nursingItem) {
+  public int updateNursingItem(NursingProject nursingItem) {
     Long id = nursingItem.getId();
     if (this.updateById(nursingItem)) {
       redisTemplate.delete(RedisKey.NURSING_ITEM_ALL);
@@ -152,11 +152,11 @@ public class NursingItemServiceImpl extends ServiceImpl<NursingItemMapper, Nursi
       return itemVoList;
     }
     log.info("Not Hit Cache {}", RedisKey.NURSING_ITEM_ALL);
-    LambdaQueryWrapper<NursingItem> wrapper = Wrappers.lambdaQuery();
+    LambdaQueryWrapper<NursingProject> wrapper = Wrappers.lambdaQuery();
     wrapper
-        .select(NursingItem::getId, NursingItem::getName)
-        .eq(NursingItem::getStatus, 1);
-    List<NursingItem> itemList = this.list(wrapper);
+        .select(NursingProject::getId, NursingProject::getName)
+        .eq(NursingProject::getStatus, 1);
+    List<NursingProject> itemList = this.list(wrapper);
     itemVoList = itemList.stream().map(nursingItem -> new NursingItemVo(nursingItem.getName(), nursingItem.getId())).collect(Collectors.toList());
 
     cache.set(RedisKey.NURSING_ITEM_ALL, itemVoList);

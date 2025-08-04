@@ -2,6 +2,7 @@ package com.luruoyang.nursing.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luruoyang.nursing.entity.domain.Room;
+import com.luruoyang.nursing.entity.vo.FloorRoomDeviceInfo;
 import com.luruoyang.nursing.entity.vo.RoomVo;
 
 import java.util.List;
@@ -70,4 +71,12 @@ public interface IRoomService extends IService<Room> {
   List<RoomVo> getRoomsWithNurByFloorId(Long floorId);
 
   RoomVo getRoomFloorPriceById(Long roomId);
+
+  /**
+   * 根据楼层获取该楼层所有房间智能设备的最新数据
+   *
+   * @param floorId 楼层ID
+   * @return 该楼层所有房间智能设备的最新数据
+   */
+  List<FloorRoomDeviceInfo> getRoomsWithDeviceByFloorId(Long floorId);
 }

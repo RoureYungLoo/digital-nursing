@@ -89,7 +89,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
     List<NursingLevelVo> voList = list.stream().map(i -> {
       NursingLevelVo vo = new NursingLevelVo();
       BeanUtils.copyProperties(i, vo);
-      vo.setPlanName(nursingPlanService.getById(i.getLplanId()).getPlanName());
+      vo.setPlanName(nursingPlanService.getById(i.getPlanId()).getPlanName());
       return vo;
     }).collect(Collectors.toList());
 //    cache.set(RedisKey.NURSING_LEVEL_ALL, voList);

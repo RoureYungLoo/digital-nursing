@@ -1,10 +1,9 @@
 package com.luruoyang.nursing.controller.miniprogramwx;
 
-import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.luruoyang.common.core.controller.BaseController;
 import com.luruoyang.common.core.domain.R;
 import com.luruoyang.common.core.page.TableDataInfo;
-import com.luruoyang.nursing.entity.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingProject;
 import com.luruoyang.nursing.entity.dto.NursingItemDto;
 import com.luruoyang.nursing.service.MemberOrderService;
 import io.swagger.annotations.Api;
@@ -27,15 +26,15 @@ public class MemberOrderController extends BaseController {
   private MemberOrderService memberOrderService;
 
   @GetMapping("/project/page")
-  public TableDataInfo<NursingItem> wxGetProjectPage(NursingItemDto dto) {
+  public TableDataInfo<NursingProject> wxGetProjectPage(NursingItemDto dto) {
     startPage();
-    List<NursingItem> itemList = memberOrderService.wxGetProjectPage(dto);
+    List<NursingProject> itemList = memberOrderService.wxGetProjectPage(dto);
     return getDataTable(itemList);
   }
 
   @GetMapping("/project/{projectId:\\d+}")
-  public R<NursingItem> wxGetProjectById(@PathVariable("projectId") Long projectId) {
-    NursingItem nursingItem = memberOrderService.wxGetProjectById(projectId);
+  public R<NursingProject> wxGetProjectById(@PathVariable("projectId") Long projectId) {
+    NursingProject nursingItem = memberOrderService.wxGetProjectById(projectId);
     return R.ok(nursingItem);
   }
 }

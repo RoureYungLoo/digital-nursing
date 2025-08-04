@@ -1,6 +1,6 @@
 package com.luruoyang.nursing.service;
 
-import com.luruoyang.nursing.entity.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingProject;
 import com.luruoyang.nursing.entity.dto.NursingItemDto;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author luruoyang
  */
 public interface MemberOrderService {
-  List<NursingItem> wxGetProjectPage(NursingItemDto dto);
+  List<NursingProject> wxGetProjectPage(NursingItemDto dto);
 
-  NursingItem wxGetProjectById(Long projectId);
+  NursingProject wxGetProjectById(Long projectId);
 }

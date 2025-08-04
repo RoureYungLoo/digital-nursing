@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luruoyang.nursing.entity.vo.NursingItemVo;
-import com.luruoyang.nursing.entity.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingProject;
 
 /**
  * 护理项目Service接口
@@ -12,14 +12,14 @@ import com.luruoyang.nursing.entity.domain.NursingItem;
  * @author luruoyang
  * @date 2025-07-20
  */
-public interface INursingItemService extends IService<NursingItem> {
+public interface INursingItemService extends IService<NursingProject> {
   /**
    * 查询护理项目
    *
    * @param id 护理项目主键
    * @return 护理项目
    */
-  public NursingItem selectNursingItemById(Long id);
+  public NursingProject selectNursingItemById(Long id);
 
   /**
    * 查询护理项目列表
@@ -27,7 +27,7 @@ public interface INursingItemService extends IService<NursingItem> {
    * @param nursingItem 护理项目
    * @return 护理项目集合
    */
-  public List<NursingItem> selectNursingItemList(NursingItem nursingItem);
+  public List<NursingProject> selectNursingItemList(NursingProject nursingItem);
 
   /**
    * 新增护理项目
@@ -35,7 +35,7 @@ public interface INursingItemService extends IService<NursingItem> {
    * @param nursingItem 护理项目
    * @return 结果
    */
-  public int insertNursingItem(NursingItem nursingItem);
+  public int insertNursingItem(NursingProject nursingItem);
 
   /**
    * 修改护理项目
@@ -43,7 +43,7 @@ public interface INursingItemService extends IService<NursingItem> {
    * @param nursingItem 护理项目
    * @return 结果
    */
-  public int updateNursingItem(NursingItem nursingItem);
+  public int updateNursingItem(NursingProject nursingItem);
 
   /**
    * 批量删除护理项目

@@ -6,6 +6,7 @@ import com.luruoyang.common.core.domain.AjaxResult;
 import com.luruoyang.common.core.domain.R;
 import com.luruoyang.common.enums.BusinessType;
 import com.luruoyang.nursing.entity.domain.Floor;
+import com.luruoyang.nursing.entity.vo.FloorVo;
 import com.luruoyang.nursing.entity.vo.TreeVo;
 import com.luruoyang.nursing.service.IFloorService;
 import io.swagger.annotations.Api;
@@ -39,6 +40,17 @@ public class FloorController extends BaseController {
   public R<List<TreeVo>> getAllRoomByStatus(@PathVariable int status) {
     List<TreeVo> menu = floorService.getAllRoomByStatus(status);
     return R.ok(menu);
+  }
+
+  /**
+   * 查询所有楼层
+   */
+
+  @ApiOperation("查询所有楼层")
+  @GetMapping("/getAllFloorsWithDevice")
+  public R<List<FloorVo>> getAllFloorsWithDevice() {
+    List<FloorVo> vos = floorService.getAllFloorsWithDevice();
+    return R.ok(vos);
   }
 
   /**
@@ -93,5 +105,12 @@ public class FloorController extends BaseController {
   @DeleteMapping("/{ids}")
   public AjaxResult remove(@ApiParam(value = "楼层ID", required = true) @PathVariable Long[] ids) {
     return toAjax(floorService.deleteFloorByIds(ids));
+  }
+
+  @GetMapping("/getAllFloorsWithNur")
+  @ApiOperation(value = "获取所有楼层 (负责老人)", notes = "无需参数，获取所有楼层，返回楼层信息列表")
+  public R<List<Floor>> getAllFloorsWithNur() {
+    List<Floor> list = floorService.selectAllByNur();
+    return R.ok(list);
   }
 }

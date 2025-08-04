@@ -7,6 +7,7 @@ import com.luruoyang.common.core.domain.R;
 import com.luruoyang.common.core.page.TableDataInfo;
 import com.luruoyang.common.enums.BusinessType;
 import com.luruoyang.nursing.entity.domain.Room;
+import com.luruoyang.nursing.entity.vo.FloorRoomDeviceInfo;
 import com.luruoyang.nursing.service.IRoomService;
 import com.luruoyang.nursing.entity.vo.RoomVo;
 import io.swagger.annotations.Api;
@@ -43,6 +44,13 @@ public class RoomController extends BaseController
     @ApiOperation("获取所有房间（负责老人）")
     public R<List<RoomVo>> getRoomsWithNurByFloorId(@PathVariable Long floorId) {
         List<RoomVo> list = roomService.getRoomsWithNurByFloorId(floorId);
+        return R.ok(list);
+    }
+
+    @GetMapping("/getRoomsWithDeviceByFloorId/{floorId}")
+    @ApiOperation("根据楼层获取该楼层所有房间智能设备的最新数据")
+    public R<List<FloorRoomDeviceInfo>> getRoomsWithDeviceByFloorId(@PathVariable Long floorId) {
+        List<FloorRoomDeviceInfo> list = roomService.getRoomsWithDeviceByFloorId(floorId);
         return R.ok(list);
     }
 

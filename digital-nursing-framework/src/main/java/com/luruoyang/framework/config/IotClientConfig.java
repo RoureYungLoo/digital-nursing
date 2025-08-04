@@ -23,6 +23,7 @@ public class IotClientConfig {
   @Autowired
   private HuaweiProperties huaweiProperties;
 
+  /* IoTClient */
   @Bean
   public IoTDAClient client() {
     HuaweiProperties.Account account = huaweiProperties.getAccount();
@@ -58,4 +59,5 @@ public class IotClientConfig {
 //        // .withRegion(IoTDARegion.CN_NORTH_4)
 //        .build();
 //  }
+
 }

@@ -3,6 +3,8 @@ package com.luruoyang.web.controller.system;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -252,5 +254,15 @@ public class SysUserController extends BaseController
     public AjaxResult deptTree(SysDept dept)
     {
         return success(deptService.selectDeptTreeList(dept));
+    }
+
+    /**
+     * 根据部门编号，查询员工列表
+     */
+    @ApiOperation("根据部门编号，查询员工列表")
+    @GetMapping("/listByDeptId")
+    public AjaxResult getUserListByDept(Long deptId) {
+        List<SysUser> userListByDept = userService.getUserListByDept(Long.valueOf(deptId));
+        return AjaxResult.success(userListByDept);
     }
 }

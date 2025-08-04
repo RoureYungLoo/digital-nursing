@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luruoyang.nursing.mapper.NursingItemPlanMapper;
-import com.luruoyang.nursing.entity.domain.NursingItemPlan;
+import com.luruoyang.nursing.entity.domain.NursingProjectPlan;
 import com.luruoyang.nursing.service.INursingItemPlanService;
 
 /**
@@ -17,7 +17,7 @@ import com.luruoyang.nursing.service.INursingItemPlanService;
  * @date 2025-07-22
  */
 @Service
-public class NursingItemPlanServiceImpl extends ServiceImpl<NursingItemPlanMapper, NursingItemPlan> implements INursingItemPlanService {
+public class NursingItemPlanServiceImpl extends ServiceImpl<NursingItemPlanMapper, NursingProjectPlan> implements INursingItemPlanService {
   @Autowired
   private NursingItemPlanMapper nursingItemPlanMapper;
 
@@ -28,7 +28,7 @@ public class NursingItemPlanServiceImpl extends ServiceImpl<NursingItemPlanMappe
    * @return 护理计划和项目关联
    */
   @Override
-  public NursingItemPlan selectNursingItemPlanById(Integer id) {
+  public NursingProjectPlan selectNursingItemPlanById(Integer id) {
         return this.getById(id);
   }
 
@@ -39,7 +39,7 @@ public class NursingItemPlanServiceImpl extends ServiceImpl<NursingItemPlanMappe
    * @return 护理计划和项目关联
    */
   @Override
-  public List<NursingItemPlan> selectNursingItemPlanList(NursingItemPlan nursingItemPlan) {
+  public List<NursingProjectPlan> selectNursingItemPlanList(NursingProjectPlan nursingItemPlan) {
     return nursingItemPlanMapper.selectNursingItemPlanList(nursingItemPlan);
   }
 
@@ -50,7 +50,7 @@ public class NursingItemPlanServiceImpl extends ServiceImpl<NursingItemPlanMappe
    * @return 结果
    */
   @Override
-  public int insertNursingItemPlan(NursingItemPlan nursingItemPlan) {
+  public int insertNursingItemPlan(NursingProjectPlan nursingItemPlan) {
                             return this.save(nursingItemPlan) ? 1 : 0;
   }
 
@@ -61,7 +61,7 @@ public class NursingItemPlanServiceImpl extends ServiceImpl<NursingItemPlanMappe
    * @return 结果
    */
   @Override
-  public int updateNursingItemPlan(NursingItemPlan nursingItemPlan) {
+  public int updateNursingItemPlan(NursingProjectPlan nursingItemPlan) {
                         return this.updateById(nursingItemPlan) ? 1 : 0;
   }
 

@@ -115,4 +115,29 @@
                  left join bed b on r.id = b.room_id
         where b.bed_status = #{status}
     </select>
+    <select id="getAllFloorsWithDevice" resultType="com.luruoyang.nursing.entity.vo.FloorVo">
+        select f.id, f.code, f.name
+        from floor f
+                 left join room r on r.floor_id = f.id
+                 left join bed b on b.room_id = r.id
+            -- room device
+                 left join device rd
+                           on rd.binding_location = r.id and rd.location_type = 1 and rd.physical_location_type = 1
+            -- bed device
+                 left join device bd
+                           on bd.binding_location = b.id and bd.location_type = 1 and bd.physical_location_type = 2
+        where (r.id is not null and b.id is not null)
+        group by f.id
+    </select>
+
+    <select id="selectAllByNur" resultType="com.luruoyang.nursing.entity.domain.Floor">
+        select f.*
+        from floor f
+                 left join room r on r.floor_id = f.id
+                 left join bed b on b.room_id = r.id
+                 left join elder e on e.bed_id = b.id
+        where b.bed_status = 1
+        group by f.id
+        order by code, create_time desc
+    </select>
 </mapper>

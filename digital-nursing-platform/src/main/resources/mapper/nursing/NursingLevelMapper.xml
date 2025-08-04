@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luruoyang.nursing.mapper.NursingLevelMapper">
-    
+
     <resultMap type="NursingLevel" id="NursingLevelResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="lplanId"    column="lplan_id"    />
-        <result property="fee"    column="fee"    />
-        <result property="status"    column="status"    />
-        <result property="description"    column="description"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="remark"    column="remark"    />
-        <result property="updateTime"    column="update_time"    />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="planId" column="plan_id"/>
+        <result property="fee" column="fee"/>
+        <result property="status" column="status"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="selectNursingLevelVo">
-        select id, name, lplan_id, fee, status, description, create_time, create_by, update_by, remark, update_time from nursing_level
+        select id,
+               name,
+               plan_id,
+               fee,
+               status,
+               description,
+               create_time,
+               create_by,
+               update_by,
+               remark,
+               update_time
+        from nursing_level
     </sql>
 
     <select id="selectNursingLevelList" parameterType="NursingLevel" resultMap="NursingLevelResult">
         <include refid="selectNursingLevelVo"/>
-        <where>  
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="status != null "> and status = #{status}</if>
+        <where>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="status != null ">and status = #{status}</if>
         </where>
     </select>
-    
+
     <select id="selectNursingLevelById" parameterType="Integer" resultMap="NursingLevelResult">
         <include refid="selectNursingLevelVo"/>
         where id = #{id}
@@ -39,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into nursing_level
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">name,</if>
-            <if test="lplanId != null">lplan_id,</if>
+            <if test="planId != null">plan_id,</if>
             <if test="fee != null">fee,</if>
             <if test="status != null">status,</if>
             <if test="description != null and description != ''">description,</if>
@@ -48,10 +59,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="remark != null">remark,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">#{name},</if>
-            <if test="lplanId != null">#{lplanId},</if>
+            <if test="planId != null">#{planId},</if>
             <if test="fee != null">#{fee},</if>
             <if test="status != null">#{status},</if>
             <if test="description != null and description != ''">#{description},</if>
@@ -60,14 +71,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="remark != null">#{remark},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateNursingLevel" parameterType="NursingLevel">
         update nursing_level
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>
-            <if test="lplanId != null">lplan_id = #{lplanId},</if>
+            <if test="planId != null">plan_id = #{planId},</if>
             <if test="fee != null">fee = #{fee},</if>
             <if test="status != null">status = #{status},</if>
             <if test="description != null and description != ''">description = #{description},</if>
@@ -81,11 +92,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteNursingLevelById" parameterType="Integer">
-        delete from nursing_level where id = #{id}
+        delete
+        from nursing_level
+        where id = #{id}
     </delete>
 
     <delete id="deleteNursingLevelByIds" parameterType="String">
-        delete from nursing_level where id in 
+        delete from nursing_level where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

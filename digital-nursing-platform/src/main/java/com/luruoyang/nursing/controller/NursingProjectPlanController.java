@@ -21,7 +21,7 @@ import com.luruoyang.common.annotation.Log;
 import com.luruoyang.common.core.controller.BaseController;
 import com.luruoyang.common.core.domain.AjaxResult;
 import com.luruoyang.common.enums.BusinessType;
-import com.luruoyang.nursing.entity.domain.NursingItemPlan;
+import com.luruoyang.nursing.entity.domain.NursingProjectPlan;
 import com.luruoyang.nursing.service.INursingItemPlanService;
 import com.luruoyang.common.utils.poi.ExcelUtil;
 import com.luruoyang.common.core.page.TableDataInfo;
@@ -35,7 +35,7 @@ import com.luruoyang.common.core.page.TableDataInfo;
 @RestController
 @RequestMapping("/nursing/itemplan")
 @Api(tags = "护理计划和项目关联相关接口")
-public class NursingItemPlanController extends BaseController {
+public class NursingProjectPlanController extends BaseController {
   @Autowired
   private INursingItemPlanService nursingItemPlanService;
 
@@ -45,9 +45,9 @@ public class NursingItemPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:list')")
   @GetMapping("/list")
   @ApiOperation("查询护理计划和项目关联列表")
-  public TableDataInfo<NursingItemPlan> list(NursingItemPlan nursingItemPlan) {
+  public TableDataInfo<NursingProjectPlan> list(NursingProjectPlan nursingItemPlan) {
     startPage();
-    List<NursingItemPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
+    List<NursingProjectPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
     return getDataTable(list);
   }
 
@@ -58,9 +58,9 @@ public class NursingItemPlanController extends BaseController {
   @Log(title = "护理计划和项目关联", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
   @ApiOperation("导出护理计划和项目关联列表")
-  public void export(HttpServletResponse response, NursingItemPlan nursingItemPlan) {
-    List<NursingItemPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
-    ExcelUtil<NursingItemPlan> util = new ExcelUtil<NursingItemPlan>(NursingItemPlan.class);
+  public void export(HttpServletResponse response, NursingProjectPlan nursingItemPlan) {
+    List<NursingProjectPlan> list = nursingItemPlanService.selectNursingItemPlanList(nursingItemPlan);
+    ExcelUtil<NursingProjectPlan> util = new ExcelUtil<NursingProjectPlan>(NursingProjectPlan.class);
     util.exportExcel(response, list, "护理计划和项目关联数据");
   }
 
@@ -70,7 +70,7 @@ public class NursingItemPlanController extends BaseController {
   @PreAuthorize("@ss.hasPermi('nursing:itemplan:query')")
   @GetMapping(value = "/{id}")
   @ApiOperation("获取护理计划和项目关联详细信息")
-  public R<NursingItemPlan> getInfo(@ApiParam(value = "护理计划和项目关联ID", required = true) @PathVariable("id") Integer id) {
+  public R<NursingProjectPlan> getInfo(@ApiParam(value = "护理计划和项目关联ID", required = true) @PathVariable("id") Integer id) {
     return R.ok(nursingItemPlanService.selectNursingItemPlanById(id));
   }
 
@@ -81,7 +81,7 @@ public class NursingItemPlanController extends BaseController {
   @Log(title = "护理计划和项目关联", businessType = BusinessType.INSERT)
   @PostMapping
   @ApiOperation("新增护理计划和项目关联")
-  public AjaxResult add(@ApiParam(value = "护理计划和项目关联实体", required = true) @RequestBody NursingItemPlan nursingItemPlan) {
+  public AjaxResult add(@ApiParam(value = "护理计划和项目关联实体", required = true) @RequestBody NursingProjectPlan nursingItemPlan) {
     return toAjax(nursingItemPlanService.insertNursingItemPlan(nursingItemPlan));
   }
 
@@ -92,7 +92,7 @@ public class NursingItemPlanController extends BaseController {
   @Log(title = "护理计划和项目关联", businessType = BusinessType.UPDATE)
   @PutMapping
   @ApiOperation("修改护理计划和项目关联")
-  public AjaxResult edit(@ApiParam(required = true, value = "护理计划和项目关联实体") @RequestBody NursingItemPlan nursingItemPlan) {
+  public AjaxResult edit(@ApiParam(required = true, value = "护理计划和项目关联实体") @RequestBody NursingProjectPlan nursingItemPlan) {
     return toAjax(nursingItemPlanService.updateNursingItemPlan(nursingItemPlan));
   }
 

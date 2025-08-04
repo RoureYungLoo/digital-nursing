@@ -54,6 +54,7 @@
         <okhttp.version>4.12.0</okhttp.version>
         <junit.version>4.13.2</junit.version>
         <huawei-sdk.version>3.1.76</huawei-sdk.version>
+        <apache.qpid.version>0.61.0</apache.qpid.version>
 
 
     </properties>
@@ -446,6 +447,13 @@
                 <groupId>com.huaweicloud.sdk</groupId>
                 <artifactId>huaweicloud-sdk-iotda</artifactId>
                 <version>${huawei-sdk.version}</version>
+            </dependency>
+
+            <!-- amqp 1.0 qpid client -->
+            <dependency>
+                <groupId>org.apache.qpid</groupId>
+                <artifactId>qpid-jms-client</artifactId>
+                <version>${apache.qpid.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

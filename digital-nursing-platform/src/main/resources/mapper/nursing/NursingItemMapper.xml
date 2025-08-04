@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luruoyang.nursing.mapper.NursingItemMapper">
     
-    <resultMap type="NursingItem" id="NursingItemResult">
+    <resultMap type="NursingProject" id="NursingItemResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="orderNo"    column="order_no"    />
@@ -21,10 +21,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectNursingItemVo">
-        select id, name, order_no, unit, price, image, nursing_requirement, status, create_by, update_by, remark, create_time, update_time from nursing_item
+        select id, name, order_no, unit, price, image, nursing_requirement, status, create_by, update_by, remark, create_time, update_time from nursing_project
     </sql>
 
-    <select id="selectNursingItemList" parameterType="NursingItem" resultMap="NursingItemResult">
+    <select id="selectNursingItemList" parameterType="NursingProject" resultMap="NursingItemResult">
         <include refid="selectNursingItemVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
@@ -37,8 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <insert id="insertNursingItem" parameterType="NursingItem" useGeneratedKeys="true" keyProperty="id">
-        insert into nursing_item
+    <insert id="insertNursingItem" parameterType="NursingProject" useGeneratedKeys="true" keyProperty="id">
+        insert into nursing_project
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">name,</if>
             <if test="orderNo != null">order_no,</if>
@@ -69,8 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateNursingItem" parameterType="NursingItem">
-        update nursing_item
+    <update id="updateNursingItem" parameterType="NursingProject">
+        update nursing_project
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>
             <if test="orderNo != null">order_no = #{orderNo},</if>
@@ -89,11 +89,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteNursingItemById" parameterType="Long">
-        delete from nursing_item where id = #{id}
+        delete from nursing_project where id = #{id}
     </delete>
 
     <delete id="deleteNursingItemByIds" parameterType="String">
-        delete from nursing_item where id in 
+        delete from nursing_project where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

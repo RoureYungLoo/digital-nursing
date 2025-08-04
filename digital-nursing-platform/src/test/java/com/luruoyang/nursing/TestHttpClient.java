@@ -1,23 +1,19 @@
 package com.luruoyang.nursing;
 
-import ch.qos.logback.core.util.LocationUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.luruoyang.common.constant.StatusConstants;
 import com.luruoyang.common.utils.http.HttpUtils;
-import com.luruoyang.nursing.entity.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingProject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -67,7 +63,7 @@ public class TestHttpClient {
   @Test
   public void testHttpPost() {
     String url = "http://localhost:8080/serve/project";
-    NursingItem body = NursingItem.builder()
+    NursingProject body = NursingProject.builder()
         .id(IdUtil.getSnowflakeNextId())
         .image("image")
         .name("护理项目A")

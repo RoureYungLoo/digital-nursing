@@ -19,7 +19,7 @@ import com.luruoyang.common.annotation.Log;
 import com.luruoyang.common.core.controller.BaseController;
 import com.luruoyang.common.core.domain.AjaxResult;
 import com.luruoyang.common.enums.BusinessType;
-import com.luruoyang.nursing.entity.domain.NursingItem;
+import com.luruoyang.nursing.entity.domain.NursingProject;
 import com.luruoyang.nursing.service.INursingItemService;
 import com.luruoyang.common.utils.poi.ExcelUtil;
 import com.luruoyang.common.core.page.TableDataInfo;
@@ -31,8 +31,8 @@ import com.luruoyang.common.core.page.TableDataInfo;
  * @date 2025-07-20
  */
 @RestController
-@RequestMapping("/serve/project")
-public class NursingItemController extends BaseController {
+@RequestMapping("/nursing/project")
+public class NursingProjectController extends BaseController {
   @Autowired
   private INursingItemService nursingItemService;
 
@@ -41,9 +41,9 @@ public class NursingItemController extends BaseController {
    */
   @PreAuthorize("@ss.hasPermi('serve:project:list')")
   @GetMapping("/list")
-  public TableDataInfo<NursingItem> list(NursingItem nursingItem) {
+  public TableDataInfo<NursingProject> list(NursingProject nursingItem) {
     startPage();
-    List<NursingItem> list = nursingItemService.selectNursingItemList(nursingItem);
+    List<NursingProject> list = nursingItemService.selectNursingItemList(nursingItem);
     return getDataTable(list);
   }
 
@@ -63,9 +63,9 @@ public class NursingItemController extends BaseController {
   @PreAuthorize("@ss.hasPermi('serve:project:export')")
   @Log(title = "护理项目", businessType = BusinessType.EXPORT)
   @PostMapping("/export")
-  public void export(HttpServletResponse response, NursingItem nursingItem) {
-    List<NursingItem> list = nursingItemService.selectNursingItemList(nursingItem);
-    ExcelUtil<NursingItem> util = new ExcelUtil<NursingItem>(NursingItem.class);
+  public void export(HttpServletResponse response, NursingProject nursingItem) {
+    List<NursingProject> list = nursingItemService.selectNursingItemList(nursingItem);
+    ExcelUtil<NursingProject> util = new ExcelUtil<NursingProject>(NursingProject.class);
     util.exportExcel(response, list, "护理项目数据");
   }
 
@@ -84,7 +84,7 @@ public class NursingItemController extends BaseController {
   @PreAuthorize("@ss.hasPermi('serve:project:add')")
   @Log(title = "护理项目", businessType = BusinessType.INSERT)
   @PostMapping
-  public AjaxResult add(@RequestBody NursingItem nursingItem) {
+  public AjaxResult add(@RequestBody NursingProject nursingItem) {
     return toAjax(nursingItemService.insertNursingItem(nursingItem));
   }
 
@@ -94,7 +94,7 @@ public class NursingItemController extends BaseController {
   @PreAuthorize("@ss.hasPermi('serve:project:edit')")
   @Log(title = "护理项目", businessType = BusinessType.UPDATE)
   @PutMapping
-  public AjaxResult edit(@RequestBody NursingItem nursingItem) {
+  public AjaxResult edit(@RequestBody NursingProject nursingItem) {
     return toAjax(nursingItemService.updateNursingItem(nursingItem));
   }
 

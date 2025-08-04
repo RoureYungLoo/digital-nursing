@@ -1,6 +1,5 @@
 package com.luruoyang.nursing.entity.vo;
 
-import com.luruoyang.nursing.entity.domain.NursingItemPlan;
 import com.luruoyang.nursing.entity.domain.NursingPlan;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

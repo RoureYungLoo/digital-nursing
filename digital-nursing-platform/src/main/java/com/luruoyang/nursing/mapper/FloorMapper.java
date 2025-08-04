@@ -2,6 +2,7 @@ package com.luruoyang.nursing.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.luruoyang.nursing.entity.domain.Floor;
+import com.luruoyang.nursing.entity.vo.FloorVo;
 import com.luruoyang.nursing.entity.vo.TreeVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -65,4 +66,16 @@ public interface FloorMapper extends BaseMapper<Floor>
     public int deleteFloorByIds(Long[] ids);
 
   List<TreeVo> getAllRoomByStatus(int status);
+
+    /**
+     * 查询所有楼层
+     * @return FloorVo List
+     */
+  List<FloorVo> getAllFloorsWithDevice();
+
+  /**
+   * 查询所有楼层（负责老人）
+   * @return 结果
+   */
+  List<Floor> selectAllByNur();
 }

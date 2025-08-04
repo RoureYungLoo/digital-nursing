@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luruoyang.nursing.mapper.RoomMapper">
-    
+
     <resultMap type="Room" id="RoomResult">
-        <result property="id"    column="id"    />
-        <result property="code"    column="code"    />
-        <result property="sort"    column="sort"    />
-        <result property="typeName"    column="type_name"    />
-        <result property="floorId"    column="floor_id"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDeleted"    column="is_deleted"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="remark"    column="remark"    />
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="sort" column="sort"/>
+        <result property="typeName" column="type_name"/>
+        <result property="floorId" column="floor_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectRoomVo">
-        select id, code, sort, type_name, floor_id, create_time, update_time, is_deleted, create_by, update_by, remark from room
+        select id,
+               code,
+               sort,
+               type_name,
+               floor_id,
+               create_time,
+               update_time,
+               is_deleted,
+               create_by,
+               update_by,
+               remark
+        from room
     </sql>
 
     <select id="selectRoomList" parameterType="Room" resultMap="RoomResult">
         <include refid="selectRoomVo"/>
-        <where>  
-            <if test="code != null  and code != ''"> and code = #{code}</if>
-            <if test="sort != null "> and sort = #{sort}</if>
-            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
-            <if test="floorId != null "> and floor_id = #{floorId}</if>
-            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        <where>
+            <if test="code != null  and code != ''">and code = #{code}</if>
+            <if test="sort != null ">and sort = #{sort}</if>
+            <if test="typeName != null  and typeName != ''">and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="floorId != null ">and floor_id = #{floorId}</if>
+            <if test="isDeleted != null ">and is_deleted = #{isDeleted}</if>
         </where>
     </select>
-    
+
     <select id="selectRoomById" parameterType="Long" resultMap="RoomResult">
         <include refid="selectRoomVo"/>
         where id = #{id}
@@ -57,9 +68,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectByFloorId" resultMap="roomVoResultMap">
         select r.*,
-               f.name  as fname,
+               f.name as fname,
                rt.*,
-               b.id    as bid,
+               b.id   as bid,
                b.bed_number,
                b.sort,
                b.bed_status,
@@ -69,8 +80,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                b.remark,
                b.create_time,
                b.update_time,
-               e.name  as ename,
-               e.id    as eid
+               e.name as ename,
+               e.id   as eid
         from room r
                  left join floor f on f.id = r.floor_id
                  left join room_type rt on rt.name = r.type_name
@@ -79,7 +90,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where r.floor_id = #{floorId}
         order by r.sort, r.create_time desc
     </select>
-
 
 
     <resultMap id="roomVoWithNurResultMap" type="com.luruoyang.nursing.entity.vo.RoomVo">
@@ -96,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <result column="ename" property="ename"/>
             <result column="eid" property="elderId"/>
             <collection property="userVos" ofType="com.luruoyang.common.core.domain.entity.SysUser" column="eid"
-                        select="com.ruoyi.elder.mapper.NursingElderMapper.selectUserByElderId">
+                        select="com.luruoyang.nursing.mapper.NursingElderMapper.selectUserByElderId">
                 <result column="nick_name" property="nickName"/>
                 <result column="userId" property="userId"/>
             </collection>
@@ -120,6 +130,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by r.sort, r.create_time desc
     </select>
 
+    <resultMap id="frdiMap" type="com.luruoyang.nursing.entity.vo.FloorRoomDeviceInfo">
+<!--        <id property="id" column="id"-->
+
+    </resultMap>
+    <select id="getRoomsWithDeviceByFloorId" resultMap="frdiMap">
+        select *
+        from room r
+                 left join bed b on b.room_id = r.id
+                 left join elder e on e.bed_id = b.id
+            -- room device
+                 left join device rd
+                           on rd.binding_location = r.id and rd.location_type = 1 and rd.physical_location_type = 1
+            -- bed device
+                 left join device bd
+                           on bd.binding_location = b.id and bd.location_type = 1 and bd.physical_location_type = 2
+        where floor_id = #{floorId}
+          and (bd.id is not null or rd.id is not null)
+        group by b.id, r.id
+    </select>
 
     <insert id="insertRoom" parameterType="Room" useGeneratedKeys="true" keyProperty="id">
         insert into room
@@ -134,7 +163,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null">create_by,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="remark != null">remark,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null">#{code},</if>
             <if test="sort != null">#{sort},</if>
@@ -146,7 +175,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null">#{createBy},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="remark != null">#{remark},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateRoom" parameterType="Room">
@@ -167,11 +196,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteRoomById" parameterType="Long">
-        delete from room where id = #{id}
+        delete
+        from room
+        where id = #{id}
     </delete>
 
     <delete id="deleteRoomByIds" parameterType="String">
-        delete from room where id in 
+        delete from room where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

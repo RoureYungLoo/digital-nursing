@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.luruoyang.nursing.constants.RedisKey;
-import com.luruoyang.nursing.entity.domain.NursingItemPlan;
+import com.luruoyang.nursing.entity.domain.NursingProjectPlan;
 import com.luruoyang.nursing.entity.dto.NursingPlanDto;
 import com.luruoyang.nursing.entity.vo.NursingItemPlanVo;
 import com.luruoyang.nursing.entity.vo.NursingPlanVo;
@@ -68,13 +68,13 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
     BeanUtils.copyProperties(nursingPlan, nursingPlanVo);
 
     // 护理项目-护理计划关联表
-    LambdaQueryWrapper<NursingItemPlan> wrapper = Wrappers.lambdaQuery();
-    wrapper.eq(NursingItemPlan::getPlanId, id);
+    LambdaQueryWrapper<NursingProjectPlan> wrapper = Wrappers.lambdaQuery();
+    wrapper.eq(NursingProjectPlan::getPlanId, id);
 
-    List<NursingItemPlan> nursingItemPlanList = nursingItemPlanService.list(wrapper);
-    List<NursingItemPlanVo> nursingItemPlanVoList = nursingItemPlanList.stream().map(new Function<NursingItemPlan, NursingItemPlanVo>() {
+    List<NursingProjectPlan> nursingItemPlanList = nursingItemPlanService.list(wrapper);
+    List<NursingItemPlanVo> nursingItemPlanVoList = nursingItemPlanList.stream().map(new Function<NursingProjectPlan, NursingItemPlanVo>() {
       @Override
-      public NursingItemPlanVo apply(NursingItemPlan nursingItemPlan) {
+      public NursingItemPlanVo apply(NursingProjectPlan nursingItemPlan) {
         NursingItemPlanVo nursingItemPlanVo = new NursingItemPlanVo();
         BeanUtils.copyProperties(nursingItemPlan, nursingItemPlanVo);
         return nursingItemPlanVo;
@@ -120,7 +120,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
 
     // 护理计划 护理项目关联表
     boolean savedBatch = false;
-    List<NursingItemPlan> itemPlanList = nursingPlanDto.getNursingPlanList();
+    List<NursingProjectPlan> itemPlanList = nursingPlanDto.getNursingPlanList();
     if (CollectionUtils.isNotEmpty(itemPlanList)) {
       itemPlanList.forEach(i -> i.setPlanId(nursingPlan.getId()));
       savedBatch = nursingItemPlanService.saveBatch(itemPlanList);
@@ -152,16 +152,16 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
     if (CollectionUtils.isNotEmpty(itemPlanVoList)) {
       boolean savedBatch;
       // 护理项目-护理计划 关联表:  删除旧的
-      LambdaUpdateWrapper<NursingItemPlan> wrapper = Wrappers.lambdaUpdate();
-      wrapper.eq(NursingItemPlan::getPlanId, planId);
+      LambdaUpdateWrapper<NursingProjectPlan> wrapper = Wrappers.lambdaUpdate();
+      wrapper.eq(NursingProjectPlan::getPlanId, planId);
       boolean removed = nursingItemPlanService.remove(wrapper);
       if (!removed) {
         log.error("remove failed in updateNursingPlan");
       }
 
       // 护理项目-护理计划 关联表:  添加新的
-      List<NursingItemPlan> nursingItemPlanList = itemPlanVoList.stream().map(i -> {
-        NursingItemPlan nursingItemPlan = new NursingItemPlan();
+      List<NursingProjectPlan> nursingItemPlanList = itemPlanVoList.stream().map(i -> {
+        NursingProjectPlan nursingItemPlan = new NursingProjectPlan();
         BeanUtils.copyProperties(i, nursingItemPlan);
         nursingItemPlan.setPlanId(planId);
         return nursingItemPlan;
@@ -196,8 +196,8 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
     }
 
     // 护理计划 - 护理项目 关联表
-    LambdaUpdateWrapper<NursingItemPlan> wrapper = Wrappers.lambdaUpdate();
-    wrapper.in(NursingItemPlan::getPlanId, planIds);
+    LambdaUpdateWrapper<NursingProjectPlan> wrapper = Wrappers.lambdaUpdate();
+    wrapper.in(NursingProjectPlan::getPlanId, planIds);
     nursingItemPlanService.remove(wrapper);
 
     return 1;

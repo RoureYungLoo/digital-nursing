@@ -16,4 +16,5 @@ public class RedisKey {
 
   public static final String HEALTH_REPORT = "health:report:";
   public static final String IOT_ALL_PRODUCT_LIST = "iot:all:product:list";
+  public static final String IOT_DEVICE_NEWEST_DATA = "iot:device:newest:data";
 }

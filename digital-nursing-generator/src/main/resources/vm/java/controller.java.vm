@@ -49,16 +49,16 @@ public class ${ClassName}Controller extends BaseController {
 @GetMapping("/list")
 @ApiOperation("查询${functionName}列表")
   #if($table.crud || $table.sub)
-  public TableDataInfo<List<${ClassName}>> list(${ClassName} ${className}) {
-    startPage();
-    List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-    return getDataTable(list);
-  }
+public TableDataInfo<${ClassName}> list(${ClassName} ${className}) {
+  startPage();
+  List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+  return getDataTable(list);
+}
   #elseif($table.tree)
-    public AjaxResult list(${ClassName} ${className}) {
-      List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-      return success(list);
-    }
+public AjaxResult list(${ClassName} ${className}) {
+  List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+  return success(list);
+}
   #end
 
   /**

@@ -294,6 +294,12 @@
             <groupId>com.huaweicloud.sdk</groupId>
             <artifactId>huaweicloud-sdk-iotda</artifactId>
         </dependency>
+
+        <!-- qpid-jms-client -->
+        <dependency>
+            <groupId>org.apache.qpid</groupId>
+            <artifactId>qpid-jms-client</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -12,11 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Configuration
@@ -25,15 +28,26 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
   @Autowired
   private HttpServletRequest request;
 
+//  @SneakyThrows
+//  public boolean isExclude() {
+//    String requestUri = request.getRequestURI();
+//    if (requestUri.startsWith("/member")) {
+//      log.error("---------> 1 ");
+//      return true;
+//    }
+//    log.error("---------> 2 ");
+//    return false;
+//  }
+
   @SneakyThrows
   public boolean isExclude() {
-    String requestUri = request.getRequestURI();
-    if (requestUri.startsWith("/member")) {
-      log.error("---------> 1 ");
-      return true;
-    }
-    log.error("---------> 2 ");
-    return false;
+    // 使用Optional简化处理
+    return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+        .filter(requestAttributes -> requestAttributes instanceof ServletRequestAttributes)
+        .map(requestAttributes -> ((ServletRequestAttributes) requestAttributes).getRequest())
+        .map(HttpServletRequest::getRequestURI)
+        .filter(uri -> uri.startsWith("/member"))
+        .isPresent();
   }
 
   @Override

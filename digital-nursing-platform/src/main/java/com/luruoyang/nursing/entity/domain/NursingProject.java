@@ -17,7 +17,7 @@ import com.luruoyang.common.core.domain.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NursingItem extends BaseEntity {
+public class NursingProject extends BaseEntity {
   private static final long serialVersionUID = 1L;
   /**
    * 编号

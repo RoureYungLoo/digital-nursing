@@ -12,7 +12,7 @@ huawei:
         endpoint: 4bbbeb0e66.st1.iotda-app.cn-east-3.myhuaweicloud.com
         amqps:
           access-key: ${HUAWEI_ACCESS_KEY}
-          access-code: ${ACCESS_CODE}
+          access-code: ${HUAWEI_ACCESS_CODE}
           queueName: DefaultQueue
 
       # 设备接入
