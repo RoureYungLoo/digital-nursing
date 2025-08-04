@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author ruoyi
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class RuoYiApplication {
+public class DigitalNursingApplication {
   public static void main(String[] args) {
     // System.setProperty("spring.devtools.restart.enabled", "false");
-    SpringApplication.run(RuoYiApplication.class, args);
+    SpringApplication.run(DigitalNursingApplication.class, args);
     System.out.println("项目启动成功 ");
   }
 }

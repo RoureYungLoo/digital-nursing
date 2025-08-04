@@ -63,5 +63,12 @@ public interface IHealthAssessmentService extends IService<HealthAssessment> {
    */
   public int deleteHealthAssessmentById(Long id);
 
+  /**
+   * 上传体检报告
+   * @param file 体检报告
+   * @param idCardNo 身份证号码
+   * @return 体检报告地址
+   * @throws IOException IO异常
+   */
   String uploadFile(MultipartFile file, String idCardNo) throws IOException;
 }

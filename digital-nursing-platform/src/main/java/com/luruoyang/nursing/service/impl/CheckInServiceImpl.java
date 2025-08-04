@@ -150,7 +150,6 @@ public class CheckInServiceImpl extends ServiceImpl<CheckInMapper, CheckIn> impl
     LambdaQueryWrapper<Elder> wrapper = Wrappers.lambdaQuery();
     wrapper.eq(Elder::getIdCardNo, idCardNo)
         .ne(Elder::getStatus, StatusConstants.ELDER_DISABLED)
-        .or()
         .ne(Elder::getStatus, StatusConstants.ELDER_CHECKED_OUT);
     Elder elderDb = elderService.getOne(wrapper);
 
