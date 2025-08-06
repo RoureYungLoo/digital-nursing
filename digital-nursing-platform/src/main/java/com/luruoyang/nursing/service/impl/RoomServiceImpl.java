@@ -1,12 +1,19 @@
 package com.luruoyang.nursing.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luruoyang.common.utils.StringUtils;
+import com.luruoyang.nursing.constants.RedisKey;
+import com.luruoyang.nursing.entity.domain.DeviceData;
 import com.luruoyang.nursing.entity.domain.Room;
+import com.luruoyang.nursing.entity.vo.DeviceDataVo;
 import com.luruoyang.nursing.entity.vo.FloorRoomDeviceInfo;
 import com.luruoyang.nursing.mapper.RoomMapper;
 import com.luruoyang.nursing.service.IRoomService;
 import com.luruoyang.nursing.entity.vo.RoomVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -19,9 +26,13 @@ import java.util.List;
  * @date 2024-04-26
  */
 @Service
+@Slf4j
 public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements IRoomService {
   @Autowired
   private RoomMapper roomMapper;
+
+  @Autowired
+  private RedisTemplate<Object, Object> redisTemplate;
 
   /**
    * 查询房间
@@ -113,10 +124,30 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements IR
    * @return 该楼层所有房间智能设备的最新数据
    */
   @Override
-  public List<FloorRoomDeviceInfo> getRoomsWithDeviceByFloorId(Long floorId) {
-    List<FloorRoomDeviceInfo> frdi = roomMapper.getRoomsWithDeviceByFloorId(floorId);
+  public List<RoomVo> getRoomsWithDeviceByFloorId(Long floorId) {
+    List<RoomVo> roomVos = roomMapper.getRoomsWithDeviceByFloorId(floorId);
 
+    for (RoomVo roomVo : roomVos) {
+      roomVo.getDeviceVos().forEach(item -> {
+        String o = (String) redisTemplate.opsForHash().get(RedisKey.IOT_DEVICE_NEWEST_DATA, item.getIotId());
+        if (StringUtils.isEmpty(o)) {
+          return;
+        }
+        item.setDeviceDataVos(JSONUtil.toList(o, DeviceData.class));
+      });
 
-    return frdi;
+      roomVo.getBedVoList().forEach(item -> {
+        item.getDeviceVos().forEach(deviceInfo -> {
+          String o = (String) redisTemplate.opsForHash().get(RedisKey.IOT_DEVICE_NEWEST_DATA, deviceInfo.getIotId());
+          if (StringUtils.isEmpty(o)) {
+            return;
+          }
+          deviceInfo.setDeviceDataVos(JSONUtil.toList(o, DeviceData.class));
+        });
+      });
+    }
+
+    log.info("---------------> ");
+    return roomVos;
   }
 }

@@ -75,5 +75,5 @@ public interface RoomMapper extends BaseMapper<Room> {
    * @param floorId
    * @return
    */
-  List<FloorRoomDeviceInfo> getRoomsWithDeviceByFloorId(Long floorId);
+  List<RoomVo> getRoomsWithDeviceByFloorId(Long floorId);
 }

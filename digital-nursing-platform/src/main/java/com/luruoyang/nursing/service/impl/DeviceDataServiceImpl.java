@@ -158,7 +158,6 @@ public class DeviceDataServiceImpl extends ServiceImpl<DeviceDataMapper, DeviceD
       return;
     }
 
-    Long userId = UserThreadLocal.getUserId();
     for (com.luruoyang.nursing.entity.resp.Service service : services) {
       String et = service.getEventTime();
       LocalDateTime time = LocalDateTimeUtil.parse(et, "yyyyMMdd'T'HHmmss'Z'");
@@ -176,6 +175,7 @@ public class DeviceDataServiceImpl extends ServiceImpl<DeviceDataMapper, DeviceD
         deviceData.setId(null);
         deviceData.setAlarmTime(eventTime);
         deviceData.setFunctionId(functionId);
+        deviceData.setAccessLocation(deviceDb.getRemark());
         deviceData.setDataValue(dataValue + "");
         deviceDataList.add(deviceData);
         log.info("==============> deviceDataList: {}", deviceDataList);

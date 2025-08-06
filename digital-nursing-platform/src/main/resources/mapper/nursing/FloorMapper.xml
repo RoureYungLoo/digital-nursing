@@ -115,6 +115,7 @@
                  left join bed b on r.id = b.room_id
         where b.bed_status = #{status}
     </select>
+
     <select id="getAllFloorsWithDevice" resultType="com.luruoyang.nursing.entity.vo.FloorVo">
         select f.id, f.code, f.name
         from floor f
@@ -126,7 +127,7 @@
             -- bed device
                  left join device bd
                            on bd.binding_location = b.id and bd.location_type = 1 and bd.physical_location_type = 2
-        where (r.id is not null and b.id is not null)
+        where (rd.id is not null and bd.id is not null)
         group by f.id
     </select>
 

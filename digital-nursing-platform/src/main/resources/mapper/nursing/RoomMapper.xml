@@ -130,12 +130,56 @@
         order by r.sort, r.create_time desc
     </select>
 
-    <resultMap id="frdiMap" type="com.luruoyang.nursing.entity.vo.FloorRoomDeviceInfo">
-<!--        <id property="id" column="id"-->
-
+    <resultMap id="frdiMap" type="com.luruoyang.nursing.entity.vo.RoomVo">
+        <id property="id" column="rid"/>
+        <result property="floorId" column="r_floor_id"/>
+        <result property="code" column="rcode"/>
+        <collection property="bedVoList" ofType="com.luruoyang.nursing.entity.vo.BedVo">
+            <id property="id" column="bid"/>
+            <result property="bedNumber" column="bed_number"/>
+            <result property="bedStatus" column="bed_status"/>
+            <result property="roomId" column="room_id"/>
+            <result property="ename" column="ename"/>
+            <result property="elderId" column="eid"/>
+            <collection property="deviceVos" ofType="com.luruoyang.nursing.entity.vo.DeviceInfo">
+                <id property="id" column="bd_id"/>
+                <result property="iotId" column="bd_iot_id"/>
+                <result property="deviceName" column="bd_device_name"/>
+                <result property="productKey" column="bd_product_key"/>
+                <result property="productName" column="bd_product_name"/>
+            </collection>
+        </collection>
+        <collection property="deviceVos" ofType="com.luruoyang.nursing.entity.vo.DeviceInfo">
+            <id property="id" column="rd_id"/>
+            <result property="iotId" column="rd_iot_id"/>
+            <result property="deviceName" column="rd_device_name"/>
+            <result property="productKey" column="rd_product_key"/>
+            <result property="productName" column="rd_product_name"/>
+        </collection>
     </resultMap>
     <select id="getRoomsWithDeviceByFloorId" resultMap="frdiMap">
-        select *
+        select r.id            rid,
+               r.code          rcode,
+               r.floor_id      r_floor_id,
+               b.id            bid,
+               b.bed_number,
+               b.bed_status,
+               b.room_id,
+               e.name          ename,
+               e.id            eid,
+               -- 房间设备数据
+               rd.id           rd_id,
+               rd.iot_id       rd_iot_id,
+               rd.device_name  rd_device_name,
+               rd.product_key  rd_product_key,
+               rd.product_name rd_product_name,
+               -- 床位设备数据
+               bd.id           bd_id,
+               bd.iot_id       bd_iot_id,
+               bd.device_name  bd_device_name,
+               bd.product_key  bd_product_key,
+               bd.product_name bd_product_name
+
         from room r
                  left join bed b on b.room_id = r.id
                  left join elder e on e.bed_id = b.id
@@ -147,7 +191,6 @@
                            on bd.binding_location = b.id and bd.location_type = 1 and bd.physical_location_type = 2
         where floor_id = #{floorId}
           and (bd.id is not null or rd.id is not null)
-        group by b.id, r.id
     </select>
 
     <insert id="insertRoom" parameterType="Room" useGeneratedKeys="true" keyProperty="id">

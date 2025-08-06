@@ -49,8 +49,8 @@ public class RoomController extends BaseController
 
     @GetMapping("/getRoomsWithDeviceByFloorId/{floorId}")
     @ApiOperation("根据楼层获取该楼层所有房间智能设备的最新数据")
-    public R<List<FloorRoomDeviceInfo>> getRoomsWithDeviceByFloorId(@PathVariable Long floorId) {
-        List<FloorRoomDeviceInfo> list = roomService.getRoomsWithDeviceByFloorId(floorId);
+    public R<List<RoomVo>> getRoomsWithDeviceByFloorId(@PathVariable Long floorId) {
+        List<RoomVo> list = roomService.getRoomsWithDeviceByFloorId(floorId);
         return R.ok(list);
     }
 

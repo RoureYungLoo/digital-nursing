@@ -468,6 +468,7 @@
         <module>digital-nursing-platform</module>
         <module>digital-nursing-aliyun</module>
         <module>digital-nursing-qianfan</module>
+        <module>digital-nursing-mock</module>
     </modules>
     <packaging>pom</packaging>
 

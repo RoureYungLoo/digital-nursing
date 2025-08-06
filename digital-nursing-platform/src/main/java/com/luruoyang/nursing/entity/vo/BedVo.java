@@ -35,6 +35,5 @@ public class BedVo {
   @ApiModelProperty(value = "护理员")
   private List<SysUser> userVos;
 
-  private List<DeviceVo> deviceVos;
-
+  private List<DeviceInfo> deviceVos;
 }
